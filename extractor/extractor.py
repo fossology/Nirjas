@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import argparse
 
 
 class CommentExtractor:
@@ -10,6 +11,7 @@ class CommentExtractor:
 
     def langIdentifier(self, file):
         extension = os.path.splitext(file)[1]
+        
         
         langMap = {
             '.py': 'python',
@@ -38,3 +40,11 @@ class CommentExtractor:
         }
         
         return langMap[extension]
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("inputFile", help="Specify the input file path to scan")
+
+    args = parser.parse_args()
+    file = args.inputFile
