@@ -18,6 +18,7 @@ class CommentExtractor:
             '.c': 'c',
             '.cs': 'c#',
             '.cpp': 'c++',
+            '.cc': 'c++',
             '.css': 'css',
             '.go': 'go',
             '.hs': 'haskell',
