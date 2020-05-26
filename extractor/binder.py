@@ -11,6 +11,8 @@ class CommentSyntax:
         '''
         sign: #
         '''
+        pattern_single = r'''(#+\s*[\w #\.()@+-_*\d]*)'''
+
         pass
 
     def percentage(self):
