@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import re
+import extractor
 
 class CommentSyntax:
     
     def __init__(self):
         pass
 
-    def hash(self):
+    def hash(self,file):
         '''
         sign: #
         '''
         pattern_single = r'''(#+\s*[\w #\.()@+-_*\d]*)'''
-
-        pass
+        comment = re.findall(pattern_single, file)
+        return comment
 
     def percentage(self):
         '''
@@ -27,17 +28,21 @@ class CommentSyntax:
         '''
         pass
 
-    def singleQuotes(self):
+    def singleQuotes(self,file):
         '''
         sign: '''  '''
         '''
-        pass
+        pattern_multiline = r'\'\'\'(.*?)\'\'\''  #re.DOTALL flag will be used
+        comment = re.findall(pattern_multiline,file, re.DOTALL)
+        return comment
 
-    def doubleQuotes(self):
+    def doubleQuotes(self,file):
         '''
         sign: """ """
         '''
-        pass
+        pattern_doubleQuotes = r'\"\"\"(.*?)\"\"\"' #re.DOTALL flag will be used
+        comment = re.findall(pattern_doubleQuotes,file,re.DOTALL)
+        return comment
 
     def doubleDash(self):
         '''
@@ -45,11 +50,13 @@ class CommentSyntax:
         '''
         pass
 
-    def slashStar(self):
+    def slashStar(self,file):
         '''
         sign: /* ~ */
         '''
-        pass
+        pattern_slashStar = r'/\*(.*?)\*/'
+        comment = re.findall(pattern_slashStar,file, re.DOTALL)
+        return comment
 
     def gtExclamationDash(self):
         '''
