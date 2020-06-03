@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import re
 import extractor
+
+def readSingleLine(file, regex):
+    with open(file) as f:
+        for i, line in enumerate(f):
+            if f.readline() == " # ": #regex for "#"
+                return i, line
+                
+
+# def readMultiLine(file):
+#     with open(file) as f:
+#         for i, line in enumerate(f):
+#             if f.readline() == " ''' ": #regex for " ''' "     
+#                 return i, line
+
 
 class CommentSyntax:
     
