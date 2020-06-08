@@ -40,17 +40,21 @@ class CommentSyntax:
         comment = re.findall(pattern_single, file)
         return comment
 
-    def percentage(self):
+    def percentage(self,file):
         '''
         sign: %
         '''
-        pass
+        pattern_percentage = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
+        comment = re.findall(pattern_percentage,file)
+        return comment
 
-    def doubleSlash(self):
+    def doubleSlash(self,file):
         '''
         sign: //
         '''
-        pass
+        pattern_doubleSlash = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
+        comment = re.findall(pattern_doubleSlash, file)
+        return comment
 
     def singleQuotes(self,file):
         '''
@@ -68,11 +72,13 @@ class CommentSyntax:
         comment = re.findall(pattern_doubleQuotes,file,re.DOTALL)
         return comment
 
-    def doubleDash(self):
+    def doubleDash(self,file):
         '''
         sign: --
         '''
-        pass
+        pattern_doubleDash = r'''(\-\-\s*[\w #\.()@+-_*\d]*)'''
+        comment = re.findall(pattern_doubleDash,file)
+        return comment
 
     def slashStar(self,file):
         '''
@@ -82,32 +88,42 @@ class CommentSyntax:
         comment = re.findall(pattern_slashStar,file, re.DOTALL)
         return comment
 
-    def gtExclamationDash(self):
+    def gtExclamationDash(self,file):
         '''
         sign : <!-- ~ -->
         '''
-        pass
+        pattern_exclamationDash = r'\<\!(.*?)\>'
+        comment = re.findall(pattern_exclamationDash, file, re.DOTALL)
+        return comment
 
-    def beginCut(self):
+    def beginCut(self,file):
         '''
         sign: =begin ~ =cut
         '''
-        pass
+        pattern_beginCut = r'\=begin(.*?)\=cut'
+        comment = re.findall(pattern_beginCut,file, re.DOTALL)
+        return comment
 
-    def beginEnd(self):
+    def beginEnd(self,file):
         '''
         sign: =begin ~ =end
         '''
-        pass
+        pattern_beginEnd = r'\=begin(.*?)\=end'
+        comment = re.findall(pattern_beginEnd,file,re.DOTALL)
+        return comment
 
-    def curlybracesDash(self):
+    def curlybracesDash(self,file):
         '''
         sign: {- ~ -}
         '''
-        pass
+        pattern_curlybracesDash = r'\{\-(.*?)\-\}'
+        comment = re.findall(pattern_curlybracesDash,file,re.DOTALL)
+        return comment
 
-    def percentageCurlybraces(self):
+    def percentageCurlybraces(self,file):
         '''
         sign: %{ ~ %}
         '''
-        pass
+        pattern_percentageCurlybraces = r'\%\{(.*?)\%\}'
+        comment = re.findall(pattern_percentageCurlybraces,file,re.DOTALL)
+        return comment
