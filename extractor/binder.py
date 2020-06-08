@@ -6,16 +6,25 @@ import extractor
 
 def readSingleLine(file, regex):
     with open(file) as f:
-        for i, line in enumerate(f):
+        for lineNumber, line in enumerate(f, start=1):
             if f.readline() == " # ": #regex for "#"
-                return i, line
+                return lineNumber, line
                 
 
-# def readMultiLine(file):
-#     with open(file) as f:
-#         for i, line in enumerate(f):
-#             if f.readline() == " ''' ": #regex for " ''' "     
-#                 return i, line
+def readMultiLine(file, syntax):
+    lines, content = [],[]
+    closingCount = 0
+    with open("file") as f:
+        for lineNumber, line in enumerate(f, start=1):
+            if line.strip() == "syntax":
+                closingCount+=1
+                copy = True
+                if closingCount%2 == 0 and closingCount!=0:
+                    copy = False
+                lines.append(lineNumber)
+            if copy:
+                content.append(line)
+    return lines, content
 
 
 class CommentSyntax:
