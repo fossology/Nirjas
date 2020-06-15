@@ -158,3 +158,21 @@ class CommentSyntax:
         # pattern_percentageCurlybraces = r'\%\{(.*?)\%\}'
         # comment = re.findall(pattern_percentageCurlybraces,file,re.DOTALL)
         return readMultiLineDiff(file, self.start, self.end)
+
+    def tripleSlash(self,file):
+        '''
+        sign: ///
+        '''
+        self.pattern_tripleSlash = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
+        # comment = re.findall(pattern_doubleSlash, file)
+        return readSingleLine(file, self.pattern_tripleSlash)
+    
+    def slashDoubleStar(self,file):
+        '''
+        sign: /** ~ */
+        '''
+        self.start = "/**"
+        self.end = "*/"
+        # pattern_slashStar = r'/\*(.*?)\*/'
+        # comment = re.findall(pattern_slashStar,file, re.DOTALL)
+        return readMultiLineDiff(file, self.start, self.end)
