@@ -24,15 +24,19 @@ import re
 
 
 def readSingleLine(file, regex):
+    content = []
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
-            if f.readline() == regex: #regex for "#"
-                content = re.findall(regex, line)
-                return lineNumber, content
+            output = re.findall(regex, line)
+            output = ''.join(output)
+            if output:
+                content.append([lineNumber, output[1:]])
+    return content
                 
 
 def readMultiLineSame(file, syntax: str):
-    lines, content = [],[]
+    lines, output = [], []
+    content = ""
     closingCount = 0
     copy = False
     with open(file) as f:
@@ -44,8 +48,12 @@ def readMultiLineSame(file, syntax: str):
                     copy = False
                 lines.append(lineNumber)
             if copy:
-                content.append(line)
-    return lines, content
+                # content = content + line.rstrip()
+                output.append(line.rstrip())
+            for i in output:
+                if i == "'''" or i == "":
+                    output.remove(i)
+    return [lines, output]
 
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     lines, content = [], []
@@ -72,7 +80,7 @@ class CommentSyntax:
         '''
         sign: #
         '''
-        self.pattern_hash = r'''(#+\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_hash = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_single, file)
         return readSingleLine(file, self.pattern_hash)
 
