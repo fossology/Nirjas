@@ -21,10 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 import os
+import json
 import argparse
 
 from binder import *
 from languages.python import *
+
 
 class CommentExtractor:
     def __init__(self):
@@ -71,4 +73,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     file = args.inputFile
-    print(pythonExtractor(file))
+    output = pythonExtractor(file)
+    output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
+    print(output)

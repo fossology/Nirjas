@@ -23,7 +23,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 def shellExtractor(file):
-    output = CommentSyntax()
-    result1 = output.hash(file)
+    result = CommentSyntax()
+    result1 = result.hash(file)
+    output = {
+        "metadata": [{
+        "filename": file,
+        "lang": "Shell",
+        "total_lines": result1[1],
+        "total_lines_of_comments": result1[3],
+        "blank_lines": result1[2],
+        "sloc": result1[1]-(result1[3]+result1[2])
+        }],
+        "single_line_comment": [],
+        "multi_line_comment": []
+    }
+    if result1:
+        for i in result1[0]:
+            output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
 
-    return result1
+
+    return output

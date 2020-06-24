@@ -25,19 +25,31 @@ import re
 
 def readSingleLine(file, regex):
     content = []
+    total_lines, line_of_comments, blank_lines = 0,0,0
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
+            total_lines += 1
             output = re.findall(regex, line)
             output = ''.join(output)
+
             if output:
                 content.append([lineNumber, output[1:]])
-    return content
+
+            line = line.replace(" ","")
+
+            if line[0] == "#":
+                line_of_comments += 1
+
+            if not line.strip():
+                blank_lines += 1
+
+    return content, total_lines, blank_lines, line_of_comments
                 
 
 def readMultiLineSame(file, syntax: str):
-    lines, output = [], []
+    lines, output, startLine, endLine = [], [], [], []
     content = ""
-    closingCount = 0
+    closingCount, lines_of_comment = 0,0
     copy = False
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
@@ -46,29 +58,44 @@ def readMultiLineSame(file, syntax: str):
                 copy = True
                 if closingCount%2 == 0 and closingCount!=0:
                     copy = False
+                    output.append(content)
+                    content = ""
+                    endLine.append(lineNumber)
                 lines.append(lineNumber)
+
             if copy:
-                # content = content + line.rstrip()
-                output.append(line.rstrip())
-            for i in output:
-                if i == "'''" or i == "":
-                    output.remove(i)
-    return [lines, output]
+                lines_of_comment += 1
+                content = content + line.replace('\n', ' ')
+
+            output = [s.strip("'''") for s in output]
+        
+        result = [lines, output]
+        startLine = list(filter(lambda x: x not in endLine, lines))
+    return startLine, endLine, output, lines_of_comment
+
 
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
-    lines, content = [], []
+    output, startLine, endLine = [], [], []
+    content = ""
+    lines_of_comment = 0
     copy = False
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
             if line.strip() == startSyntax:
                 copy = True
-                lines.append(lineNumber)
+                startLine.append(lineNumber)
             elif line.strip() == endSyntax:
                 copy = False
-                lines.append(lineNumber)
+                output.append(content)
+                content = ""
+                endLine.append(lineNumber)
             if copy:
-                content.append(line)
-    return lines, content
+                lines_of_comment += 1
+                content = content + line.replace('\n',' ')
+        lines_of_comment += len(output)
+        output = [s.strip(startSyntax) for s in output]
+        output = [s.strip(endSyntax) for s in output]
+    return startLine, endLine, output, lines_of_comment
 
 
 class CommentSyntax:

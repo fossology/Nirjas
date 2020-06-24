@@ -23,8 +23,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 def kotlinExtractor(file):
-    output = CommentSyntax()
-    result1 = output.slashStar(file)
-    result2 = output.doubleSlash(file)
+    result = CommentSyntax()
+    result1 = result.doubleSlash(file)
+    result2 = result.slashStar(file)
+    output = {
+        "metadata": [{
+        "filename": file,
+        "lang": "Kotlin",
+        "total_lines": result1[1],
+        "total_lines_of_comments": result1[3]+result2[3],
+        "blank_lines": result1[2],
+        "sloc": result1[1]-(result1[3]+result2[3]+result1[2])
+        }],
+        "single_line_comment": [],
+        "multi_line_comment": []
+    }
+    if result1:
+        for i in result1[0]:
+            output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
 
-    return result1, result2
+    if result2:
+        for idx,i in enumerate(result2[0]):
+            output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        
+
+    return output
