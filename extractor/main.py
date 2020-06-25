@@ -25,7 +25,7 @@ import json
 import argparse
 
 from binder import *
-from languages.python import *
+from languages import *
 
 
 class CommentExtractor:
@@ -65,14 +65,13 @@ class CommentExtractor:
         
         return langMap[extension]
 
-# filepath = "binder.py"
-# print(pythonExtractor(filepath))
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("inputFile", help="Specify the input file path to scan")
 
     args = parser.parse_args()
     file = args.inputFile
-    output = pythonExtractor(file)
+    output = python.pythonExtractor(file)
     output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
     print(output)
