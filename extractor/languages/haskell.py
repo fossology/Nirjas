@@ -22,10 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
-def haskellExtractor(file):
+def haskellExtractor(file,current_path):
     result = CommentSyntax()
-    result1 = result.doubleDash(file)
-    result2 = result.curlybracesDash(file)
+    result1 = result.doubleDash(file,current_path)
+    result2 = result.curlybracesDash(file,current_path)
     output = {
         "metadata": [{
         "filename": file,

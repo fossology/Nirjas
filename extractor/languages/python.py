@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 
-def pythonExtractor(file):
+def pythonExtractor(file,current_path):
     result = CommentSyntax()
-    result1 = result.hash(file)
-    result2 = result.singleQuotes(file)
-    result3 = result.doubleQuotes(file)
+    result1 = result.hash(file,current_path)
+    result2 = result.singleQuotes(file,current_path)
+    result3 = result.doubleQuotes(file,current_path)
     output = {
         "metadata": [{
         "filename": file,

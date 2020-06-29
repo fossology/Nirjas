@@ -22,10 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
-def goExtractor(file):
+def goExtractor(file,current_path):
     result = CommentSyntax()
-    result1 = result.doubleSlash(file)
-    result2 = result.slashStar(file)
+    result1 = result.doubleSlash(file,current_path)
+    result2 = result.slashStar(file,current_path)
     output = {
         "metadata": [{
         "filename": file,
