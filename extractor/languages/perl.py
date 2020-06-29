@@ -22,10 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
-def perlExtractor(file,current_path):
+def perlExtractor(file):
     result = CommentSyntax()
-    result1 = result.hash(file,current_path)
-    result2 = result.beginCut(file,current_path)
+    result1 = result.hash(file)
+    result2 = result.beginCut(file)
     output = {
         "metadata": [{
         "filename": file,

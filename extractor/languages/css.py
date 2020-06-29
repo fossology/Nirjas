@@ -22,8 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
-def cssExtractor(file,current_path):
+def cssExtractor(file):
     output = CommentSyntax()
-    result1 = output.slashStar(file,current_path)
+    result1 = output.slashStar(file)
 
     return result1

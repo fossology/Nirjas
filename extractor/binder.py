@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 import re
 
 
-def readSingleLine(file, regex, current_path):
+def readSingleLine(file, regex):
     content = []
     total_lines, line_of_comments, blank_lines = 0,0,0
-    with open(current_path) as f:
+    with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
             total_lines += 1
             output = re.findall(regex, line)
@@ -37,9 +37,8 @@ def readSingleLine(file, regex, current_path):
 
             line = line.replace(" ","")
 
-            if line:
-                if line[0] == "#":
-                    line_of_comments += 1
+            if line[0] == "#":
+                line_of_comments += 1
 
             if not line.strip():
                 blank_lines += 1
@@ -47,12 +46,12 @@ def readSingleLine(file, regex, current_path):
     return content, total_lines, blank_lines, line_of_comments
                 
 
-def readMultiLineSame(file, syntax: str, current_path):
+def readMultiLineSame(file, syntax: str):
     lines, output, startLine, endLine = [], [], [], []
     content = ""
     closingCount, lines_of_comment = 0,0
     copy = False
-    with open(current_path) as f:
+    with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
             if line.strip() == syntax:
                 closingCount+=1
@@ -75,7 +74,7 @@ def readMultiLineSame(file, syntax: str, current_path):
     return startLine, endLine, output, lines_of_comment
 
 
-def readMultiLineDiff(file, startSyntax: str, endSyntax: str, current_path):
+def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     output, startLine, endLine = [], [], []
     content = ""
     lines_of_comment = 0
@@ -104,57 +103,57 @@ class CommentSyntax:
     def __init__(self):
         pass
 
-    def hash(self,file,current_path):
+    def hash(self,file):
         '''
         sign: #
         '''
         self.pattern_hash = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_single, file)
-        return readSingleLine(file, self.pattern_hash, current_path)
+        return readSingleLine(file, self.pattern_hash)
 
-    def percentage(self,file,current_path):
+    def percentage(self,file):
         '''
         sign: %
         '''
         self.pattern_percentage = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_percentage,file)
-        return readSingleLine(file, self.pattern_percentage,current_path)
+        return readSingleLine(file, self.pattern_percentage)
 
-    def doubleSlash(self,file,current_path):
+    def doubleSlash(self,file):
         '''
         sign: //
         '''
         self.pattern_doubleSlash = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_doubleSlash, file)
-        return readSingleLine(file, self.pattern_doubleSlash,current_path)
+        return readSingleLine(file, self.pattern_doubleSlash)
 
-    def singleQuotes(self,file,current_path):
+    def singleQuotes(self,file):
         '''
         sign: '''  '''
         '''
         self.syntax = "'''"
         # pattern_multiline = r'\'\'\'(.*?)\'\'\''  #re.DOTALL flag will be used
         # comment = re.findall(pattern_multiline,file, re.DOTALL)
-        return readMultiLineSame(file, self.syntax,current_path)
+        return readMultiLineSame(file, self.syntax)
 
-    def doubleQuotes(self,file,current_path):
+    def doubleQuotes(self,file):
         '''
         sign: """ """
         '''
         self.syntax = '"""'
         # pattern_doubleQuotes = r'\"\"\"(.*?)\"\"\"' #re.DOTALL flag will be used
         # comment = re.findall(pattern_doubleQuotes,file,re.DOTALL)
-        return readMultiLineSame(file, self.syntax,current_path)
+        return readMultiLineSame(file, self.syntax)
 
-    def doubleDash(self,file,current_path):
+    def doubleDash(self,file):
         '''
         sign: --
         '''
         self.pattern_doubleDash = r'''(\-\-\s*[\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_doubleDash,file)
-        return readSingleLine(file, self.pattern_doubleDash,current_path)
+        return readSingleLine(file, self.pattern_doubleDash)
 
-    def slashStar(self,file,current_path):
+    def slashStar(self,file):
         '''
         sign: /* ~ */
         '''
@@ -162,9 +161,9 @@ class CommentSyntax:
         self.end = "*/"
         # pattern_slashStar = r'/\*(.*?)\*/'
         # comment = re.findall(pattern_slashStar,file, re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def gtExclamationDash(self,file,current_path):
+    def gtExclamationDash(self,file):
         '''
         sign : <!-- ~ -->
         '''
@@ -172,9 +171,9 @@ class CommentSyntax:
         self.end = "-->"
         # pattern_exclamationDash = r'\<\!(.*?)\>'
         # comment = re.findall(pattern_exclamationDash, file, re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def beginCut(self,file,current_path):
+    def beginCut(self,file):
         '''
         sign: =begin ~ =cut
         '''
@@ -182,9 +181,9 @@ class CommentSyntax:
         self.end = "=cut"
         # pattern_beginCut = r'\=begin(.*?)\=cut'
         # comment = re.findall(pattern_beginCut,file, re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def beginEnd(self,file,current_path):
+    def beginEnd(self,file):
         '''
         sign: =begin ~ =end
         '''
@@ -192,9 +191,9 @@ class CommentSyntax:
         self.end = "=end"
         # pattern_beginEnd = r'\=begin(.*?)\=end'
         # comment = re.findall(pattern_beginEnd,file,re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def curlybracesDash(self,file,current_path):
+    def curlybracesDash(self,file):
         '''
         sign: {- ~ -}
         '''
@@ -202,9 +201,9 @@ class CommentSyntax:
         self.end = "-}"
         # pattern_curlybracesDash = r'\{\-(.*?)\-\}'
         # comment = re.findall(pattern_curlybracesDash,file,re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def percentageCurlybraces(self,file,current_path):
+    def percentageCurlybraces(self,file):
         '''
         sign: %{ ~ %}
         '''
@@ -212,17 +211,17 @@ class CommentSyntax:
         self.end = "%}"
         # pattern_percentageCurlybraces = r'\%\{(.*?)\%\}'
         # comment = re.findall(pattern_percentageCurlybraces,file,re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
 
-    def tripleSlash(self,file,current_path):
+    def tripleSlash(self,file):
         '''
         sign: ///
         '''
         self.pattern_tripleSlash = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
         # comment = re.findall(pattern_doubleSlash, file)
-        return readSingleLine(file, self.pattern_tripleSlash,current_path)
+        return readSingleLine(file, self.pattern_tripleSlash)
     
-    def slashDoubleStar(self,file,current_path):
+    def slashDoubleStar(self,file):
         '''
         sign: /** ~ */
         '''
@@ -230,4 +229,4 @@ class CommentSyntax:
         self.end = "*/"
         # pattern_slashStar = r'/\*(.*?)\*/'
         # comment = re.findall(pattern_slashStar,file, re.DOTALL)
-        return readMultiLineDiff(file, self.start, self.end,current_path)
+        return readMultiLineDiff(file, self.start, self.end)
