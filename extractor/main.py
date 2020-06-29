@@ -72,6 +72,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     file = args.inputFile
+    print(file)
+    print(type(file))
     output = python.pythonExtractor(file)
     output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
     print(output)

@@ -48,3 +48,30 @@ def goExtractor(file):
         
 
     return output
+
+def goSource(file, newFile: str):
+    closingCount = 0
+    copy = True
+    with open(newFile, 'w+') as f1:
+        with open(file) as f:
+            for lineNumber, line in enumerate(f, start=1):
+                if line.strip() == '/*':
+                    closingCount+=1
+                    copy = False
+                    if closingCount%2 == 0:
+                        copy = True
+
+                if line.strip() == '*/':
+                    closingCount+=1
+                    copy = False
+                    if closingCount%2 == 0:
+                        copy = True
+
+                if copy:
+                    if line.strip() != '/*' and line.strip() != '*/':
+                        Templine = line.replace(" ","")
+                        if Templine[0:2] != "//":            # Syntax for single line comment
+                            f1.write(line)
+    f.close()
+    f1.close()
+    return newFile

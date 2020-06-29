@@ -43,3 +43,17 @@ def rExtractor(file):
    
 
     return output
+
+
+def rSource(file, newFile: str):
+    closingCount = 0
+    copy = True
+    with open(newFile, 'w+') as f1:
+        with open(file) as f:
+            for lineNumber, line in enumerate(f, start=1):
+                Templine = line.replace(" ","")
+                if Templine[0] != "#":            # Syntax for single line comment
+                    f1.write(line)
+    f.close()
+    f1.close()
+    return newFile
