@@ -26,9 +26,10 @@ def htmlExtractor(file):
     result = CommentSyntax()
     result1 = result.gtExclamationDash(file)
     result2 = result.slashStar(file)
+    file = file.split("/")
     output = {
         "metadata": [{
-        "filename": file,
+        "filename": file[-1],
         "lang": "HTML",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3],

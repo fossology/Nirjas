@@ -37,8 +37,9 @@ def readSingleLine(file, regex):
 
             line = line.replace(" ","")
 
-            if line[0] == "#":
-                line_of_comments += 1
+            if line:
+                if line[0] == '#':
+                    line_of_comments += 1
 
             if not line.strip():
                 blank_lines += 1

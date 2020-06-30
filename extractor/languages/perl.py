@@ -26,9 +26,10 @@ def perlExtractor(file):
     result = CommentSyntax()
     result1 = result.hash(file)
     result2 = result.beginCut(file)
+    file = file.split("/")
     output = {
         "metadata": [{
-        "filename": file,
+        "filename": file[-1],
         "lang": "Perl",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3],

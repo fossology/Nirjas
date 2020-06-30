@@ -25,9 +25,10 @@ from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, Comment
 def rExtractor(file):
     result = CommentSyntax()
     result1 = result.hash(file)
+    file = file.split("/")
     output = {
         "metadata": [{
-        "filename": file,
+        "filename": file[-1],
         "lang": "R",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3],

@@ -28,9 +28,10 @@ def pythonExtractor(file):
     result1 = result.hash(file)
     result2 = result.singleQuotes(file)
     result3 = result.doubleQuotes(file)
+    file = file.split("/")
     output = {
         "metadata": [{
-        "filename": file,
+        "filename": file[-1],
         "lang": "Python",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3]+result3[3],

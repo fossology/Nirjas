@@ -32,7 +32,7 @@ class CommentExtractor:
     def __init__(self):
         pass
 
-    def langIdentifier(self, file):
+    def langIdentifier(file):
         extension = os.path.splitext(file)[1]
         
         
@@ -61,19 +61,48 @@ class CommentExtractor:
             '.swift': 'swift',
             '.scala': 'scala',
             '.sc': 'scala',
+            '.pyc':'byte_code'
         }
-        
-        return langMap[extension]
 
+        return langMap[extension]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("inputFile", help="Specify the input file path to scan")
-
+    parser.add_argument("-p","--path", help="Specify the input file/directory path to scan")
+    parser.add_argument("-i","--inputFile", help="Specify the input file with the source code",nargs=1)
+    parser.add_argument("-s","--string",help= "The name of file you want the code in",default="source.txt",nargs=1)
     args = parser.parse_args()
-    file = args.inputFile
-    print(file)
-    print(type(file))
-    output = python.pythonExtractor(file)
-    output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
-    print(output)
+    file = args.path
+    inputfile = args.inputFile
+    string_name = args.string
+    
+    
+    if file:
+        if os.path.basename(file):
+            file_name = os.path.basename(file)
+            current_path = os.getcwd()+'/'+file
+            CommentExtractor.langIdentifier(file_name) 
+            output = python.pythonExtractor(current_path)
+            output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
+            print(output)
+
+        elif  os.path.dirname(file):
+            for root,dirs,files in os.walk(file,topdown=True):
+                for file in files:
+                    current_path = os.path.join(os.path.join(os.getcwd(),root),file)
+                    try:
+
+                        if os.path.isfile(current_path):
+                            CommentExtractor.langIdentifier(file)
+                            output = python.pythonExtractor(current_path)
+                            output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
+                            print(output)
+                    except Exception:
+                        continue
+
+    else:
+        output = python.pythonSource(inputfile,string_name)
+
+        #####The entire code happening with the other two arguments will be written here
+
+
