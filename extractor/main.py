@@ -69,8 +69,8 @@ class CommentExtractor:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p","--path", help="Specify the input file/directory path to scan")
-    parser.add_argument("-i","--inputFile", help="Specify the input file with the source code",nargs=1)
-    parser.add_argument("-s","--string",help= "The name of file you want the code in",default="source.txt",nargs=1)
+    parser.add_argument("-i","--inputFile", help="Specify the input file with the source code")
+    parser.add_argument("-s","--string",help= "The name of file you want the code in",default="source.txt")
     args = parser.parse_args()
     file = args.path
     inputfile = args.inputFile
@@ -100,8 +100,9 @@ if __name__ == "__main__":
                     except Exception:
                         continue
 
-    else:
-        output = python.pythonSource(inputfile,string_name)
+    elif inputfile:
+        python.pythonSource(inputfile,string_name)
+        
 
         #####The entire code happening with the other two arguments will be written here
 
