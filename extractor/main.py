@@ -66,7 +66,7 @@ class CommentExtractor:
 
         return langMap[extension]
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-p","--path", help="Specify the input file/directory path to scan")
     parser.add_argument("-i","--inputFile", help="Specify the input file with the source code")
@@ -108,3 +108,5 @@ if __name__ == "__main__":
         #####The entire code happening with the other two arguments will be written here
 
 
+if __name__ == "__main__":
+    main()
