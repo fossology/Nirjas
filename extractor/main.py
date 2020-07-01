@@ -75,6 +75,7 @@ if __name__ == "__main__":
     file = args.path
     inputfile = args.inputFile
     string_name = args.string
+    result = []
     
     
     if file:
@@ -83,8 +84,7 @@ if __name__ == "__main__":
             current_path = os.getcwd()+'/'+file
             CommentExtractor.langIdentifier(file_name) 
             output = python.pythonExtractor(current_path)
-            output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
-            print(output)
+            result.append(output)
 
         elif  os.path.dirname(file):
             for root,dirs,files in os.walk(file,topdown=True):
@@ -95,14 +95,15 @@ if __name__ == "__main__":
                         if os.path.isfile(current_path):
                             CommentExtractor.langIdentifier(file)
                             output = python.pythonExtractor(current_path)
-                            output = json.dumps(output, sort_keys=True, ensure_ascii=False, indent=4)
-                            print(output)
+                            result.append(output)
                     except Exception:
                         continue
 
     elif inputfile:
         python.pythonSource(inputfile,string_name)
-        
+    
+    result = json.dumps(result, sort_keys=True, ensure_ascii=False, indent=4)
+    print(result)   
 
         #####The entire code happening with the other two arguments will be written here
 

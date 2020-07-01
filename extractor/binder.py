@@ -33,7 +33,8 @@ def readSingleLine(file, regex):
             output = ''.join(output)
 
             if output:
-                content.append([lineNumber, output[1:]])
+                output = output[1:]
+                content.append([lineNumber, output.strip()])
 
             line = line.replace(" ","")
 
@@ -66,7 +67,7 @@ def readMultiLineSame(file, syntax: str):
 
             if copy:
                 lines_of_comment += 1
-                content = content + line.replace('\n', ' ')
+                content = content + line.replace('\n', '')
 
             output = [s.strip("'''") for s in output]
         
@@ -92,7 +93,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
                 endLine.append(lineNumber)
             if copy:
                 lines_of_comment += 1
-                content = content + line.replace('\n',' ')
+                content = content + line.replace('\n','')
         lines_of_comment += len(output)
         output = [s.strip(startSyntax) for s in output]
         output = [s.strip(endSyntax) for s in output]
