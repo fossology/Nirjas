@@ -48,7 +48,7 @@ Operating System :: MacOS
 
 setup(
     name='Nirjas', 
-    version='0.0.2',  
+    version='0.0.1',  
     description='A Python library to extract comments and source code out of your file(s)',  
     long_description=long_description,  
     long_description_content_type='text/markdown',  
@@ -60,8 +60,9 @@ setup(
     keywords='Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',  
     packages=find_packages(),  
     python_requires = ">=3",
-    entry_points = """
-                    [console_scripts]
-                    nirjas=main:main
-                    """,
+    entry_points = {
+    'console_scripts': [
+      'nirjas = extractor.main:main'
+    ]
+  },
 )
