@@ -40,5 +40,6 @@ def download_files():
             f.close
 
 if __name__ == "__main__":
+    os.mkdir("languages/tests/TestFiles")
     download_files()
     subprocess.run("python3 -m unittest languages/tests/test_*.py",shell=True)
