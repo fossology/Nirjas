@@ -26,7 +26,6 @@ class matlabTest(unittest.TestCase):
         expected = matlab.matlabExtractor(path)
         comment_multiline = readSingleLine(path,regex)
         comment_single = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        print(type(comment_single[3]),type(comment_multiline[3]))
         file = path.split("/")
         output = {
         "metadata": [{
