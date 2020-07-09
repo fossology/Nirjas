@@ -20,12 +20,12 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
+from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 def matlabExtractor(file):
     result = CommentSyntax()
-    result1 = result.percentageCurlybraces(file)
-    result2 = result.percentage(file)
+    result2 = result.percentageCurlybraces(file)
+    result1 = result.percentage(file)
     file = file.split("/")
     output = {
         "metadata": [{

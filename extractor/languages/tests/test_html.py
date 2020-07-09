@@ -33,10 +33,10 @@ class HTMLTest(unittest.TestCase):
         "metadata": [{
         "filename": file[-1],
         "lang": "HTML",
-        "total_lines": comment_single[1],
+        "total_lines": comment_single[4],
         "total_lines_of_comments": comment_single[3]+comment_multiline[3],
-        "blank_lines": comment_single[2],
-        "sloc": comment_single[1]-(comment_single[3]+comment_multiline[3]+comment_single[2])
+        "blank_lines": comment_single[5],
+        "sloc": comment_single[4]-(comment_single[3]+comment_multiline[3]+comment_single[5])
         }],
         "single_line_comment": [],
         "multi_line_comment": []

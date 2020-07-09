@@ -24,8 +24,8 @@ import os
 import json
 import argparse
 
-from extractor.binder import *
-from extractor.languages import *
+from binder import *
+from languages import *
 
 
 class CommentExtractor:
@@ -102,7 +102,10 @@ def main():
                         continue
 
     elif inputfile:
-        python.pythonSource(inputfile,string_name)
+        langname = CommentExtractor.langIdentifier(inputfile)
+        func = langname+'.'+langname+'Source'
+        eval(func)(inputfile,string_name)
+        # python.pythonSource(inputfile,string_name)
     
     result = json.dumps(result, sort_keys=True, ensure_ascii=False, indent=4)
     print(result)   
