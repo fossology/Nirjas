@@ -82,8 +82,9 @@ def main():
         if os.path.basename(file):
             file_name = os.path.basename(file)
             current_path = os.getcwd()+'/'+file
-            CommentExtractor.langIdentifier(file_name) 
-            output = python.pythonExtractor(current_path)
+            langname = CommentExtractor.langIdentifier(file_name) 
+            func = langname+'.'+langname+'Extractor'
+            output = eval(func)(current_path)
             result.append(output)
 
         elif  os.path.dirname(file):
@@ -93,8 +94,9 @@ def main():
                     try:
 
                         if os.path.isfile(current_path):
-                            CommentExtractor.langIdentifier(file)
-                            output = python.pythonExtractor(current_path)
+                            langname = CommentExtractor.langIdentifier(file)
+                            func = langname+'.'+langname+'Extractor'
+                            output = eval(func)(current_path)
                             result.append(output)
                     except Exception:
                         continue
