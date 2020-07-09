@@ -22,7 +22,7 @@ class CTest(unittest.TestCase):
         path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.c")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
-        self.syntax_end ='*/'
+        self.syntax_end = "*/"
         expected = c.cExtractor(path)
         comment_single = readSingleLine(path,regex)
         comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
@@ -48,3 +48,11 @@ class CTest(unittest.TestCase):
                 output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
 
         self.assertEqual(output,expected)  
+
+    def test_Source(self):
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.c")
+        name = "source.txt"
+        newfile = c.cSource(path,name)
+
+        self.assertTrue(newfile)
+        

@@ -54,4 +54,11 @@ class PythonTest(unittest.TestCase):
             for idx,i in enumerate(comment_multi_double[0]):
                 output['multi_line_comment'].append({"start_line": comment_multi_single[0][idx], "end_line": comment_multi_single[1][idx], "comment": comment_multi_single[2][idx]})
 
-        self.assertEqual(output,expected)  
+        self.assertEqual(output,expected)
+
+    def test_Source(self):
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.py")
+        name = "source.txt"
+        newfile = python.pythonSource(path,name)
+
+        self.assertTrue(newfile)  

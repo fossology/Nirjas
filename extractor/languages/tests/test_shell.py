@@ -34,4 +34,11 @@ class ShellTest(unittest.TestCase):
         if comment_single:
             for i in comment_single[0]:
                 output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
-        self.assertEqual(output,expected)  
+        self.assertEqual(output,expected)
+
+    def test_Source(self):
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
+        name = "source.txt"
+        newfile = shell.shellSource(path,name)
+
+        self.assertTrue(newfile)  

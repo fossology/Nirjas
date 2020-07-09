@@ -51,7 +51,7 @@ def rubyExtractor(file):
     return output
 
 
-def crubySource(file, newFile: str):
+def rubySource(file, newFile: str):
     closingCount = 0
     copy = True
     with open(newFile, 'w+') as f1:

@@ -6,7 +6,7 @@ from binder import readSingleLine,readMultiLineDiff
 class rTest(unittest.TestCase):
     
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.pl")
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         comment_single = r.readSingleLine(path,regex)
         self.assertTrue(comment_single)
@@ -14,7 +14,7 @@ class rTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.pl")
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         expected = r.rExtractor(path)
         comment_single = readSingleLine(path,regex)
@@ -34,4 +34,11 @@ class rTest(unittest.TestCase):
         if comment_single:
             for i in comment_single[0]:
                 output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
-        self.assertEqual(output,expected)  
+        self.assertEqual(output,expected)
+
+    def test_Source(self):
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
+        name = "source.txt"
+        newfile = r.rSource(path,name)
+
+        self.assertTrue(newfile)  

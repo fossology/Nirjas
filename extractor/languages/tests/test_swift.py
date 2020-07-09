@@ -47,4 +47,11 @@ class SwiftTest(unittest.TestCase):
             for idx,i in enumerate(comment_multiline[0]):
                 output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
         
-        self.assertEqual(output,expected)  
+        self.assertEqual(output,expected)
+
+    def test_Source(self):
+        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.swift")
+        name = "source.txt"
+        newfile = swift.swiftSource(path,name)
+
+        self.assertTrue(newfile)  
