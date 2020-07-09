@@ -107,7 +107,6 @@ def main():
     result = json.dumps(result, sort_keys=True, ensure_ascii=False, indent=4)
     print(result)   
 
-        #####The entire code happening with the other two arguments will be written here
 
 
 if __name__ == "__main__":
