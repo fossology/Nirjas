@@ -20,10 +20,54 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
+from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 def cssExtractor(file):
     output = CommentSyntax()
     result1 = output.slashStar(file)
+    file = file.split("/")
 
-    return result1
+    output = {
+        "metadata": [{
+        "filename": file[-1],
+        "lang": "CSS",
+        "total_lines": result1[4],
+        "total_lines_of_comments": result1[3],
+        "blank_lines": result1[5],
+        "sloc": result1[4]-(result1[3]+result1[5])
+        }],
+        "single_line_comment": [],
+        "multi_line_comment": []
+    }
+    if result1:
+        for idx,i in enumerate(result1[0]):
+            output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
+    return output
+
+
+def cssSource(file, newFile: str):
+    closingCount = 0
+    copy = True
+    with open(newFile, 'w+') as f1:
+        with open(file) as f:
+            for lineNumber, line in enumerate(f, start=1):
+                if line.strip() == '/*':
+                    closingCount+=1
+                    copy = False
+                    if closingCount%2 == 0:
+                        copy = True
+
+                if line.strip() == '*/':
+                    closingCount+=1
+                    copy = False
+                    if closingCount%2 == 0:
+                        copy = True
+
+                if copy:
+                    if line.strip() != '/*' and line.strip() != '*/':
+                        # Templine = line.replace(" ","")
+                        # if Templine[0:2] != "syntax":            # Syntax for single line comment
+                        f1.write(line)
+    f.close()
+    f1.close()
+    return newFile

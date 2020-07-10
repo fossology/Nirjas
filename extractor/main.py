@@ -24,8 +24,8 @@ import os
 import json
 import argparse
 
-from extractor.binder import *
-from extractor.languages import *
+from binder import *
+from languages import *
 
 
 class CommentExtractor:
@@ -55,7 +55,7 @@ class CommentExtractor:
             '.php': 'php',
             '.pl': 'perl',
             '.r': 'r',
-            '.rbb': 'ruby',
+            '.rb': 'ruby',
             '.rs': 'rust',
             '.sh': 'shell',
             '.swift': 'swift',
@@ -82,8 +82,9 @@ def main():
         if os.path.basename(file):
             file_name = os.path.basename(file)
             current_path = os.getcwd()+'/'+file
-            CommentExtractor.langIdentifier(file_name) 
-            output = python.pythonExtractor(current_path)
+            langname = CommentExtractor.langIdentifier(file_name) 
+            func = langname+'.'+langname+'Extractor'
+            output = eval(func)(current_path)
             result.append(output)
 
         elif  os.path.dirname(file):
@@ -93,19 +94,22 @@ def main():
                     try:
 
                         if os.path.isfile(current_path):
-                            CommentExtractor.langIdentifier(file)
-                            output = python.pythonExtractor(current_path)
+                            langname = CommentExtractor.langIdentifier(file)
+                            func = langname+'.'+langname+'Extractor'
+                            output = eval(func)(current_path)
                             result.append(output)
                     except Exception:
                         continue
 
     elif inputfile:
-        python.pythonSource(inputfile,string_name)
+        langname = CommentExtractor.langIdentifier(inputfile)
+        func = langname+'.'+langname+'Source'
+        eval(func)(inputfile,string_name)
+        # python.pythonSource(inputfile,string_name)
     
     result = json.dumps(result, sort_keys=True, ensure_ascii=False, indent=4)
     print(result)   
 
-        #####The entire code happening with the other two arguments will be written here
 
 
 if __name__ == "__main__":

@@ -79,10 +79,11 @@ def readMultiLineSame(file, syntax: str):
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     output, startLine, endLine = [], [], []
     content = ""
-    lines_of_comment = 0
+    total_lines, line_of_comments, blank_lines = 0,0,0
     copy = False
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
+            total_lines += 1
             if line.strip() == startSyntax:
                 copy = True
                 startLine.append(lineNumber)
@@ -92,12 +93,14 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
                 content = ""
                 endLine.append(lineNumber)
             if copy:
-                lines_of_comment += 1
+                line_of_comments += 1
                 content = content + line.replace('\n','')
-        lines_of_comment += len(output)
+            if not line.strip():
+                blank_lines += 1
+        line_of_comments += len(output)
         output = [s.strip(startSyntax) for s in output]
         output = [s.strip(endSyntax) for s in output]
-    return startLine, endLine, output, lines_of_comment
+    return startLine, endLine, output, line_of_comments, total_lines, blank_lines
 
 
 class CommentSyntax:

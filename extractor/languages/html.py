@@ -20,7 +20,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
+from binder import readSingleLine, readMultiLineSame, readMultiLineDiff, CommentSyntax
 
 def htmlExtractor(file):
     result = CommentSyntax()
@@ -31,10 +31,10 @@ def htmlExtractor(file):
         "metadata": [{
         "filename": file[-1],
         "lang": "HTML",
-        "total_lines": result1[1],
+        "total_lines": result1[4],
         "total_lines_of_comments": result1[3]+result2[3],
-        "blank_lines": result1[2],
-        "sloc": result1[1]-(result1[3]+result2[3]+result1[2])
+        "blank_lines": result1[5],
+        "sloc": result1[4]-(result1[3]+result2[3]+result1[5])
         }],
         "single_line_comment": [],
         "multi_line_comment": []
