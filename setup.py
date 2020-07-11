@@ -25,24 +25,14 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 
 CLASSIFIERS = """\
-Development Status :: 5 - Production/Stable
-Intended Audience :: Science/Research
-Intended Audience :: Developers
-License :: OSI Approved
-Programming Language :: C
-Programming Language :: Python
-Programming Language :: Python :: 3
-Programming Language :: Python :: 3.6
-Programming Language :: Python :: 3.7
-Programming Language :: Python :: 3.8
+Development Status :: 4 - Beta
+License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
 Programming Language :: Python :: 3 :: Only
-Programming Language :: Python :: Implementation :: CPython
+Intended Audience :: Developers
+Intended Audience :: Legal Industry
+Topic :: Utilities
 Topic :: Software Development
-Topic :: Scientific/Engineering
-Operating System :: Microsoft :: Windows
-Operating System :: POSIX
-Operating System :: Unix
-Operating System :: MacOS
+Topic :: Text Processing
 """
 
 

@@ -1,6 +1,19 @@
-# Nirjas
+<h1 align="center">Nirjas ~ নির্যাস</h1>
 
-A Python library for Comments and Source Code Extraction
+<p align="center"><i>A Python library for Comments and Source Code Extraction</i></p>
+
+<p align="center">✨ 🍰 ✨</p>
+
+<p align="center">
+    
+![python version](https://img.shields.io/pypi/pyversions/nirjas)
+![License LGPL-2.1](https://img.shields.io/github/license/fossology/nirjas)
+![version](https://img.shields.io/pypi/v/nirjas?label=version)
+![release](https://img.shields.io/github/v/release/fossology/nirjas)
+[![Slack Channel](https://img.shields.io/badge/slack-fossology-blue.svg?longCache=true&logo=slack)](https://join.slack.com/t/fossology/shared_invite/enQtNzI0OTEzMTk0MjYzLTYyZWQxNDc0N2JiZGU2YmI3YmI1NjE4NDVjOGYxMTVjNGY3Y2MzZmM1OGZmMWI5NTRjMzJlNjExZGU2N2I5NGY)
+![stars](https://img.shields.io/github/stars/fossology/nirjas?style=social)
+
+</p>
 
 ## Description
 
@@ -15,7 +28,9 @@ Apart from that the library serves you with all the required metdata about your 
 
 Installing Python on Linux machines:
 
-` $ sudo apt-get install python3 python3-pip `
+```sh
+$ sudo apt-get install python3 python3-pip 
+```
 
 For macOS and Windows, packages are available at [Python.org](https://www.python.org/downloads/)
 
@@ -48,26 +63,61 @@ The Languages we support till now:
 
 ## Installation
 
-### Install using source
+### Install using pip
 
-You need to install Nirjas on your own system to try and test it out.
-I recommend you to set up a separate Python virtual environment for the same.
+You’ll need to make sure you have pip available. You can check this by running:
+```sh
+pip --version
+```
 
-> If you don't know how to set up a Python Virtual environment, please check out [Setting up a Python Virtual Environment](https://github.com/hastagAB/atarashi/wiki/Contribute-to-Atarashi#1-setting-up-a-python-virtual-environment)
+If you installed Python from source, with an installer from python.org, you should already have pip. If you’re on Linux and installed using your OS package manager, you may have to install pip separately.
 
-* Fork the repo
+> Haven’t installed pip? Visit: [https://pip.pypa.io/en/stable/installing/ ](https://pip.pypa.io/en/stable/installing/ )
+
+Install the latest official release via pip. This is the best approach for most users. It will provide a stable version and are available for most platforms.
+
+* Update pip to the latest stable version
+
+```sh
+pip3 install --upgrade pip
+```
+
+* Install Nirjas
+
+```sh
+pip3 install nirjas
+```
+- Upgrading Nirjas
+
+Upgrade already installed Nirjas library to the latest version from [PyPI](https://pypi.org/).
+
+```sh
+pip3 install --upgrade Nirjas
+```
+
+### Install using source 
+
+If you are interested in contributing to [Nirjas](https://github.com/fossology/Nirjas) development, running the latest source code, or just like to build everything yourself, it is not difficult to install & build [Nirjas](https://github.com/fossology/Nirjas) from the source. 
+
+* Fork the [repo](https://github.com/fossology/Nirjas)
 
 * Clone on your local system
 
-    `git clone https://github.com/fossology/Nirjas.git `
+```sh
+git clone https://github.com/fossology/Nirjas.git 
+```
 
 * Change directory
 
-    `cd Nirjas/`
+```sh
+cd Nirjas/
+```
 
 * Install the package
 
-    `pip install .`
+```sh
+pip3 install .
+```
 
 > This will install Nirjas on your system. 
 
@@ -76,28 +126,52 @@ I recommend you to set up a separate Python virtual environment for the same.
 
     `nirjas -h` or `nirjas --help`
 
-
 ## Example Usage
 
 - For help
 
-`nirjas -h`
+```sh
+nirjas -h
+```
 
 - To extract comments from a single file
 
-`nirjas -p <path to file>`
+```sh
+nirjas -p <path to file>
+```
 
 - To extract comments from all the files in directory/sub-directory
 
-`nirjas -p <path to directory>`
+```sh
+nirjas -p <path to directory>
+```
 
 - To extract only source code (excludes commented part) out of a file
 
-`nirjas -i <target file> <new file name including extension>`
+```sh
+nirjas -i <target file> <new file name including extension>
+```
 
 or for default file generation (default file: source.txt)
 
-`nirjas -i <target file>`
+```sh
+nirjas -i <target file>
+```
+
+## Tests
+
+To run a test for Nirjas, go to the `/extractor` folder and use the command:
+
+```sh
+python3 testscript.py
+```
+This will download all the test files into `languages/tests/TestFiles` folder and will run the tests as well.
+
+## Documentation
+
+We maintain our entire documentation at GitHub wiki.
+Feel free to switch from `code` to `wiki` or just click here - [Nirjas Documentation](https://github.com/fossology/Nirjas/wiki)
+
 
 ## Contributing 
 
@@ -105,7 +179,7 @@ All contributions, bug reports, bug fixes, documentation improvements, enhanceme
 
 A detailed overview on how to contribute can be found in the [contributing guide](/CONTRIBUTING.md). 
 
-Feel free to ask questions on [Slack](https://fossology.slack.com/)
+Feel free to ask questions or discuss suggestions on [Slack](https://fossology.slack.com/)
 
 ## License
 This repository is licensed under the terms of [LGPL-2.1](/LICENSE). Check the [LICENSE](/LICENSE) file for more details.
