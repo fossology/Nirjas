@@ -6,10 +6,10 @@
 
 <p align="center">
     
-![python version](https://img.shields.io/pypi/pyversions/nirjas)
+![python version](https://img.shields.io/badge/Python-v3%2B-blue)
+![status](https://img.shields.io/pypi/status/Nirjas)
 ![License LGPL-2.1](https://img.shields.io/github/license/fossology/nirjas)
-![version](https://img.shields.io/pypi/v/nirjas?label=version)
-![release](https://img.shields.io/github/v/release/fossology/nirjas)
+![release](https://img.shields.io/github/v/release/fossology/Nirjas)
 [![Slack Channel](https://img.shields.io/badge/slack-fossology-blue.svg?longCache=true&logo=slack)](https://join.slack.com/t/fossology/shared_invite/enQtNzI0OTEzMTk0MjYzLTYyZWQxNDc0N2JiZGU2YmI3YmI1NjE4NDVjOGYxMTVjNGY3Y2MzZmM1OGZmMWI5NTRjMzJlNjExZGU2N2I5NGY)
 ![stars](https://img.shields.io/github/stars/fossology/nirjas?style=social)
 
