@@ -17,22 +17,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 from setuptools import setup, find_packages
 from os import path
 from io import open
+from setuptools import find_packages, setup
 
 here = path.abspath(path.dirname(__file__))
+
 # fetch the long description from the README.md
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+    
+# Read the requirements
+with (here / "requirements.txt").open(encoding="utf8") as f:
+    requirements = f.readlines()
 
 
 CLASSIFIERS = """\
 Development Status :: 4 - Beta
+Topic :: Software Development :: Build Tools
 License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
+Environment :: Console
+Operating System :: OS Independent
 Programming Language :: Python :: 3 :: Only
 Intended Audience :: Developers
 Intended Audience :: Legal Industry
 Topic :: Utilities
 Topic :: Software Development
 Topic :: Text Processing
+Programming Language :: Python :: 3
+Programming Language :: Python :: 3.6
+Programming Language :: Python :: 3.7
+Programming Language :: Python :: 3.8
+Programming Language :: Python :: 3.9
 """
 
 
@@ -45,9 +59,8 @@ setup(
     url='https://github.com/fossology/nirjas',  
     author='Ayush Bhardwaj, Kaushlendra Pratap',  
     author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',  
-
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
-    keywords='Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',  
+    keywords='Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor, Code Snippet Separator',  
     packages=find_packages(),  
     python_requires = ">=3",
     entry_points = {
