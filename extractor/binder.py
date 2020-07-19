@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 import re
+from itertools import groupby
+from operator import itemgetter
 
 
 def readSingleLine(file, regex):
@@ -47,6 +49,25 @@ def readSingleLine(file, regex):
 
     return content, total_lines, blank_lines, line_of_comments
                 
+def contSingleLines(data):
+    lines, startLine, endLine, output = [], [], [], []
+    content = ""
+    for i in data[0]:
+        lines.append(i[0])
+
+    for a, b in groupby(enumerate(lines), lambda x : x[0] - x[1]):
+        temp = list(map(itemgetter(1), b))
+        content = ""
+
+        if len(temp)>1:
+            startLine.append(temp[0])
+            endLine.append(temp[-1])
+            for i in temp:
+                comment = [x[1] for x in data[0] if x[0] == i]
+                [data[0].remove(x) for x in data[0] if x[0] == i]
+                content = content + ' ' + comment[0]
+            output.append(content)
+    return data, startLine, endLine, output
 
 def readMultiLineSame(file, syntax: str):
     lines, output, startLine, endLine = [], [], [], []
@@ -67,7 +88,7 @@ def readMultiLineSame(file, syntax: str):
 
             if copy:
                 lines_of_comment += 1
-                content = content + line.replace('\n', '')
+                content = content + line.replace('\n', ' ')
 
             output = [s.strip("'''") for s in output]
         
@@ -94,7 +115,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
                 endLine.append(lineNumber)
             if copy:
                 line_of_comments += 1
-                content = content + line.replace('\n','')
+                content = content + line.replace('\n',' ')
             if not line.strip():
                 blank_lines += 1
         line_of_comments += len(output)

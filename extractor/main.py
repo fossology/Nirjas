@@ -24,8 +24,8 @@ import os
 import json
 import argparse
 
-from binder import *
-from languages import *
+from extractor.binder import *
+from extractor.languages import *
 
 
 class CommentExtractor:
@@ -107,7 +107,7 @@ def main():
         eval(func)(inputfile,string_name)
         # python.pythonSource(inputfile,string_name)
     
-    result = json.dumps(result, sort_keys=True, ensure_ascii=False, indent=4)
+    result = json.dumps(result, sort_keys=False, indent=4)
     print(result)   
 
 
