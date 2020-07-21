@@ -25,7 +25,7 @@ from itertools import groupby
 from operator import itemgetter
 
 
-def readSingleLine(file, regex):
+def readSingleLine(file, regex, sign):
     content = []
     total_lines, line_of_comments, blank_lines = 0,0,0
     with open(file) as f:
@@ -41,7 +41,7 @@ def readSingleLine(file, regex):
             line = line.replace(" ","")
 
             if line:
-                if line[0] == '#':
+                if line[0] == sign:
                     line_of_comments += 1
 
             if not line.strip():
@@ -90,7 +90,7 @@ def readMultiLineSame(file, syntax: str):
                 lines_of_comment += 1
                 content = content + line.replace('\n', ' ')
 
-            output = [s.strip("'''") for s in output]
+            output = [s.strip(syntax) for s in output]
         
         result = [lines, output]
         startLine = list(filter(lambda x: x not in endLine, lines))
@@ -133,22 +133,25 @@ class CommentSyntax:
         '''
         sign: #
         '''
+        self.sign = '#'
         self.pattern_hash = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
-        return readSingleLine(file, self.pattern_hash)
+        return readSingleLine(file, self.pattern_hash, self.sign)
 
     def percentage(self,file):
         '''
         sign: %
         '''
+        self.sign = '%'
         self.pattern_percentage = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
-        return readSingleLine(file, self.pattern_percentage)
+        return readSingleLine(file, self.pattern_percentage, self.sign)
 
     def doubleSlash(self,file):
         '''
         sign: //
         '''
+        self.sign = '//'
         self.pattern_doubleSlash = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
-        return readSingleLine(file, self.pattern_doubleSlash)
+        return readSingleLine(file, self.pattern_doubleSlash, self.sign)
 
     def singleQuotes(self,file):
         '''
@@ -168,8 +171,9 @@ class CommentSyntax:
         '''
         sign: --
         '''
+        self.sign = '--'
         self.pattern_doubleDash = r'''(\-\-\s*[\w #\.()@+-_*\d]*)'''
-        return readSingleLine(file, self.pattern_doubleDash)
+        return readSingleLine(file, self.pattern_doubleDash, self.sign)
 
     def slashStar(self,file):
         '''
@@ -223,8 +227,9 @@ class CommentSyntax:
         '''
         sign: ///
         '''
+        self.sign = '///'
         self.pattern_tripleSlash = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
-        return readSingleLine(file, self.pattern_tripleSlash)
+        return readSingleLine(file, self.pattern_tripleSlash, self.sign)
     
     def slashDoubleStar(self,file):
         '''
