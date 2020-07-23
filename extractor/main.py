@@ -85,40 +85,49 @@ def main():
     file = args.path
     inputfile = args.inputFile
     string_name = args.string
-    result = []
-    
-    
     if file:
-        if os.path.basename(file):
-            file_name = os.path.basename(file)
-            current_path = os.getcwd()+'/'+file
-            langname = CommentExtractor.langIdentifier(file_name) 
-            func = langname+'.'+langname+'Extractor'
-            output = eval(func)(current_path)
-            result.append(output)
+        file_runner(file)
+    else:
+        inputfile_runner(inputfile,string_name)
 
-        elif  os.path.dirname(file):
-            for root,dirs,files in os.walk(file,topdown=True):
-                for file in files:
-                    current_path = os.path.join(os.path.join(os.getcwd(),root),file)
-                    try:
+    
+    
+def file_runner(file):
+    result = []   
+    if os.path.basename(file):
+        file_name = os.path.basename(file)
+        current_path = os.getcwd()+'/'+file
+        langname = CommentExtractor.langIdentifier(file_name) 
+        func = langname+'.'+langname+'Extractor'
+        output = eval(func)(current_path)
+        result.append(output)
 
-                        if os.path.isfile(current_path):
-                            langname = CommentExtractor.langIdentifier(file)
-                            func = langname+'.'+langname+'Extractor'
-                            output = eval(func)(current_path)
-                            result.append(output)
-                    except Exception:
-                        continue
+    elif  os.path.dirname(file):
+        for root,dirs,files in os.walk(file,topdown=True):
+            for file in files:
+                current_path = os.path.join(os.path.join(os.getcwd(),root),file)
+                try:
 
-    elif inputfile:
-        langname = CommentExtractor.langIdentifier(inputfile)
-        func = langname+'.'+langname+'Source'
-        eval(func)(inputfile,string_name)
+                    if os.path.isfile(current_path):
+                        langname = CommentExtractor.langIdentifier(file)
+                        func = langname+'.'+langname+'Extractor'
+                        output = eval(func)(current_path)
+                        result.append(output)
+                except Exception:
+                    continue
+    result = json.dumps(result, sort_keys=False, indent=4)
+    print(result)
+
+
+
+def inputfile_runner(inputfile,string_name):
+    langname = CommentExtractor.langIdentifier(inputfile)
+    func = langname+'.'+langname+'Source'
+    eval(func)(inputfile,string_name)
         # python.pythonSource(inputfile,string_name)
     
-    result = json.dumps(result, sort_keys=False, indent=4)
-    print(result)   
+    # result = json.dumps(result, sort_keys=False, indent=4)
+    # print(result)   
 
 
 
