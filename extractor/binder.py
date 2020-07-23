@@ -76,7 +76,7 @@ def readMultiLineSame(file, syntax: str):
     copy = False
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
-            if line.strip() == syntax:
+            if syntax in line:
                 closingCount+=1
                 copy = True
                 if closingCount%2 == 0 and closingCount!=0:
@@ -105,10 +105,10 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
             total_lines += 1
-            if line.strip() == startSyntax:
+            if startSyntax in line:
                 copy = True
                 startLine.append(lineNumber)
-            elif line.strip() == endSyntax:
+            elif endSyntax in line:
                 copy = False
                 output.append(content)
                 content = ""

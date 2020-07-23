@@ -38,14 +38,20 @@ class CommentExtractor:
         
         langMap = {
             '.py': 'python',
+            '.m4': 'python',
+            '.nsi': 'python',
             '.c': 'c',
-            '.cs': 'c#',
-            '.cpp': 'c++',
-            '.cc': 'c++',
+            '.h': 'cpp',
+            '.cs': 'c_sharp',
+            '.cpp': 'cpp',
+            '.sep': 'cpp',
+            '.hxx': 'cpp',
+            '.cc': 'cpp',
             '.css': 'css',
             '.go': 'go',
             '.hs': 'haskell',
             '.html': 'html',
+            '.xml': 'html',
             '.java': 'java',
             '.js': 'javascript',
             '.kt': 'kotlin',
@@ -61,7 +67,11 @@ class CommentExtractor:
             '.swift': 'swift',
             '.scala': 'scala',
             '.sc': 'scala',
-            '.pyc':'byte_code'
+            '.txt': 'text',
+            '.lic': 'text',
+            '.install': 'text',
+            '.oss': 'text',
+            '.gl': 'text'
         }
 
         return langMap[extension]
