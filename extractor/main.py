@@ -70,7 +70,7 @@ class CommentExtractor:
             '.txt': 'text',
             '.lic': 'text',
             '.install': 'text',
-            '.oss': 'text',
+            '.OSS': 'text',
             '.gl': 'text'
         }
 
@@ -117,6 +117,7 @@ def file_runner(file):
                     continue
     result = json.dumps(result, sort_keys=False, indent=4)
     print(result)
+    return result
 
 
 
