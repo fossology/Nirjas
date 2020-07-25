@@ -43,10 +43,12 @@ def htmlExtractor(file):
 
 
     if result1:
-        for i in result1[0]:
-            output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
-
-
+        try:
+            for idx,i in enumerate(result1[0]):
+                output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
+        except:
+            pass
+        
     if result2:
         try:
             for idx,i in enumerate(result2[0]):
