@@ -35,8 +35,11 @@ class CssTest(unittest.TestCase):
         "multi_line_comment": []
         }
         if comment_multiline:
-            for idx,i in enumerate(comment_multiline[0]):
-                output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
+            try:
+                for idx,i in enumerate(comment_multiline[0]):
+                    output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
+            except:
+                pass
 
         self.assertEqual(output,expected)  
     

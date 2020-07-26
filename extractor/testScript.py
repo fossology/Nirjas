@@ -1,4 +1,4 @@
-import requests
+import urllib.request
 import subprocess
 import os
 
@@ -25,9 +25,8 @@ def download_files():
     "https://raw.github.com/avouros/toolset/master/scripts/BarPlotErrorbars.m",
     "https://raw.github.com/r-lib/rlang/master/R/arg.R",
     "https://raw.github.com/ttu/csharp-tutorial/master/csharp-tutorial/13_Parallel.cs",
-    "https://raw.github.com/cfjedimaster/HTML-Code-Demos/master/code/forms/10_validation.html"
-    ]
-
+    "https://raw.github.com/cfjedimaster/HTML-Code-Demos/master/code/forms/10_validation.html"]
+    
     directory = os.path.join(os.getcwd(),"languages/tests/TestFiles")
 
     if not os.path.isdir(directory):
@@ -35,12 +34,12 @@ def download_files():
         for i in url:
             list_of = i.split(".")
             ext = [list_of[-1]]
-            data = requests.get(i)
+            data = urllib.request.urlopen(i)
 
             for j in range (len(ext)):
                 filename = "textcomment." + ext[j]
                 f = open(os.path.join(directory,filename),'w')
-                f.write(data.text)
+                f.write(data.read().decode('utf-8'))
                 f.close
 
     else:

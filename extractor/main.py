@@ -61,6 +61,7 @@ class CommentExtractor:
             '.php': 'php',
             '.pl': 'perl',
             '.r': 'r',
+            '.R':'r',
             '.rb': 'ruby',
             '.rs': 'rust',
             '.sh': 'shell',

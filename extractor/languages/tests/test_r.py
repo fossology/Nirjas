@@ -8,7 +8,8 @@ class rTest(unittest.TestCase):
     def test_output(self):
         path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
-        comment_single = r.readSingleLine(path,regex)
+        sign = '#'
+        comment_single = r.readSingleLine(path,regex,sign)
         self.assertTrue(comment_single)
 
 
@@ -16,8 +17,9 @@ class rTest(unittest.TestCase):
     def test_outputFormat(self):
         path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
+        sign = '#'
         expected = r.rExtractor(path)
-        comment_single = readSingleLine(path,regex)
+        comment_single = readSingleLine(path,regex,sign)
         file = path.split("/")
         output = {
         "metadata": [{

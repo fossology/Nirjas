@@ -8,7 +8,8 @@ class ShellTest(unittest.TestCase):
     def test_output(self):
         path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
-        comment_single = shell.readSingleLine(path,regex)
+        sign = '#'
+        comment_single = shell.readSingleLine(path,regex,sign)
         self.assertTrue(comment_single)
 
 
@@ -17,7 +18,8 @@ class ShellTest(unittest.TestCase):
         path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         expected = shell.shellExtractor(path)
-        comment_single = readSingleLine(path,regex)
+        sign = '#'
+        comment_single = readSingleLine(path,regex,sign)
         file = path.split("/")
         output = {
         "metadata": [{
