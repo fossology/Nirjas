@@ -39,15 +39,24 @@ class HTMLTest(unittest.TestCase):
         "sloc": comment_single[4]-(comment_single[3]+comment_multiline[3]+comment_single[5])
         }],
         "single_line_comment": [],
+        "cont_single_line_comment": [],
         "multi_line_comment": []
         }
-        if comment_single:
-            for i in comment_single[0]:
-                output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
 
+
+        if comment_single:
+            try:
+                for idx,i in enumerate(comment_single[0]):
+                    output['multi_line_comment'].append({"start_line": comment_single[0][idx], "end_line": comment_single[1][idx], "comment": comment_single[2][idx]})
+            except:
+                pass
+        
         if comment_multiline:
-            for idx,i in enumerate(comment_multiline[0]):
-                output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
+            try:
+                for idx,i in enumerate(comment_multiline[0]):
+                    output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
+            except:
+                pass
 
         self.assertEqual(output,expected)  
     

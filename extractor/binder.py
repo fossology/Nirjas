@@ -43,6 +43,8 @@ def readSingleLine(file, regex, sign):
             if line:
                 if line[0] == sign:
                     line_of_comments += 1
+                elif line[0:2] == sign:
+                    line_of_comments += 1
 
             if not line.strip():
                 blank_lines += 1
@@ -114,10 +116,11 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
                 content = ""
                 endLine.append(lineNumber)
             if copy:
-                line_of_comments += 1
                 content = content + line.replace('\n',' ')
             if not line.strip():
                 blank_lines += 1
+        for idx, i in enumerate(endLine):
+            line_of_comments = line_of_comments + (endLine[idx]-startLine[idx]) + 1
         line_of_comments += len(output)
         output = [s.strip(startSyntax) for s in output]
         output = [s.strip(endSyntax) for s in output]

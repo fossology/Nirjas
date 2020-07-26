@@ -26,7 +26,6 @@ def htmlExtractor(file):
     result = CommentSyntax()
     result1 = result.gtExclamationDash(file)
     result2 = result.slashStar(file)
-    result4 = contSingleLines(result1)
     file = file.split("/")
     output = {
         "metadata": [{
@@ -42,22 +41,21 @@ def htmlExtractor(file):
         "multi_line_comment": []
     }
 
-    if result4:
-        result1 = result4[0]
 
     if result1:
-        for i in result1[0]:
-            output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
-
-    if result4:
-        for idx,i in enumerate(result4[1]):
-            output['cont_single_line_comment'].append({"start_line": result4[1][idx], "end_line": result4[2][idx], "comment": result4[3][idx]})
-
-    if result2:
-        for idx,i in enumerate(result2[0]):
-            output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        try:
+            for idx,i in enumerate(result1[0]):
+                output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
+        except:
+            pass
         
-
+    if result2:
+        try:
+            for idx,i in enumerate(result2[0]):
+                output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        except:
+            pass
+        
     return output
 
 

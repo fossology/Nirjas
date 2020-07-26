@@ -54,8 +54,11 @@ def cExtractor(file):
             output['cont_single_line_comment'].append({"start_line": result4[1][idx], "end_line": result4[2][idx], "comment": result4[3][idx]})
 
     if result2:
-        for idx,i in enumerate(result2[0]):
-            output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        try:
+            for idx,i in enumerate(result2[0]):
+                output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        except:
+            pass
 
     return output
 

@@ -40,8 +40,11 @@ def cssExtractor(file):
         "multi_line_comment": []
     }
     if result1:
-        for idx,i in enumerate(result1[0]):
-            output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
+        try:
+            for idx,i in enumerate(result1[0]):
+                output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
+        except:
+            pass
     return output
 
 
