@@ -1,4 +1,4 @@
-from extractor.main import *
+from nirjas.main import *
 
 def extract(file):
     return file_runner(file)

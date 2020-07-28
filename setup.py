@@ -38,7 +38,7 @@ Topic :: Text Processing
 
 setup(
     name='Nirjas', 
-    version='0.0.2',  
+    version='0.0.3',  
     description='A Python library to extract comments and source code out of your file(s)',  
     long_description=long_description,  
     long_description_content_type='text/markdown',  
@@ -47,12 +47,12 @@ setup(
     author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',  
 
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
-    keywords='Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',  
+    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',  
     packages=find_packages(),  
     python_requires = ">=3",
     entry_points = {
     'console_scripts': [
-      'nirjas = extractor.main:main'
+      'nirjas = nirjas.main:main'
     ]
   },
 )

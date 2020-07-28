@@ -20,9 +20,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import *
+from nirjas.binder import *
 
-def rustExtractor(file):
+def javascriptExtractor(file):
     result = CommentSyntax()
     result1 = result.doubleSlash(file)
     result2 = result.slashStar(file)
@@ -31,7 +31,7 @@ def rustExtractor(file):
     output = {
         "metadata": [{
         "filename": file[-1],
-        "lang": "Rust",
+        "lang": "JavaScript",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3],
         "blank_lines": result1[2],
@@ -54,14 +54,17 @@ def rustExtractor(file):
             output['cont_single_line_comment'].append({"start_line": result4[1][idx], "end_line": result4[2][idx], "comment": result4[3][idx]})
 
     if result2:
-        for idx,i in enumerate(result2[0]):
-            output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        try:
+            for idx,i in enumerate(result2[0]):
+                output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
+        except:
+            pass
         
-    
+
     return output
 
 
-def rustSource(file, newFile: str):
+def javascriptSource(file, newFile: str):
     closingCount = 0
     copy = True
     with open(newFile, 'w+') as f1:
