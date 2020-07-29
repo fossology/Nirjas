@@ -20,18 +20,19 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import *
+from nirjas.binder import *
 
-def matlabExtractor(file):
+
+def haskellExtractor(file):
     result = CommentSyntax()
-    result2 = result.percentageCurlybraces(file)
-    result1 = result.percentage(file)
+    result1 = result.doubleDash(file)
+    result2 = result.curlybracesDash(file)
     result4 = contSingleLines(result1)
     file = file.split("/")
     output = {
         "metadata": [{
         "filename": file[-1],
-        "lang": "MATLAB",
+        "lang": "Haskell",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3],
         "blank_lines": result1[2],
@@ -60,29 +61,28 @@ def matlabExtractor(file):
 
     return output
 
-
-def matlabSource(file, newFile: str):
+def haskellSource(file, newFile: str):
     closingCount = 0
     copy = True
     with open(newFile, 'w+') as f1:
         with open(file) as f:
             for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '%{':
+                if line.strip() == '{-':
                     closingCount+=1
                     copy = False
                     if closingCount%2 == 0:
                         copy = True
 
-                if line.strip() == '}%':
+                if line.strip() == '-}':
                     closingCount+=1
                     copy = False
                     if closingCount%2 == 0:
                         copy = True
 
                 if copy:
-                    if line.strip() != '%{' and line.strip() != '}%':
+                    if line.strip() != '{-' and line.strip() != '-}':
                         Templine = line.replace(" ","")
-                        if Templine[0] != "%":            # Syntax for single line comment
+                        if Templine[0:2] != "--":            # Syntax for single line comment
                             f1.write(line)
     f.close()
     f1.close()

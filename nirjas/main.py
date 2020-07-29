@@ -24,8 +24,8 @@ import os
 import json
 import argparse
 
-from extractor.binder import *
-from extractor.languages import *
+from nirjas.binder import *
+from nirjas.languages import *
 
 
 class CommentExtractor:

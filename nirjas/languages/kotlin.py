@@ -20,9 +20,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from extractor.binder import *
+from nirjas.binder import *
 
-def phpExtractor(file):
+def kotlinExtractor(file):
     result = CommentSyntax()
     result1 = result.doubleSlash(file)
     result2 = result.slashStar(file)
@@ -31,7 +31,7 @@ def phpExtractor(file):
     output = {
         "metadata": [{
         "filename": file[-1],
-        "lang": "PHP",
+        "lang": "Kotlin",
         "total_lines": result1[1],
         "total_lines_of_comments": result1[3]+result2[3],
         "blank_lines": result1[2],
@@ -60,7 +60,8 @@ def phpExtractor(file):
 
     return output
 
-def phpSource(file, newFile: str):
+
+def kotlinSource(file, newFile: str):
     closingCount = 0
     copy = True
     with open(newFile, 'w+') as f1:
