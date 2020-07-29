@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import c_sharp
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import c_sharp
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class CSharpTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.cs")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.cs")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = c_sharp.readSingleLine(path,regex,sign)
-        comment_multiline = c_sharp.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = c_sharp.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = c_sharp.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = c_sharp.contSingleLines(comment_single)
 
         self.assertTrue(comment_single)
@@ -22,16 +23,15 @@ class CSharpTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.cs")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = c_sharp.c_sharpExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = c_sharp.c_sharpExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -64,8 +64,7 @@ class CSharpTest(unittest.TestCase):
         self.assertEqual(output,expected) 
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.cs")
         name = "source.txt"
-        newfile = c_sharp.c_sharpSource(path,name)
+        newfile = c_sharp.c_sharpSource(self.testfile,name)
 
         self.assertTrue(newfile)

@@ -1,18 +1,18 @@
 import unittest
-import re, os
-from languages import java
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import java
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
 
 class JavaTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.java")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.java")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = java.readSingleLine(path,regex,sign)
-        comment_multiline = java.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = java.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = java.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = java.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +21,15 @@ class JavaTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.py")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = java.javaExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = java.javaExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +62,7 @@ class JavaTest(unittest.TestCase):
         self.assertEqual(output,expected) 
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.java")
         name = "source.txt"
-        newfile = java.javaSource(path,name)
+        newfile = java.javaSource(self.testfile,name)
 
-        self.assertTrue(newfile) 
+        self.assertTrue(newfile)

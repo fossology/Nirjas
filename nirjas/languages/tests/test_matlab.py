@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import matlab
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import matlab
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class matlabTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.m")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.m")
         regex = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "%{"
         self.syntax_end = "%}"
         sign = '%'
-        comment_single = matlab.readSingleLine(path,regex,sign)
-        comment_multiline = matlab.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = matlab.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = matlab.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = matlab.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class matlabTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.m")
         regex = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "%{"
         self.syntax_end = "%}"
         sign = '%'
-        expected = matlab.matlabExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = matlab.matlabExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class matlabTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.m")
         name = "source.txt"
-        newfile = matlab.matlabSource(path,name)
+        newfile = matlab.matlabSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

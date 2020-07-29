@@ -1,26 +1,26 @@
 import unittest
-import re, os
-from languages import shell
-from binder import readSingleLine,readMultiLineDiff
+import os
+from nirjas.languages import shell
+from nirjas.binder import readSingleLine
+
 
 class ShellTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.sh")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         sign = '#'
-        comment_single = shell.readSingleLine(path,regex,sign)
+        comment_single = shell.readSingleLine(self.testfile,regex,sign)
         self.assertTrue(comment_single)
 
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
-        expected = shell.shellExtractor(path)
+        expected = shell.shellExtractor(self.testfile)
         sign = '#'
-        comment_single = readSingleLine(path,regex,sign)
-        file = path.split("/")
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -39,8 +39,7 @@ class ShellTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.sh")
         name = "source.txt"
-        newfile = shell.shellSource(path,name)
+        newfile = shell.shellSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

@@ -1,36 +1,35 @@
 import unittest
-import re, os
-from languages import c
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import c
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class CTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.c")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.c")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         sign = '//'
         self.syntax_start = "/*"
         self.syntax_end ='*/'
-        comment_single = c.readSingleLine(path,regex,sign)
-        comment_multiline = c.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = c.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = c.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSinglelines = c.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSinglelines)
 
 
-
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.c")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end = "*/"
         sign = '//'
-        expected = c.cExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = c.cExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSinglelines = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -65,9 +64,8 @@ class CTest(unittest.TestCase):
         self.assertEqual(output,expected)  
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.c")
         name = "source.txt"
-        newfile = c.cSource(path,name)
+        newfile = c.cSource(self.testfile,name)
 
         self.assertTrue(newfile)
         

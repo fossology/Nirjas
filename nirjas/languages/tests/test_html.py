@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import html
-from binder import readSingleLine,readMultiLineDiff
+import os
+from nirjas.languages import html
+from nirjas.binder import readMultiLineDiff
+
 
 class HTMLTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.html")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.html")
         self.start_exclamation = "<!--"
         self.end_exclamation = "-->"
         self.syntax_start = "/*"
         self.syntax_end ='*/'
-        comment_single = html.readMultiLineDiff(path,self.start_exclamation,self.end_exclamation)
-        comment_multiline = html.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = html.readMultiLineDiff(self.testfile,self.start_exclamation,self.end_exclamation)
+        comment_multiline = html.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
 
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -20,15 +21,14 @@ class HTMLTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.html")
         self.start_exclamation = "<!--"
         self.end_exclamation = "-->"
         self.syntax_start = "/*"
         self.syntax_end ='*/'
-        expected = html.htmlExtractor(path)
-        comment_single = readMultiLineDiff(path,self.start_exclamation,self.end_exclamation)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        file = path.split("/")
+        expected = html.htmlExtractor(self.testfile)
+        comment_single = readMultiLineDiff(self.testfile,self.start_exclamation,self.end_exclamation)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -61,8 +61,7 @@ class HTMLTest(unittest.TestCase):
         self.assertEqual(output,expected)  
     
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.html")
         name = "source.txt"
-        newfile = html.htmlSource(path,name)
+        newfile = html.htmlSource(self.testfile,name)
 
         self.assertTrue(newfile)

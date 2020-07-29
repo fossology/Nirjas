@@ -7,6 +7,7 @@
 <p align="center">
     
 ![python version](https://img.shields.io/badge/Python-v3%2B-blue)
+![Unit Tests](https://github.com/fossology/Nirjas/workflows/Unit%20Tests/badge.svg)
 ![status](https://img.shields.io/pypi/status/Nirjas)
 [![HitCount](http://hits.dwyl.com/fossology/Nirjas.svg)](http://hits.dwyl.com/fossology/Nirjas)
 ![License LGPL-2.1](https://img.shields.io/github/license/fossology/nirjas)
@@ -161,12 +162,12 @@ nirjas -i <target file>
 
 ## Tests
 
-To run a test for Nirjas, go to the `/extractor` folder and use the command:
+To run a test for Nirjas, execute the following script:
 
 ```sh
-python3 testscript.py
+python3 testScript.py
 ```
-This will download all the test files into `languages/tests/TestFiles` folder and will run the tests as well.
+This will download all the test files into `nirjas/languages/tests/TestFiles` folder and will run the tests as well.
 
 ## Documentation
 
