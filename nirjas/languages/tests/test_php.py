@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import php
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import php
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class PHPTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.php")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.php")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = php.readSingleLine(path,regex,sign)
-        comment_multiline = php.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = php.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = php.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = php.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class PHPTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.php")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = php.phpExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = php.phpExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class PHPTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.php")
         name = "source.txt"
-        newfile = php.phpSource(path,name)
+        newfile = php.phpSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

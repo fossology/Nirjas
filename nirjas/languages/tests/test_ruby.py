@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import ruby
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import ruby
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class RubyTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.rb")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rb")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         self.syntax_start = "=begin"
         self.syntax_end = "=end"
         sign = '#'
-        comment_single = ruby.readSingleLine(path,regex,sign)
-        comment_multiline = ruby.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = ruby.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = ruby.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = ruby.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class RubyTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rb")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         self.syntax_start = "=begin"
         self.syntax_end = "=cut"
         sign = '#'
-        expected = ruby.rubyExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = ruby.rubyExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class RubyTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rb")
         name = "source.txt"
-        newfile = ruby.rubySource(path,name)
+        newfile = ruby.rubySource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

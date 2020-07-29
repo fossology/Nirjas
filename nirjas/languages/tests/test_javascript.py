@@ -1,18 +1,18 @@
 import unittest
-import re, os
-from languages import javascript
-from binder import readSingleLine,readMultiLineDiff
+import os
+from nirjas.languages import javascript
+from nirjas.binder import readSingleLine,readMultiLineDiff
 
 class JSTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.js")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.js")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = javascript.readSingleLine(path,regex,sign)
-        comment_multiline = javascript.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = javascript.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = javascript.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = javascript.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -20,16 +20,15 @@ class JSTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.js")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = javascript.javascriptExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = javascript.javascriptExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = javascript.contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -65,8 +64,7 @@ class JSTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.js")
         name = "source.txt"
-        newfile = javascript.javascriptSource(path,name)
+        newfile = javascript.javascriptSource(self.testfile,name)
 
         self.assertTrue(newfile)  

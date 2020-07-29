@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import scala
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import scala
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class ScalaTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scala")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.scala")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = scala.readSingleLine(path,regex,sign)
-        comment_multiline = scala.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = scala.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = scala.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = scala.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class ScalaTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.scala")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = scala.scalaExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = scala.scalaExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class ScalaTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.scala")
         name = "source.txt"
-        newfile = scala.scalaSource(path,name)
+        newfile = scala.scalaSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

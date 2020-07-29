@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import rust
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import rust
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class RustTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.rs")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rs")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = rust.readSingleLine(path,regex,sign)
-        comment_multiline = rust.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = rust.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = rust.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = rust.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class RustTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rs")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = rust.rustExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = rust.rustExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class RustTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.rs")
         name = "source.txt"
-        newfile = rust.rustSource(path,name)
+        newfile = rust.rustSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

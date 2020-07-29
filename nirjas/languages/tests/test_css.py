@@ -1,27 +1,27 @@
 import unittest
-import re, os
-from languages import css
-from binder import readSingleLine,readMultiLineDiff
+import os
+from nirjas.languages import css
+from nirjas.binder import readMultiLineDiff
+
 
 class CssTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.css")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.css")
         self.syntax_start = "/*"
         self.syntax_end ='*/'
-        comment_multiline = css.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_multiline = css.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
 
         self.assertTrue(comment_multiline)
 
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.m")
         self.syntax_start = "/*"
         self.syntax_end ='*/'
-        expected = css.cssExtractor(path)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        file = path.split("/")
+        expected = css.cssExtractor(self.testfile)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -44,8 +44,7 @@ class CssTest(unittest.TestCase):
         self.assertEqual(output,expected)  
     
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.css")
         name = "source.txt"
-        newfile = css.cssSource(path,name)
+        newfile = css.cssSource(self.testfile,name)
 
         self.assertTrue(newfile)

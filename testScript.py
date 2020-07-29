@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
+
 import urllib.request
-import subprocess
+import unittest
 import os
 
 
-
-def download_files():
+def download_files(cwd):
 
     url = ["https://raw.github.com/apache/thrift/master/lib/c_glib/test/testbinaryprotocol.c",
     "https://raw.github.com/apache/thrift/master/lib/cpp/test/AnnotationTest.cpp",
@@ -27,10 +28,11 @@ def download_files():
     "https://raw.github.com/ttu/csharp-tutorial/master/csharp-tutorial/13_Parallel.cs",
     "https://raw.github.com/cfjedimaster/HTML-Code-Demos/master/code/forms/10_validation.html"]
     
-    directory = os.path.join(os.getcwd(),"languages/tests/TestFiles")
+    directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")
 
     if not os.path.isdir(directory):
-        os.mkdir("languages/tests/TestFiles")
+        print("Downloading test files")
+        os.mkdir(directory)
         for i in url:
             list_of = i.split(".")
             ext = [list_of[-1]]
@@ -41,10 +43,15 @@ def download_files():
                 f = open(os.path.join(directory,filename),'w')
                 f.write(data.read().decode('utf-8'))
                 f.close
-
-    else:
-        pass
+                print(".", end="")
+        print()
 
 if __name__ == "__main__":
-    download_files()
-    subprocess.run("python3 -m unittest languages/tests/test_*.py",shell=True)
+    here = os.path.abspath(os.path.dirname(__file__))
+    download_files(here)
+    test_loader = unittest.defaultTestLoader
+    test_runner = unittest.TextTestRunner()
+    test_suite = test_loader.discover('nirjas/languages/tests',
+                                      pattern='test_*.py')
+    result = test_runner.run(test_suite)
+    exit(int(not result.wasSuccessful()))

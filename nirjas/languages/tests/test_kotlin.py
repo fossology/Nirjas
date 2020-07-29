@@ -1,18 +1,19 @@
 import unittest
-import re, os
-from languages import kotlin
-from binder import readSingleLine,readMultiLineDiff,contSingleLines
+import os
+from nirjas.languages import kotlin
+from nirjas.binder import readSingleLine,readMultiLineDiff,contSingleLines
+
 
 class KotlinTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.kts")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.kts")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        comment_single = kotlin.readSingleLine(path,regex,sign)
-        comment_multiline = kotlin.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        comment_single = kotlin.readSingleLine(self.testfile,regex,sign)
+        comment_multiline = kotlin.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = kotlin.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
@@ -21,16 +22,15 @@ class KotlinTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.kts")
         regex = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
         sign = '//'
-        expected = kotlin.kotlinExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multiline = readMultiLineDiff(path,self.syntax_start,self.syntax_end)
+        expected = kotlin.kotlinExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multiline = readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -63,8 +63,7 @@ class KotlinTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.kts")
         name = "source.txt"
-        newfile = kotlin.kotlinSource(path,name)
+        newfile = kotlin.kotlinSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

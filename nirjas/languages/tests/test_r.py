@@ -1,26 +1,25 @@
 import unittest
-import re, os
-from languages import r
-from binder import readSingleLine,readMultiLineDiff
+import os
+from nirjas.languages import r
+from nirjas.binder import readSingleLine
 
 class rTest(unittest.TestCase):
-    
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.R")
+
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         sign = '#'
-        comment_single = r.readSingleLine(path,regex,sign)
+        comment_single = r.readSingleLine(self.testfile,regex,sign)
         self.assertTrue(comment_single)
 
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         sign = '#'
-        expected = r.rExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        file = path.split("/")
+        expected = r.rExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -39,8 +38,7 @@ class rTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.R")
         name = "source.txt"
-        newfile = r.rSource(path,name)
+        newfile = r.rSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)

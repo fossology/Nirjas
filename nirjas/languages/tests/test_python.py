@@ -1,19 +1,20 @@
 import unittest
-import re, os
-from languages import python
-from binder import readSingleLine,readMultiLineSame,contSingleLines
+import os
+from nirjas.languages import python
+from nirjas.binder import readSingleLine,readMultiLineSame,contSingleLines
+
 
 class PythonTest(unittest.TestCase):
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.py")
 
     def test_output(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.py")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         self.syntax_single = "'''"
         self.syntax_double ='"""'
         sign = '#'
-        comment_multi_single = python.readMultiLineSame(path,self.syntax_single)
-        comment_single = python.readSingleLine(path,regex,sign)
-        comment_multi_double = python.readMultiLineSame(path,self.syntax_double)
+        comment_multi_single = python.readMultiLineSame(self.testfile,self.syntax_single)
+        comment_single = python.readSingleLine(self.testfile,regex,sign)
+        comment_multi_double = python.readMultiLineSame(self.testfile,self.syntax_double)
         comment_contSingleline = python.contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multi_single)
@@ -23,17 +24,16 @@ class PythonTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.py")
         regex = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
         self.syntax_single = "'''"
         self.syntax_double ='"""'
         sign = '#'
-        expected = python.pythonExtractor(path)
-        comment_single = readSingleLine(path,regex,sign)
-        comment_multi_single = readMultiLineSame(path,self.syntax_single)
-        comment_multi_double = readMultiLineSame(path,self.syntax_double)
+        expected = python.pythonExtractor(self.testfile)
+        comment_single = readSingleLine(self.testfile,regex,sign)
+        comment_multi_single = readMultiLineSame(self.testfile,self.syntax_single)
+        comment_multi_double = readMultiLineSame(self.testfile,self.syntax_double)
         comment_contSingleline = contSingleLines(comment_single)
-        file = path.split("/")
+        file = self.testfile.split("/")
         output = {
         "metadata": [{
         "filename": file[-1],
@@ -77,8 +77,7 @@ class PythonTest(unittest.TestCase):
         self.assertEqual(output,expected)
 
     def test_Source(self):
-        path = os.path.join(os.getcwd(),"languages/tests/TestFiles/textcomment.py")
         name = "source.txt"
-        newfile = python.pythonSource(path,name)
+        newfile = python.pythonSource(self.testfile,name)
 
-        self.assertTrue(newfile)  
+        self.assertTrue(newfile)
