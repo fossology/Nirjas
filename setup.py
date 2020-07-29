@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 SPDX-License-Identifier: LGPL-2.1
@@ -37,22 +39,24 @@ Topic :: Text Processing
 
 
 setup(
-    name='Nirjas', 
-    version='0.0.3',  
-    description='A Python library to extract comments and source code out of your file(s)',  
-    long_description=long_description,  
-    long_description_content_type='text/markdown',  
-    url='https://github.com/fossology/nirjas',  
-    author='Ayush Bhardwaj, Kaushlendra Pratap',  
-    author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',  
+    name='Nirjas',
+    version='0.0.3',
+    description='A Python library to extract comments and source code out of your file(s)',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/fossology/nirjas',
+    author='Ayush Bhardwaj, Kaushlendra Pratap',
+    author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',
 
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
-    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',  
-    packages=find_packages(),  
+    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',
+    packages=find_packages(),
     python_requires = ">=3",
     entry_points = {
-    'console_scripts': [
-      'nirjas = nirjas.main:main'
-    ]
-  },
+        'console_scripts': [
+            'nirjas = nirjas.main:main'
+        ]
+    },
+    license = "LGPL-2.1-or-later",
+    platforms = ['any']
 )

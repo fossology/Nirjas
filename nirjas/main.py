@@ -28,14 +28,20 @@ from nirjas.binder import *
 from nirjas.languages import *
 
 
-class CommentExtractor:
-    def __init__(self):
-        pass
+class NotSupportedExtension(Exception):
+    '''
+    Exception if file extension is not recognized
+    '''
+    def __str__(self):
+        return "extension '" + self.args[0] + "' not supported"
 
+
+class CommentExtractor:
+
+    @staticmethod
     def langIdentifier(file):
         extension = os.path.splitext(file)[1]
-        
-        
+
         langMap = {
             '.py': 'python',
             '.m4': 'python',
@@ -75,62 +81,56 @@ class CommentExtractor:
             '.gl': 'text'
         }
 
+        if extension not in langMap:
+            raise NotSupportedExtension(extension)
         return langMap[extension]
+
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p","--path", help="Specify the input file/directory path to scan")
-    parser.add_argument("-i","--inputFile", help="Specify the input file with the source code")
-    parser.add_argument("-s","--string",help= "The name of file you want the code in",default="source.txt")
+    parser.add_argument("-p", "--path", help="Specify the input file/directory path to scan")
+    parser.add_argument("-i", "--inputFile", help="Specify the input file with the source code")
+    parser.add_argument("-s", "--string", help="The name of file you want the code in", default="source.txt")
     args = parser.parse_args()
     file = args.path
     inputfile = args.inputFile
     string_name = args.string
-    if file:
-        file_runner(file)
-    else:
-        inputfile_runner(inputfile,string_name)
+    try:
+        if file:
+            return file_runner(file)
+        else:
+            return inputfile_runner(inputfile, string_name)
+    except NotSupportedExtension as e:
+        print(e, file=os.sys.stderr)
 
-    
-    
+
 def file_runner(file):
     result = []   
-    if os.path.basename(file):
-        file_name = os.path.basename(file)
-        current_path = os.getcwd()+'/'+file
-        langname = CommentExtractor.langIdentifier(file_name) 
-        func = langname+'.'+langname+'Extractor'
-        output = eval(func)(current_path)
+    if os.path.isfile(file):
+        langname = CommentExtractor.langIdentifier(file)
+        func = langname + '.' + langname + 'Extractor'
+        output = eval(func)(file)
         result.append(output)
 
-    elif  os.path.dirname(file):
-        for root,dirs,files in os.walk(file,topdown=True):
+    elif os.path.isdir(file):
+        for root, dirs, files in os.walk(file, topdown=True):
             for file in files:
-                current_path = os.path.join(os.path.join(os.getcwd(),root),file)
                 try:
-
-                    if os.path.isfile(current_path):
+                    if os.path.isfile(file):
                         langname = CommentExtractor.langIdentifier(file)
-                        func = langname+'.'+langname+'Extractor'
-                        output = eval(func)(current_path)
+                        func = langname + '.' + langname + 'Extractor'
+                        output = eval(func)(file)
                         result.append(output)
                 except Exception:
                     continue
     result = json.dumps(result, sort_keys=False, indent=4)
-    print(result)
     return result
 
 
-
-def inputfile_runner(inputfile,string_name):
+def inputfile_runner(inputfile, string_name):
     langname = CommentExtractor.langIdentifier(inputfile)
-    func = langname+'.'+langname+'Source'
-    eval(func)(inputfile,string_name)
-        # python.pythonSource(inputfile,string_name)
-    
-    # result = json.dumps(result, sort_keys=False, indent=4)
-    # print(result)   
-
+    func = langname + '.' + langname + 'Source'
+    return eval(func)(inputfile, string_name)
 
 
 if __name__ == "__main__":
