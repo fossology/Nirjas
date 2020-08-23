@@ -46,6 +46,7 @@ class CommentExtractor:
             '.py': 'python',
             '.m4': 'python',
             '.nsi': 'python',
+            '.hpp': 'cpp',
             '.c': 'c',
             '.h': 'cpp',
             '.cs': 'c_sharp',
