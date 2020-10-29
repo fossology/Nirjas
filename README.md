@@ -23,7 +23,7 @@ A source code file usually contains various vital information such as license te
 
 Nirjas is a fully dedicated python library to extract the comments and source code out of your file(s). The extracted comments can be processed in various ways to detect licenses, generate documentation, process info, etc.
 
-Apart from that the library serves you with all the required metdata about your Code, Comments and File(s)
+Apart from that the library serves you with all the required metadata about your Code, Comments and File(s)
 
 ## Requirements
 - Python 3
