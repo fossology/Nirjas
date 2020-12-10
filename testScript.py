@@ -26,7 +26,8 @@ def download_files(cwd):
     "https://raw.github.com/avouros/toolset/master/scripts/BarPlotErrorbars.m",
     "https://raw.github.com/r-lib/rlang/master/R/arg.R",
     "https://raw.github.com/ttu/csharp-tutorial/master/csharp-tutorial/13_Parallel.cs",
-    "https://raw.github.com/cfjedimaster/HTML-Code-Demos/master/code/forms/10_validation.html"]
+    "https://raw.github.com/cfjedimaster/HTML-Code-Demos/master/code/forms/10_validation.html",
+    "https://raw.github.com/apache/thrift/master/lib/ts/test/phantom-client.ts"]
     
     directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")
 
