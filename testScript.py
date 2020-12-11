@@ -28,7 +28,8 @@ def download_files(cwd):
         "https://raw.githubusercontent.com/r-lib/rlang/6dbcae3fc9af9e75b27053b28e7ae81e0717a387/R/arg.R",
         "https://raw.githubusercontent.com/ttu/csharp-tutorial/5e5f94334a8f1111ae03ef0e2d109721da6757e9/csharp-tutorial/13_Parallel.cs",
         "https://raw.githubusercontent.com/cfjedimaster/HTML-Code-Demos/89090b8b19d666e4552846a6ea27f42813c0877e/code/forms/10_validation.html",
-        "https://raw.githubusercontent.com/apache/thrift/f86845e8ed622e7e3b7c87f00f16729ee6cc524d/lib/ts/test/phantom-client.ts"
+        "https://raw.githubusercontent.com/apache/thrift/f86845e8ed622e7e3b7c87f00f16729ee6cc524d/lib/ts/test/phantom-client.ts",
+        "https://raw.githubusercontent.com/airbnb/react-with-styles/2532394bb866aaade4dc750ee94c0ff213d9b6de/src/withStyles.jsx"
     ]
 
     directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")

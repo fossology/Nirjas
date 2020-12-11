@@ -61,6 +61,7 @@ class CommentExtractor:
             '.xml': 'html',
             '.java': 'java',
             '.js': 'javascript',
+            '.jsx': 'javascript',
             '.kt': 'kotlin',
             '.kts': 'kotlin',
             '.ktm': 'kotlin',
