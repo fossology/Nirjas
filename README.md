@@ -46,6 +46,7 @@ The Languages we support till now:
 - C#
 - C++
 - CSS
+- Dart
 - Go
 - Haskell
 - HTML

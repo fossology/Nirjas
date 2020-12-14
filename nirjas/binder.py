@@ -156,6 +156,14 @@ class CommentSyntax:
         self.pattern_doubleSlash = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
         return readSingleLine(file, self.pattern_doubleSlash, self.sign)
 
+    def doubleNotTripleSlash(self,file):
+        '''
+        sign: //
+        '''
+        self.sign = '//'
+        self.pattern_doubleNotTripleSlash = r'''([^\/]\/\/[^\/]\s*[\w #\.()@+-_*\d]*)'''
+        return readSingleLine(file, self.pattern_doubleNotTripleSlash, self.sign)
+
     def singleQuotes(self,file):
         '''
         sign: '''  '''
