@@ -51,6 +51,7 @@ The Languages we support till now:
 - HTML
 - Java
 - JavaScript
+- JSX
 - Kotlin
 - MATLAB
 - Perl
@@ -62,6 +63,7 @@ The Languages we support till now:
 - Scala
 - Shell
 - Swift
+- TypeScript
 
 ## Installation
 
