@@ -29,7 +29,8 @@ def download_files(cwd):
         "https://raw.githubusercontent.com/ttu/csharp-tutorial/5e5f94334a8f1111ae03ef0e2d109721da6757e9/csharp-tutorial/13_Parallel.cs",
         "https://raw.githubusercontent.com/cfjedimaster/HTML-Code-Demos/89090b8b19d666e4552846a6ea27f42813c0877e/code/forms/10_validation.html",
         "https://raw.githubusercontent.com/apache/thrift/f86845e8ed622e7e3b7c87f00f16729ee6cc524d/lib/ts/test/phantom-client.ts",
-        "https://raw.githubusercontent.com/airbnb/react-with-styles/2532394bb866aaade4dc750ee94c0ff213d9b6de/src/withStyles.jsx"
+        "https://raw.githubusercontent.com/airbnb/react-with-styles/2532394bb866aaade4dc750ee94c0ff213d9b6de/src/withStyles.jsx",
+        "https://raw.githubusercontent.com/flutter/plugins/e61e9d45bcaadc3e409d529d30735cb4db75c5c5/packages/android_alarm_manager/lib/android_alarm_manager.dart",
     ]
 
     directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")
