@@ -55,6 +55,7 @@ class CommentExtractor:
             '.hxx': 'cpp',
             '.cc': 'cpp',
             '.css': 'css',
+            '.scss': 'scss',
             '.dart': 'dart',
             '.go': 'go',
             '.hs': 'haskell',
