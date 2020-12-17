@@ -65,6 +65,7 @@ The Languages we support till now:
 - Shell
 - Swift
 - TypeScript
+- TSX
 
 ## Installation
 

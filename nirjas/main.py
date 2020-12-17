@@ -78,6 +78,7 @@ class CommentExtractor:
             '.scala': 'scala',
             '.sc': 'scala',
             '.ts': 'typescript',
+            '.tsx': 'typescript',
             '.txt': 'text',
             '.lic': 'text',
             '.install': 'text',
