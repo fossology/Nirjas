@@ -70,29 +70,44 @@ def pythonExtractor(file):
     return output
 
 
-def pythonSource(file, newFile: str):
-    closingCount = 0
+def pythonSource(file, new_file: str):
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == "'''":
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
+            for line in f:
+                content = ""
+                found = False
+                if '"""' in line:
+                    if copy:
+                        pos = line.find('"""')
+                        content = line[:pos].rstrip()
+                        line = line[pos:]
+                        copy = False
+                        found = True
+                    else:
+                        content = content + line[line.rfind('"""') + 3:]
+                        line = content
                         copy = True
-
-                if line.strip() == '"""':
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
+                        found = True
+                if "'''" in line:
+                    if copy:
+                        pos = line.find("'''")
+                        content = line[:pos].rstrip()
+                        line = line[pos:]
+                        copy = False
+                        found = True
+                    else:
+                        content = content + line[line.rfind("'''") + 3:]
+                        line = content
                         copy = True
-
-                if copy:
-                    if line.strip() != "'''" and line.strip() != '"""':
-                        Templine = line.replace(" ","")
-                        if Templine[0] != "#":            # Syntax for single line comment
-                            f1.write(line)
+                        found = True
+                if '#' in line:
+                    content = line[:line.find('#')].rstrip() + '\n'
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

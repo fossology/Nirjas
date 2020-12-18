@@ -56,29 +56,32 @@ def perlExtractor(file):
     return output
 
 
-def perlSource(file, newFile: str):
+def perlSource(file, new_file: str):
     closingCount = 0
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '=begin':
-                    closingCount+=1
+            for line in f:
+                content = ""
+                found = False
+                if '=begin' in line:
+                    pos = line.find('=begin')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if line.strip() == '=cut':
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '=begin' and line.strip() != '=cut':
-                        Templine = line.replace(" ","")
-                        if Templine[0] != "#":            # Syntax for single line comment
-                            f1.write(line)
+                    found = True
+                if '=cut' in line:
+                    content = content + line[line.rfind('=cut') + 4:]
+                    line = content
+                    copy = True
+                    found = True
+                if '#' in line:
+                    content = line[:line.find('#')].rstrip() + '\n'
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

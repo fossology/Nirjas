@@ -57,28 +57,34 @@ def c_sharpExtractor(file):
 
 
 def c_sharpSource(file, new_file: str):
-    closing_count = 0
     copy = True
     with open(new_file, 'w+') as f1:
-        with open(file) as f:
-            for line_number, line in enumerate(f, start=1):
-                if line.strip() == '/*':
-                    closing_count += 1
+        with open(file, 'r') as f:
+            for line in f:
+                content = ""
+                found = False
+                if '/*' in line:
+                    pos = line.find('/*')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closing_count % 2 == 0:
-                        copy = True
-
-                if line.strip() == '*/':
-                    closing_count += 1
-                    copy = False
-                    if closing_count % 2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '/*' and line.strip() != '*/':
-                        Templine = line.replace(" ", "")
-                        if Templine[0:2] != "//":  # Syntax for single line comment
-                            f1.write(line)
+                    found = True
+                if '*/' in line:
+                    content = content + line[line.rfind('*/') + 2:]
+                    line = content
+                    copy = True
+                    found = True
+                if '//' in line:
+                    if line[line.find('//') - 1] != ':':
+                        line = line[:line.find('//')].rstrip() + '\n'
+                    elif line[line.rfind('//') - 1] != ':':
+                        line = line[:line.rfind('//')].rstrip() + '\n'
+                    content = line
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
     return new_file

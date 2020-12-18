@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 from nirjas.binder import *
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import ScanOutput, SingleLine
 
 
 def rExtractor(file):
@@ -41,15 +41,15 @@ def rExtractor(file):
     return output
 
 
-def rSource(file, newFile: str):
-    closingCount = 0
-    copy = True
-    with open(newFile, 'w+') as f1:
+def rSource(file, new_file: str):
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                Templine = line.replace(" ","")
-                if Templine[0] != "#":            # Syntax for single line comment
-                    f1.write(line)
+            for line in f:
+                content = line
+                if '#' in line:
+                    content = line[:line.find('#')].rstrip() + '\n'
+                if content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

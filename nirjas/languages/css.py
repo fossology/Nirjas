@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 from nirjas.binder import *
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import ScanOutput, MultiLine
 
 
 def cssExtractor(file):
@@ -46,29 +46,28 @@ def cssExtractor(file):
     return output
 
 
-def cssSource(file, newFile: str):
-    closingCount = 0
+def cssSource(file, new_file: str):
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '/*':
-                    closingCount+=1
+            for line in f:
+                content = ""
+                found = False
+                if '/*' in line:
+                    pos = line.find('/*')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if line.strip() == '*/':
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '/*' and line.strip() != '*/':
-                        # Templine = line.replace(" ","")
-                        # if Templine[0:2] != "syntax":            # Syntax for single line comment
-                        f1.write(line)
+                    found = True
+                if '*/' in line:
+                    content = content + line[line.rfind('*/') + 2:]
+                    line = content
+                    copy = True
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file
