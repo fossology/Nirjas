@@ -62,6 +62,7 @@ The Languages we support till now:
 - Ruby
 - Rust
 - Scala
+- Scss
 - Shell
 - Swift
 - TypeScript

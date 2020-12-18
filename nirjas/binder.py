@@ -35,7 +35,7 @@ def readSingleLine(file, regex, sign):
             output = ''.join(output)
 
             if output:
-                output = output[1:]
+                output = output[len(sign):]
                 content.append([lineNumber, output.strip()])
 
             line = line.replace(" ","")
@@ -161,7 +161,7 @@ class CommentSyntax:
         sign: //
         '''
         self.sign = '//'
-        self.pattern_doubleNotTripleSlash = r'''([^\/]\/\/[^\/]\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_doubleNotTripleSlash = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
         return readSingleLine(file, self.pattern_doubleNotTripleSlash, self.sign)
 
     def singleQuotes(self,file):
