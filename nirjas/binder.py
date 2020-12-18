@@ -26,83 +26,92 @@ from operator import itemgetter
 
 
 def readSingleLine(file, regex, sign):
+    '''
+    Read file line by line and match the given regex to get comment.
+    Return comments, lines read, blank lines, and lines with comments.
+    '''
     content = []
-    total_lines, line_of_comments, blank_lines = 0,0,0
+    total_lines, line_of_comments, blank_lines = 0, 0, 0
     with open(file) as f:
-        for lineNumber, line in enumerate(f, start=1):
+        for line_number, line in enumerate(f, start=1):
             total_lines += 1
-            output = re.findall(regex, line)
+            output = re.findall(regex, line, re.I)
+            if len(output) > 0:
+                line_of_comments += 1
             output = ''.join(output)
 
             if output:
-                output = output[len(sign):]
-                content.append([lineNumber, output.strip()])
+                content.append([line_number, output.strip()])
 
-            line = line.replace(" ","")
+            line = line.strip()
 
-            if line:
-                if line[0] == sign:
-                    line_of_comments += 1
-                elif line[0:2] == sign:
-                    line_of_comments += 1
-
-            if not line.strip():
+            if line == '':
                 blank_lines += 1
 
     return content, total_lines, blank_lines, line_of_comments
-                
+
+
 def contSingleLines(data):
-    lines, startLine, endLine, output = [], [], [], []
+    '''
+    Merge consecutive single line comments as cont_single_line_comment
+    '''
+    lines, start_line, end_line, output = [], [], [], []
     content = ""
     for i in data[0]:
         lines.append(i[0])
 
-    for a, b in groupby(enumerate(lines), lambda x : x[0] - x[1]):
+    for a, b in groupby(enumerate(lines), lambda x: x[0] - x[1]):
         temp = list(map(itemgetter(1), b))
         content = ""
 
-        if len(temp)>1:
-            startLine.append(temp[0])
-            endLine.append(temp[-1])
+        if len(temp) > 1:
+            start_line.append(temp[0])
+            end_line.append(temp[-1])
             for i in temp:
                 comment = [x[1] for x in data[0] if x[0] == i]
                 [data[0].remove(x) for x in data[0] if x[0] == i]
                 content = content + ' ' + comment[0]
             output.append(content)
-    return data, startLine, endLine, output
+    return data, start_line, end_line, output
+
 
 def readMultiLineSame(file, syntax: str):
-    lines, output, startLine, endLine = [], [], [], []
+    '''
+    Read multiline comments where starting and ending symbols are same.
+    '''
+    lines, output, start_line, end_line = [], [], [], []
     content = ""
-    closingCount, lines_of_comment = 0,0
+    closingCount, lines_of_comment = 0, 0
     copy = False
     with open(file) as f:
-        for lineNumber, line in enumerate(f, start=1):
+        for line_number, line in enumerate(f, start=1):
             if syntax in line:
-                closingCount+=1
+                closingCount += 1
                 copy = True
-                if closingCount%2 == 0 and closingCount!=0:
+                if closingCount % 2 == 0 and closingCount != 0:
                     copy = False
-                    output.append(content)
+                    output.append(content.strip())
                     content = ""
-                    endLine.append(lineNumber)
-                lines.append(lineNumber)
+                    end_line.append(line_number)
+                lines.append(line_number)
 
             if copy:
                 lines_of_comment += 1
                 content = content + line.replace('\n', ' ')
 
-            output = [s.strip(syntax) for s in output]
-        
-        result = [lines, output]
-        startLine = list(filter(lambda x: x not in endLine, lines))
-    return startLine, endLine, output, lines_of_comment
+            output = [s.strip(syntax).strip() for s in output]
+
+        start_line = list(filter(lambda x: x not in end_line, lines))
+    return start_line, end_line, output, lines_of_comment
 
 
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
+    '''
+    Read multiline comments where starting and ending symbols are different.
+    '''
     output, startLine, endLine = [], [], []
     content = ""
-    total_lines, line_of_comments, blank_lines = 0,0,0
+    total_lines, line_of_comments, blank_lines = 0, 0, 0
     copy = False
     with open(file) as f:
         for lineNumber, line in enumerate(f, start=1):
@@ -110,83 +119,87 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
             if startSyntax in line:
                 copy = True
                 startLine.append(lineNumber)
-            elif endSyntax in line:
+                line = line[line.find(startSyntax) + len(startSyntax):]
+            if endSyntax in line:
                 copy = False
+                line = line[:line.rfind(endSyntax) + len(endSyntax)]
+                content = content + line.replace('\n', ' ')
+                content = content.strip(startSyntax).strip(endSyntax).strip()
                 output.append(content)
                 content = ""
                 endLine.append(lineNumber)
+                continue
             if copy:
-                content = content + line.replace('\n',' ')
-            if not line.strip():
+                content = content + (line.replace('\n', ' ')).strip()
+            if line.strip() == '':
                 blank_lines += 1
         for idx, i in enumerate(endLine):
-            line_of_comments = line_of_comments + (endLine[idx]-startLine[idx]) + 1
+            line_of_comments = line_of_comments + (endLine[idx] - startLine[idx]) + 1
         line_of_comments += len(output)
-        output = [s.strip(startSyntax) for s in output]
-        output = [s.strip(endSyntax) for s in output]
+        output = [s.strip(startSyntax).strip(endSyntax).strip() for s in output]
     return startLine, endLine, output, line_of_comments, total_lines, blank_lines
 
 
 class CommentSyntax:
-    
+
     def __init__(self):
         pass
 
-    def hash(self,file):
+    def hash(self, file):
         '''
         sign: #
         '''
         self.sign = '#'
-        self.pattern_hash = r'''(#+\s*[\!\w #\.()@+-_*\d]*)'''
+        self.pattern_hash = r'''#+\s*(.*)'''
         return readSingleLine(file, self.pattern_hash, self.sign)
 
-    def percentage(self,file):
+    def percentage(self, file):
         '''
         sign: %
         '''
         self.sign = '%'
-        self.pattern_percentage = r'''(\%\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_percentage = r'''\%\s*(.*)'''
         return readSingleLine(file, self.pattern_percentage, self.sign)
 
-    def doubleSlash(self,file):
+    def doubleSlash(self, file):
         '''
         sign: //
         '''
         self.sign = '//'
-        self.pattern_doubleSlash = r'''(\/\/\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_doubleSlash = r'''(?<![pst]:)\/\/\s*(.*)'''
         return readSingleLine(file, self.pattern_doubleSlash, self.sign)
 
-    def doubleNotTripleSlash(self,file):
+    def doubleNotTripleSlash(self, file):
         '''
         sign: //
         '''
         self.sign = '//'
-        self.pattern_doubleNotTripleSlash = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_doubleNotTripleSlash = r'''(?<!\/)\/\/(?!\/)\s*(.*)'''
         return readSingleLine(file, self.pattern_doubleNotTripleSlash, self.sign)
 
-    def singleQuotes(self,file):
-        '''
+    def singleQuotes(self, file):
+        """
         sign: '''  '''
-        '''
+        """
         self.syntax = "'''"
         return readMultiLineSame(file, self.syntax)
 
-    def doubleQuotes(self,file):
+    def doubleQuotes(self, file):
         '''
         sign: """ """
         '''
         self.syntax = '"""'
         return readMultiLineSame(file, self.syntax)
 
-    def doubleDash(self,file):
+    def doubleDash(self, file):
         '''
         sign: --
         '''
         self.sign = '--'
-        self.pattern_doubleDash = r'''(\-\-\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_doubleDash = r'''\-\-\s*(.*)'''
         return readSingleLine(file, self.pattern_doubleDash, self.sign)
 
-    def slashStar(self,file):
+    def slashStar(self, file):
         '''
         sign: /* ~ */
         '''
@@ -194,7 +207,7 @@ class CommentSyntax:
         self.end = "*/"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def gtExclamationDash(self,file):
+    def gtExclamationDash(self, file):
         '''
         sign : <!-- ~ -->
         '''
@@ -202,7 +215,7 @@ class CommentSyntax:
         self.end = "-->"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def beginCut(self,file):
+    def beginCut(self, file):
         '''
         sign: =begin ~ =cut
         '''
@@ -210,7 +223,7 @@ class CommentSyntax:
         self.end = "=cut"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def beginEnd(self,file):
+    def beginEnd(self, file):
         '''
         sign: =begin ~ =end
         '''
@@ -218,7 +231,7 @@ class CommentSyntax:
         self.end = "=end"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def curlybracesDash(self,file):
+    def curlybracesDash(self, file):
         '''
         sign: {- ~ -}
         '''
@@ -226,7 +239,7 @@ class CommentSyntax:
         self.end = "-}"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def percentageCurlybraces(self,file):
+    def percentageCurlybraces(self, file):
         '''
         sign: %{ ~ %}
         '''
@@ -234,15 +247,15 @@ class CommentSyntax:
         self.end = "%}"
         return readMultiLineDiff(file, self.start, self.end)
 
-    def tripleSlash(self,file):
+    def tripleSlash(self, file):
         '''
         sign: ///
         '''
         self.sign = '///'
-        self.pattern_tripleSlash = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
+        self.pattern_tripleSlash = r'''\/\/\/\s*(.*)'''
         return readSingleLine(file, self.pattern_tripleSlash, self.sign)
-    
-    def slashDoubleStar(self,file):
+
+    def slashDoubleStar(self, file):
         '''
         sign: /** ~ */
         '''

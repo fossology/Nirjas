@@ -47,11 +47,12 @@ def download_files(cwd):
 
             for j in range (len(ext)):
                 filename = "textcomment." + ext[j]
-                f = open(os.path.join(directory,filename),'w')
+                f = open(os.path.join(directory, filename), 'w')
                 f.write(data.read().decode('utf-8'))
                 f.close
                 print(".", end="")
         print()
+
 
 if __name__ == "__main__":
     here = os.path.abspath(os.path.dirname(__file__))
@@ -62,3 +63,4 @@ if __name__ == "__main__":
                                       pattern='test_*.py')
     result = test_runner.run(test_suite)
     exit(int(not result.wasSuccessful()))
+
