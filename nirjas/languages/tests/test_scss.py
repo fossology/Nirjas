@@ -27,7 +27,7 @@ class ScssTest(unittest.TestCase):
     testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scss")
 
     def test_output(self):
-        regex1 = r'''([^\/]\/\/[^\/]\s*[\w #\.()@+-_*\d]*)'''
+        regex1 = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
         regex2 = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
@@ -46,7 +46,7 @@ class ScssTest(unittest.TestCase):
 
 
     def test_outputFormat(self):
-        regex1 = r'''([^\/]\/\/[^\/]\s*[\w #\.()@+-_*\d]*)'''
+        regex1 = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
         regex2 = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
         self.syntax_start = "/*"
         self.syntax_end ='*/'
