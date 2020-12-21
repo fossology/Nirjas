@@ -21,21 +21,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 import unittest
 import os
 from nirjas.languages import scss
-from nirjas.binder import readSingleLine,readMultiLineDiff
+from nirjas.binder import readSingleLine, readMultiLineDiff
+
 
 class ScssTest(unittest.TestCase):
     testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scss")
 
     def test_output(self):
-        regex1 = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
-        regex2 = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
+        regex1 = r'''(?<!\/)\/\/(?!\/)\s*(.*)'''
+        regex2 = r'''\/\/\/\s*(.*)'''
         self.syntax_start = "/*"
-        self.syntax_end ='*/'
+        self.syntax_end = '*/'
         sign1 = '//'
         sign2 = '///'
-        comment_single_doubleSlash = scss.readSingleLine(self.testfile,regex1,sign1)
-        comment_single_tripleSlash = scss.readSingleLine(self.testfile,regex2,sign2)
-        comment_multiline = scss.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
+        comment_single_doubleSlash = scss.readSingleLine(self.testfile, regex1, sign1)
+        comment_single_tripleSlash = scss.readSingleLine(self.testfile, regex2, sign2)
+        comment_multiline = scss.readMultiLineDiff(self.testfile, self.syntax_start, self.syntax_end)
         comment_contSingleline1 = scss.contSingleLines(comment_single_doubleSlash)
         comment_contSingleline2 = scss.contSingleLines(comment_single_tripleSlash)
         self.assertTrue(comment_single_doubleSlash)
@@ -44,30 +45,29 @@ class ScssTest(unittest.TestCase):
         self.assertTrue(comment_contSingleline1)
         self.assertTrue(comment_contSingleline2)
 
-
     def test_outputFormat(self):
-        regex1 = r'''((?<!\/)\/\/(?!\/)\s*[\w #\.()@+-_*\d]*)'''
-        regex2 = r'''(\/\/\/\s*[\w #\.()@+-_*\d]*)'''
+        regex1 = r'''(?<!\/)\/\/(?!\/)\s*(.*)'''
+        regex2 = r'''\/\/\/\s*(.*)'''
         self.syntax_start = "/*"
-        self.syntax_end ='*/'
+        self.syntax_end = '*/'
         sign1 = '//'
         sign2 = '///'
-        expected = scss.scssExtractor(self.testfile)
-        comment_single_doubleSlash = scss.readSingleLine(self.testfile,regex1,sign1)
-        comment_single_tripleSlash = scss.readSingleLine(self.testfile,regex2,sign2)
-        comment_multiline = scss.readMultiLineDiff(self.testfile,self.syntax_start,self.syntax_end)
+        expected = scss.scssExtractor(self.testfile).get_dict()
+        comment_single_doubleSlash = scss.readSingleLine(self.testfile, regex1, sign1)
+        comment_single_tripleSlash = scss.readSingleLine(self.testfile, regex2, sign2)
+        comment_multiline = scss.readMultiLineDiff(self.testfile, self.syntax_start, self.syntax_end)
         comment_contSingleline1 = scss.contSingleLines(comment_single_doubleSlash)
         comment_contSingleline2 = scss.contSingleLines(comment_single_tripleSlash)
         file = self.testfile.split("/")
         output = {
-        "metadata": [{
+        "metadata": {
         "filename": file[-1],
         "lang": "Scss",
         "total_lines": comment_single_doubleSlash[1],
-        "total_lines_of_comments": comment_single_doubleSlash[3]+comment_single_tripleSlash[3]+comment_multiline[3],
+        "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
         "blank_lines": comment_single_doubleSlash[2],
-        "sloc": comment_single_doubleSlash[1]-(comment_single_doubleSlash[3]+comment_single_tripleSlash[3]+comment_multiline[3]+comment_single_doubleSlash[2])
-        }],
+        "sloc": comment_single_doubleSlash[1] - (comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2])
+        },
         "single_line_comment": [],
         "cont_single_line_comment": [],
         "multi_line_comment": []
@@ -81,31 +81,31 @@ class ScssTest(unittest.TestCase):
 
         if comment_single_doubleSlash:
             for i in comment_single_doubleSlash[0]:
-                output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
+                output['single_line_comment'].append({"line_number":i[0], "comment": i[1]})
 
         if comment_single_tripleSlash:
             for i in comment_single_tripleSlash[0]:
-                output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
+                output['single_line_comment'].append({"line_number":i[0], "comment": i[1]})
 
         if comment_contSingleline1:
-            for idx,i in enumerate(comment_contSingleline1[1]):
+            for idx, i in enumerate(comment_contSingleline1[1]):
                 output['cont_single_line_comment'].append({"start_line": comment_contSingleline1[1][idx], "end_line": comment_contSingleline1[2][idx], "comment": comment_contSingleline1[3][idx]})
 
         if comment_contSingleline2:
-            for idx,i in enumerate(comment_contSingleline2[1]):
+            for idx, i in enumerate(comment_contSingleline2[1]):
                 output['cont_single_line_comment'].append({"start_line": comment_contSingleline2[1][idx], "end_line": comment_contSingleline2[2][idx], "comment": comment_contSingleline2[3][idx]})
 
         if comment_multiline:
             try:
-                for idx,i in enumerate(comment_multiline[0]):
+                for idx, i in enumerate(comment_multiline[0]):
                     output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
             except:
                 pass
 
-        self.assertEqual(output,expected)
+        self.assertEqual(output, expected)
 
     def test_Source(self):
         name = "source.txt"
-        newfile = scss.scssSource(self.testfile,name)
+        newfile = scss.scssSource(self.testfile, name)
 
         self.assertTrue(newfile)

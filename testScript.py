@@ -7,17 +7,17 @@ import os
 
 def download_files(cwd):
 
-    url = [
-        "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/c_glib/test/testbinaryprotocol.c",
+    urls = [
+        "https://raw.githubusercontent.com/fossology/fossology/6793719f9837fa6585744c09f9882a31024d26e9/src/lib/c/libfossdbmanager.c",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/cpp/test/AnnotationTest.cpp",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/go/test/tests/thrifttest_driver.go",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/hs/test/JSONSpec.hs",
         "https://raw.githubusercontent.com/necolas/normalize.css/fc091cce1534909334c1911709a39c22d406977b/normalize.css",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/java/test/org/apache/thrift/test/JavaBeansTest.java",
-        "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/js/test/test-async.js",
+        "https://raw.githubusercontent.com/apache/thrift/b5d6ea390fc5732ed1c1772709ab3731555dc3fc/lib/js/test/test-jq.js",
         "https://raw.githubusercontent.com/apache/thrift/8101f00b0966deebd36a6ba658aa59d718453345/lib/perl/tools/FixupDist.pl",
         "https://raw.githubusercontent.com/apache/thrift/9ea48f362a578ee8556fcf3ca84215cefbc1b99e/lib/php/test/Fixtures.php",
-        "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/py/test/test_sslsocket.py",
+        "https://raw.githubusercontent.com/apache/thrift/747158c8daa994b3386f1dcb4fc9e91aed1748ad/lib/py/src/protocol/TBinaryProtocol.py",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/rb/benchmark/benchmark.rb",
         "https://raw.githubusercontent.com/apache/thrift/43f4bf2fdd13c7466e3fea690d436c6a9540f303/lib/rs/test/src/bin/kitchen_sink_client.rs",
         "https://raw.githubusercontent.com/apache/thrift/a082592d439d6aa578507ff52198038e5e08006d/lib/swift/Tests/ThriftTests/TFramedTransportTests.swift",
@@ -36,21 +36,19 @@ def download_files(cwd):
     ]
 
     directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")
+    os.makedirs(directory, exist_ok=True)
+    files = os.listdir(directory)
 
-    if not os.path.isdir(directory):
+    if len(files) != len(urls):
         print("Downloading test files")
-        os.mkdir(directory)
-        for i in url:
-            list_of = i.split(".")
-            ext = [list_of[-1]]
-            data = urllib.request.urlopen(i)
-
-            for j in range (len(ext)):
-                filename = "textcomment." + ext[j]
-                f = open(os.path.join(directory, filename), 'w')
+        for url in urls:
+            file_name = url.split(".")
+            ext = file_name[-1]
+            data = urllib.request.urlopen(url)
+            filename = "textcomment." + ext
+            with open(os.path.join(directory, filename), 'w') as f:
                 f.write(data.read().decode('utf-8'))
-                f.close
-                print(".", end="")
+            print(".", end="")
         print()
 
 

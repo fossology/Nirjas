@@ -1,3 +1,3 @@
-from .ScanOutput import ScanOutput
-from .SingleLine import SingleLine
-from .MultiLine import MultiLine
+from .scan_output import ScanOutput
+from .single_line import SingleLine
+from .multi_line import MultiLine

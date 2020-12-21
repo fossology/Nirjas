@@ -21,18 +21,21 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-class ScanOutput:
+
+class ScanOutput(object):
     '''
     Generate the output for a single file scan.
     '''
-    filename = None
-    lang = None
-    total_lines = None
-    total_lines_of_comments = None
-    blank_lines = None
-    single_line_comment = list()
-    cont_single_line_comment = list()
-    multi_line_comment = list()
+
+    def __init__(self):
+        self.filename = None
+        self.lang = None
+        self.total_lines = None
+        self.total_lines_of_comments = None
+        self.blank_lines = None
+        self.single_line_comment = list()
+        self.cont_single_line_comment = list()
+        self.multi_line_comment = list()
 
     def get_dict(self):
         '''

@@ -22,13 +22,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 
-class SingleLine:
+class MultiLine(object):
     '''
-    Store result for single line comments
+    Store result for multi line comments
     '''
 
-    def __init__(self, line_number, comment):
-        self.line_number = line_number
+    def __init__(self, start, end, comment):
+        self.start_line = start
+        self.end_line = end
         self.comment = comment
 
     def get_dict(self):
@@ -36,6 +37,7 @@ class SingleLine:
         Get the output as dictionary
         '''
         return {
-            "line_number": self.line_number,
+            "start_line": self.start_line,
+            "end_line": self.end_line,
             "comment": self.comment
         }

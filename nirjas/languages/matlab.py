@@ -32,7 +32,7 @@ def matlabExtractor(file):
     file = file.split("/")
     output = ScanOutput()
     output.filename = file[-1]
-    output.lang = 'Matlab'
+    output.lang = 'MATLAB'
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
     output.blank_lines = single_line_comment[2]
