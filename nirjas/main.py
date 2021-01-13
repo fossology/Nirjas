@@ -36,108 +36,120 @@ class NotSupportedExtension(Exception):
         return "extension '" + self.args[0] + "' not supported"
 
 
-class CommentExtractor:
+class LanguageMapper:
+    '''
+    Class to help identify language based on file extension
+    '''
+
+    LANG_MAP = {
+        '.py': 'python',
+        '.m4': 'python',
+        '.nsi': 'python',
+        '.hpp': 'cpp',
+        '.c': 'c',
+        '.h': 'cpp',
+        '.cs': 'c_sharp',
+        '.cpp': 'cpp',
+        '.scss': 'scss',
+        '.sep': 'cpp',
+        '.hxx': 'cpp',
+        '.cc': 'cpp',
+        '.css': 'css',
+        '.dart': 'dart',
+        '.go': 'go',
+        '.hs': 'haskell',
+        '.html': 'html',
+        '.xml': 'html',
+        '.java': 'java',
+        '.js': 'javascript',
+        '.jsx': 'javascript',
+        '.kt': 'kotlin',
+        '.kts': 'kotlin',
+        '.ktm': 'kotlin',
+        '.m': 'matlab',
+        '.php': 'php',
+        '.pl': 'perl',
+        '.r': 'r',
+        '.R':'r',
+        '.rb': 'ruby',
+        '.rs': 'rust',
+        '.sh': 'shell',
+        '.swift': 'swift',
+        '.scala': 'scala',
+        '.sc': 'scala',
+        '.ts': 'typescript',
+        '.tsx': 'typescript',
+        '.txt': 'text',
+        '.lic': 'text',
+        '.install': 'text',
+        '.OSS': 'text',
+        '.gl': 'text'
+    }
 
     @staticmethod
     def langIdentifier(file):
+        '''
+        Return the programming language based on extension of path passed.
+        '''
         extension = os.path.splitext(file)[1]
-
-        langMap = {
-            '.py': 'python',
-            '.m4': 'python',
-            '.nsi': 'python',
-            '.hpp': 'cpp',
-            '.c': 'c',
-            '.h': 'cpp',
-            '.cs': 'c_sharp',
-            '.cpp': 'cpp',
-            '.sep': 'cpp',
-            '.hxx': 'cpp',
-            '.cc': 'cpp',
-            '.css': 'css',
-            '.scss': 'scss',
-            '.dart': 'dart',
-            '.go': 'go',
-            '.hs': 'haskell',
-            '.html': 'html',
-            '.xml': 'html',
-            '.java': 'java',
-            '.js': 'javascript',
-            '.jsx': 'javascript',
-            '.kt': 'kotlin',
-            '.kts': 'kotlin',
-            '.ktm': 'kotlin',
-            '.m': 'matlab',
-            '.php': 'php',
-            '.pl': 'perl',
-            '.r': 'r',
-            '.R':'r',
-            '.rb': 'ruby',
-            '.rs': 'rust',
-            '.sh': 'shell',
-            '.swift': 'swift',
-            '.scala': 'scala',
-            '.sc': 'scala',
-            '.ts': 'typescript',
-            '.tsx': 'typescript',
-            '.txt': 'text',
-            '.lic': 'text',
-            '.install': 'text',
-            '.OSS': 'text',
-            '.gl': 'text'
-        }
-
-        if extension not in langMap:
+        if extension not in LanguageMapper.LANG_MAP:
             raise NotSupportedExtension(extension)
-        return langMap[extension]
+        return LanguageMapper.LANG_MAP[extension]
 
 
-def main():
+def run_and_print():
+    print(run_cli())
+
+
+def run_cli():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--path", help="Specify the input file/directory path to scan")
-    parser.add_argument("-i", "--inputFile", help="Specify the input file with the source code")
-    parser.add_argument("-s", "--string", help="The name of file you want the code in", default="source.txt")
+    parser.add_argument("path", default=None, nargs='?',
+                        help="Specify the input file/directory path to scan")
+    parser.add_argument("-i", "--inputFile", default=None,
+                        help="Specify the input file to extract the source code from")
+    parser.add_argument("-o", "--outFile",
+                        help="The name of file to put the code in",
+                        default="source.txt")
     args = parser.parse_args()
     file = args.path
     inputfile = args.inputFile
-    string_name = args.string
+    out_file = args.outFile
     try:
-        if file:
+        if file is not None:
             return file_runner(file)
         else:
-            return inputfile_runner(inputfile, string_name)
+            return inputfile_runner(inputfile, out_file)
     except NotSupportedExtension as e:
         print(e, file=os.sys.stderr)
 
 
-def file_runner(file):
-    result = []   
-    if os.path.isfile(file):
-        langname = CommentExtractor.langIdentifier(file)
-        func = langname + '.' + langname + 'Extractor'
-        output = eval(func)(file)
-        result.append(output)
+def scan_the_file(file):
+    langname = LanguageMapper.langIdentifier(file)
+    func = langname + '.' + langname + 'Extractor'
+    return eval(func)(file)
 
+def file_runner(file):
+    result = []
+    if os.path.isfile(file):
+        result = scan_the_file(file).get_dict()
     elif os.path.isdir(file):
-        for root, dirs, files in os.walk(file, topdown=True):
+        for root, dirs, files in os.walk(file, followlinks=True):
             for file in files:
+                file_to_scan = os.path.join(root, file)
                 try:
-                    if os.path.isfile(file):
-                        langname = CommentExtractor.langIdentifier(file)
-                        func = langname + '.' + langname + 'Extractor'
-                        output = eval(func)(file)
-                        result.append(output)
+                    if os.path.isfile(file_to_scan):
+                        result.append(scan_the_file(file_to_scan).get_dict())
                 except Exception:
                     continue
     result = json.dumps(result, sort_keys=False, indent=4)
     return result
 
 
-def inputfile_runner(inputfile, string_name):
-    langname = CommentExtractor.langIdentifier(inputfile)
+def inputfile_runner(inputfile, out_file):
+    langname = LanguageMapper.langIdentifier(inputfile)
     func = langname + '.' + langname + 'Source'
-    return eval(func)(inputfile, string_name)
+    return eval(func)(inputfile, out_file)
 
 
 if __name__ == "__main__":
-    main()
+    run_and_print()

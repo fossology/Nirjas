@@ -21,56 +21,53 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 from nirjas.binder import *
+from nirjas.output import ScanOutput, MultiLine
+
 
 def cssExtractor(file):
-    output = CommentSyntax()
-    result1 = output.slashStar(file)
+    result = CommentSyntax()
+    multiline_comment = result.slashStar(file)
     file = file.split("/")
+    output = ScanOutput()
+    output.filename = file[-1]
+    output.lang = 'CSS'
+    output.total_lines = multiline_comment[4]
+    output.total_lines_of_comments = multiline_comment[3]
+    output.blank_lines = multiline_comment[5]
 
-    output = {
-        "metadata": [{
-        "filename": file[-1],
-        "lang": "CSS",
-        "total_lines": result1[4],
-        "total_lines_of_comments": result1[3],
-        "blank_lines": result1[5],
-        "sloc": result1[4]-(result1[3]+result1[5])
-        }],
-        "single_line_comment": [],
-        "multi_line_comment": []
-    }
-    if result1:
-        try:
-            for idx,i in enumerate(result1[0]):
-                output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
-        except:
-            pass
+    try:
+        for idx, i in enumerate(multiline_comment[0]):
+            output.multi_line_comment.append(MultiLine(multiline_comment[0][idx],
+                                                       multiline_comment[1][idx],
+                                                       multiline_comment[2][idx]))
+    except:
+        pass
+
     return output
 
 
-def cssSource(file, newFile: str):
-    closingCount = 0
+def cssSource(file, new_file: str):
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '/*':
-                    closingCount+=1
+            for line in f:
+                content = ""
+                found = False
+                if '/*' in line:
+                    pos = line.find('/*')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if line.strip() == '*/':
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '/*' and line.strip() != '*/':
-                        # Templine = line.replace(" ","")
-                        # if Templine[0:2] != "syntax":            # Syntax for single line comment
-                        f1.write(line)
+                    found = True
+                if '*/' in line:
+                    content = content + line[line.rfind('*/') + 2:]
+                    line = content
+                    copy = True
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

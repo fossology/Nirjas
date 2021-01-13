@@ -21,67 +21,73 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 from nirjas.binder import *
+from nirjas.output import ScanOutput, MultiLine
+
 
 def htmlExtractor(file):
     result = CommentSyntax()
-    result1 = result.gtExclamationDash(file)
-    result2 = result.slashStar(file)
+    multiline_dash_comment = result.gtExclamationDash(file)
+    multiline_star_comment = result.slashStar(file)
     file = file.split("/")
-    output = {
-        "metadata": [{
-        "filename": file[-1],
-        "lang": "HTML",
-        "total_lines": result1[4],
-        "total_lines_of_comments": result1[3]+result2[3],
-        "blank_lines": result1[5],
-        "sloc": result1[4]-(result1[3]+result2[3]+result1[5])
-        }],
-        "single_line_comment": [],
-        "cont_single_line_comment": [],
-        "multi_line_comment": []
-    }
+    output = ScanOutput()
+    output.filename = file[-1]
+    output.lang = 'HTML'
+    output.total_lines = multiline_dash_comment[4]
+    output.total_lines_of_comments = multiline_dash_comment[3] + multiline_star_comment[3]
+    output.blank_lines = multiline_dash_comment[5]
 
+    try:
+        for idx, i in enumerate(multiline_dash_comment[0]):
+            output.multi_line_comment.append(MultiLine(
+                multiline_dash_comment[0][idx], multiline_dash_comment[1][idx],
+                multiline_dash_comment[2][idx]))
+    except:
+        pass
 
-    if result1:
-        try:
-            for idx,i in enumerate(result1[0]):
-                output['multi_line_comment'].append({"start_line": result1[0][idx], "end_line": result1[1][idx], "comment": result1[2][idx]})
-        except:
-            pass
-        
-    if result2:
-        try:
-            for idx,i in enumerate(result2[0]):
-                output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
-        except:
-            pass
-        
+    try:
+        for idx, i in enumerate(multiline_star_comment[0]):
+            output.multi_line_comment.append(MultiLine(
+                multiline_star_comment[0][idx], multiline_star_comment[1][idx],
+                multiline_star_comment[2][idx]))
+    except:
+        pass
+
     return output
 
 
-def htmlSource(file, newFile: str):
-    closingCount = 0
+def htmlSource(file, new_file: str):
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '/*':
-                    closingCount+=1
+            for line in f:
+                content = ""
+                found = False
+                if '/*' in line:
+                    pos = line.find('/*')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if line.strip() == '*/':
-                    closingCount+=1
+                    found = True
+                if '*/' in line:
+                    content = content + line[line.rfind('*/') + 2:]
+                    line = content
+                    copy = True
+                    found = True
+                if '<!--' in line:
+                    pos = line.find('<!--')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '/*' and line.strip() != '*/':
-                        Templine = line.replace(" ","")
-                        if Templine[0:2] != "<!--":            # Syntax for single line comment
-                            f1.write(line)
+                    found = True
+                if '-->' in line:
+                    content = content + line[line.rfind('-->') + 3:]
+                    line = content
+                    copy = True
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

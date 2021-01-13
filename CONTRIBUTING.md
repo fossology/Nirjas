@@ -1,9 +1,12 @@
 # Contributing
 
-Nirjas welcomes any form of contribution or suggestions. We believe that open source is all about collaborative working to make the project and community stronger than ever. Whether you are a beginner or an experienced developer, each and every contribution counts.
+Nirjas welcomes any form of contribution or suggestions. We believe that open
+source is all about collaborative working to make the project and community
+stronger than ever. Whether you are a beginner or an experienced developer, each
+and every contribution counts.
 
 You can contribute to Nirjas by:
-1. Opening a valid issue: visit https://github.com/fossology/nirjas/issues 
+1. Opening a valid issue: visit https://github.com/fossology/nirjas/issues
 2. Help us in closing an [existing issue](https://github.com/fossology/nirjas/issues)
 3. Open a [Pull Request](https://github.com/fossology/nirjas/pulls)
 4. Suggest us some new agent for license scanning
@@ -14,8 +17,9 @@ You can contribute to Nirjas by:
 
 
 ### Setting up a python virtual environment
-* venv (for Python 3) allow you to manage separate package installations for different projects. 
-* To create a virtual environment, go to your project’s directory and run venv. 
+* venv (for Python 3) allow you to manage separate package installations for
+  different projects.
+* To create a virtual environment, go to your project’s directory and run venv.
 
 * On macOS and Linux:
 
@@ -25,12 +29,13 @@ You can contribute to Nirjas by:
 
     `py -m venv env`
 
-> The second argument is the location to create the virtual environment. Generally, you can just create this in your project and call it env.
+> The second argument is the location to create the virtual environment.
+> Generally, you can just create this in your project and call it env.
 
 
-### Activating a virtual environment 
+### Activating a virtual environment
 * On macOS and Linux:
-    
+
     `source env/bin/activate`
 
 * On Windows:
@@ -38,20 +43,24 @@ You can contribute to Nirjas by:
     `.\env\Scripts\activate`
 
 * Leaving the virtual environment
-If you want to switch projects or otherwise leave your virtual environment, simply run:
+If you want to switch projects or otherwise leave your virtual environment,
+simply run:
 
     `deactivate`
 
 ***
 
 
-## Report a valid issue  
+## Report a valid issue
 
-Nirjas uses [GitHub's issue tracker](https://github.com/fossology/nirjas/issues). All bugs and enhancements should be listed so that we don't lose track of them, can prioritize and assign them to the relevant developer or maintainer.
+Nirjas uses [GitHub's issue tracker](https://github.com/fossology/nirjas/issues).
+All bugs and enhancements should be listed so that we don't lose track of them,
+can prioritize and assign them to the relevant developer or maintainer.
 
-Consider the following recommended best practice for writing issues, which are (Recommended but not limited to):
+Consider the following recommended best practice for writing issues, which are
+(Recommended but not limited to):
 1. More detailed description rather than one-liners
-2. Screenshots 
+2. Screenshots
 3. Providing example files and error logs
 4. How to reproduce it
 5. Details of your local system or environment that you're using
@@ -62,7 +71,7 @@ Please follow the [Coding Style](https://www.python.org/dev/peps/pep-0008/) (PEP
 
 **Not Familiar with Git?**
 
-> Invest a few minutes on our [Git Tutorial](https://github.com/fossology/fossology/wiki/Git-basic-commands) 
+> Invest a few minutes on our [Git Tutorial](https://github.com/fossology/fossology/wiki/Git-basic-commands)
 
 ### Workflow
 
@@ -110,18 +119,20 @@ feat(CosineSim): Implemented similarity score to approximately match headers
 
 Allowed types:
 
-*   **feat**: A new feature
-*   **fix**: A bug fix
-*   **docs**: Documentation only changes
-*   **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, newline, line endings, etc)
-*   **refactor**: A code change that neither fixes a bug or adds a feature
-*   **perf**: A code change that improves performance
-*   **test**: Adding missing tests
-*   **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
+* **feat**: A new feature
+* **fix**: A bug fix
+* **docs**: Documentation only changes
+* **style**: Changes that do not affect the meaning of the code (white-space,
+  formatting, missing semi-colons, newline, line endings, etc)
+* **refactor**: A code change that neither fixes a bug or adds a feature
+* **perf**: A code change that improves performance
+* **test**: Adding missing tests
+* **chore**: Changes to the build process or auxiliary tools and libraries such
+  as documentation generation
 
-## Making a change with a pull request 
+## Making a change with a pull request
 
-Pull requests with patches, improvements and new features are a great help. 
+Pull requests with patches, improvements and new features are a great help.
 
 #### 1. Fork the project, clone your fork, and add the remote:
 
@@ -133,7 +144,7 @@ git clone https://github.com/<USERNAME>/Nirjas.git
 cd Nirjas
 
 # Assign the original repo to a remote called "upstream"
-git remote add upstream git@github.com:fossology/Nirjas.git 
+git remote add upstream git@github.com:fossology/Nirjas.git
 ```
 #### 2. Get the latest changes from upstream:
 
@@ -144,24 +155,25 @@ git pull upstream master
 
 #### 3. Create a new branch from the main master branch to contain your changes:
 
-```sh 
-git checkout -b <topic-branch-name> 
+```sh
+git checkout -b <topic-branch-name>
 ```
 
 #### 4. Add and Commit your changes
 
 ```sh
-git add <path/to/modified/file/> 
+git add <path/to/modified/file/>
 git commit -m "write a commit message"
 ```
-> Examine the status of your working tree at each step to see if everything is clean
+> Examine the status of your working tree at each step to see if everything is
+> clean
 >```sh
 > git status
 > ```
 
 Push your topic branch up to your fork:
 ```sh
-git push origin <topic-branch-name> 
+git push origin <topic-branch-name>
 ```
 
 #### 5. Open a Pull Request with a clear title and description against the master branch.
@@ -169,18 +181,21 @@ git push origin <topic-branch-name>
 [Open a Pull Request.](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 
-A maintainer/developer will review and might suggest some changes before merging them into the repository.
+A maintainer/developer will review and might suggest some changes before merging
+them into the repository.
 
-Success!! :tada:  Well done! :bowing_man: 
+Success!! :tada:  Well done! :bowing_man:
 
 
 ***
 
 
-## A Special Note 
+## A Special Note
 
-Thank you for reading through and we look forward to your valuable contribution! :smiley:  
+Thank you for reading through and we look forward to your valuable contribution!
+:smiley:
 
-We appreciate the hard work and time of our contributors who have built and maintained the project! :raised_hands:
+We appreciate the hard work and time of our contributors who have built and
+maintained the project! :raised_hands:
 
-You are Awesome! :star2: :star_struck: 
+You are Awesome! :star2: :star_struck:

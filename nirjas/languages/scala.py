@@ -21,70 +21,70 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 from nirjas.binder import *
+from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def scalaExtractor(file):
     result = CommentSyntax()
-    result1 = result.doubleSlash(file)
-    result2 = result.slashStar(file)
-    result4 = contSingleLines(result1)
+    single_line_comment = result.doubleSlash(file)
+    multiline_comment = result.slashStar(file)
+    cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
-    output = {
-        "metadata": [{
-        "filename": file[-1],
-        "lang": "Scala",
-        "total_lines": result1[1],
-        "total_lines_of_comments": result1[3]+result2[3],
-        "blank_lines": result1[2],
-        "sloc": result1[1]-(result1[3]+result2[3]+result1[2])
-        }],
-        "single_line_comment": [],
-        "cont_single_line_comment": [],
-        "multi_line_comment": []
-    }
+    output = ScanOutput()
+    output.filename = file[-1]
+    output.lang = 'Scala'
+    output.total_lines = single_line_comment[1]
+    output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
+    output.blank_lines = single_line_comment[2]
 
-    if result4:
-        result1 = result4[0]
+    if cont_single_line_comment:
+        single_line_comment = cont_single_line_comment[0]
 
-    if result1:
-        for i in result1[0]:
-            output['single_line_comment'].append({"line_number" :i[0],"comment": i[1]})
+    for i in single_line_comment[0]:
+        output.single_line_comment.append(SingleLine(i[0], i[1]))
 
-    if result4:
-        for idx,i in enumerate(result4[1]):
-            output['cont_single_line_comment'].append({"start_line": result4[1][idx], "end_line": result4[2][idx], "comment": result4[3][idx]})
+    for idx, i in enumerate(cont_single_line_comment[1]):
+        output.cont_single_line_comment.append(MultiLine(
+            cont_single_line_comment[1][idx], cont_single_line_comment[2][idx],
+            cont_single_line_comment[3][idx]))
 
-    if result2:
-        for idx,i in enumerate(result2[0]):
-            output['multi_line_comment'].append({"start_line": result2[0][idx], "end_line": result2[1][idx], "comment": result2[2][idx]})
-        
+    for idx, i in enumerate(multiline_comment[0]):
+        output.multi_line_comment.append(MultiLine(multiline_comment[0][idx],
+                                                   multiline_comment[1][idx],
+                                                   multiline_comment[2][idx]))
 
     return output
 
 
-def scalaSource(file, newFile: str):
-    closingCount = 0
+def scalaSource(file, new_file: str):
     copy = True
-    with open(newFile, 'w+') as f1:
+    with open(new_file, 'w+') as f1:
         with open(file) as f:
-            for lineNumber, line in enumerate(f, start=1):
-                if line.strip() == '/*':
-                    closingCount+=1
+            for line in f:
+                content = ""
+                found = False
+                if '/*' in line:
+                    pos = line.find('/*')
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
                     copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if line.strip() == '*/':
-                    closingCount+=1
-                    copy = False
-                    if closingCount%2 == 0:
-                        copy = True
-
-                if copy:
-                    if line.strip() != '/*' and line.strip() != '*/':
-                        Templine = line.replace(" ","")
-                        if Templine[0:2] != "//":            # Syntax for single line comment
-                            f1.write(line)
+                    found = True
+                if '*/' in line:
+                    content = content + line[line.rfind('*/') + 2:]
+                    line = content
+                    copy = True
+                    found = True
+                if '//' in line:
+                    if line[line.find('//') - 1] != ':':
+                        line = line[:line.find('//')].rstrip() + '\n'
+                    elif line[line.rfind('//') - 1] != ':':
+                        line = line[:line.rfind('//')].rstrip() + '\n'
+                    content = line
+                    found = True
+                if not found:
+                    content = line
+                if copy and content.strip() != '':
+                    f1.write(content)
     f.close()
     f1.close()
-    return newFile
+    return new_file

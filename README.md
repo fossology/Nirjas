@@ -5,7 +5,7 @@
 <p align="center">✨ 🍰 ✨</p>
 
 <p align="center">
-    
+
 ![python version](https://img.shields.io/badge/Python-v3%2B-blue)
 ![Unit Tests](https://github.com/fossology/Nirjas/workflows/Unit%20Tests/badge.svg)
 ![status](https://img.shields.io/pypi/status/Nirjas)
@@ -19,7 +19,7 @@
 
 ## Description
 
-A source code file usually contains various vital information such as license text, function/class documentation, code/logic explanation, etc in the form of comments (block & line). 
+A source code file usually contains various vital information such as license text, function/class documentation, code/logic explanation, etc in the form of comments (block & line).
 
 Nirjas is a fully dedicated python library to extract the comments and source code out of your file(s). The extracted comments can be processed in various ways to detect licenses, generate documentation, process info, etc.
 
@@ -31,7 +31,7 @@ Apart from that the library serves you with all the required metadata about your
 Installing Python on Linux machines:
 
 ```sh
-$ sudo apt-get install python3 python3-pip 
+$ sudo apt-get install python3 python3-pip
 ```
 
 For macOS and Windows, packages are available at [Python.org](https://www.python.org/downloads/)
@@ -102,16 +102,16 @@ Upgrade already installed Nirjas library to the latest version from [PyPI](https
 pip3 install --upgrade Nirjas
 ```
 
-### Install using source 
+### Install using source
 
-If you are interested in contributing to [Nirjas](https://github.com/fossology/Nirjas) development, running the latest source code, or just like to build everything yourself, it is not difficult to install & build [Nirjas](https://github.com/fossology/Nirjas) from the source. 
+If you are interested in contributing to [Nirjas](https://github.com/fossology/Nirjas) development, running the latest source code, or just like to build everything yourself, it is not difficult to install & build [Nirjas](https://github.com/fossology/Nirjas) from the source.
 
 * Fork the [repo](https://github.com/fossology/Nirjas)
 
 * Clone on your local system
 
 ```sh
-git clone https://github.com/fossology/Nirjas.git 
+git clone https://github.com/fossology/Nirjas.git
 ```
 
 * Change directory
@@ -126,7 +126,7 @@ cd Nirjas/
 pip3 install .
 ```
 
-> This will install Nirjas on your system. 
+> This will install Nirjas on your system.
 
 
 * Check if Nirjas is installed correctly or get help, Run:
@@ -180,11 +180,11 @@ We maintain our entire documentation at GitHub wiki.
 Feel free to switch from `code` to `wiki` or just click here - [Nirjas Documentation](https://github.com/fossology/Nirjas/wiki)
 
 
-## Contributing 
+## Contributing
 
 All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.
 
-A detailed overview on how to contribute can be found in the [contributing guide](/CONTRIBUTING.md). 
+A detailed overview on how to contribute can be found in the [contributing guide](/CONTRIBUTING.md).
 
 Feel free to ask questions or discuss suggestions on [Slack](https://fossology.slack.com/)
 

@@ -25,7 +25,6 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-
 CLASSIFIERS = """\
 Development Status :: 4 - Beta
 License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
@@ -36,7 +35,6 @@ Topic :: Utilities
 Topic :: Software Development
 Topic :: Text Processing
 """
-
 
 setup(
     name='Nirjas',
@@ -51,12 +49,12 @@ setup(
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
     keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',
     packages=find_packages(),
-    python_requires = ">=3",
-    entry_points = {
+    python_requires=">=3",
+    entry_points={
         'console_scripts': [
-            'nirjas = nirjas.main:main'
+            'nirjas = nirjas.main:run_and_print'
         ]
     },
-    license = "LGPL-2.1-or-later",
-    platforms = ['any']
+    license="LGPL-2.1-or-later",
+    platforms=['any']
 )
