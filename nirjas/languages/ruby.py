@@ -26,7 +26,7 @@ from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 def rubyExtractor(file):
     result = CommentSyntax()
-    single_line_comment = result.hash(file)
+    single_line_comment = result.hashNoCurl(file)
     multiline_comment = result.beginEnd(file)
     cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
