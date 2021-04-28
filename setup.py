@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+
 SPDX-License-Identifier: LGPL-2.1
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -16,9 +18,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from setuptools import setup, find_packages
 from os import path
 from io import open
+from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 # fetch the long description from the README.md
@@ -47,7 +49,8 @@ setup(
     author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',
 
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
-    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor, Source Code Extractor, Source Extractor',
+    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor,' +
+             ' Source Code Extractor, Source Extractor',
     packages=find_packages(),
     python_requires=">=3",
     entry_points={
