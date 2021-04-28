@@ -35,7 +35,7 @@ class CTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         comment_single = readSingleLine(self.testfile, regex)

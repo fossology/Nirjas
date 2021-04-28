@@ -35,7 +35,7 @@ class ShellTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         comment_single = readSingleLine(self.testfile, regex)
         self.assertTrue(comment_single)
 
@@ -43,7 +43,7 @@ class ShellTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         expected = shell.shellExtractor(self.testfile).get_dict()
         comment_single = readSingleLine(self.testfile, regex)
         comment_contSingleline = contSingleLines(comment_single)

@@ -35,7 +35,7 @@ class RustTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         comment_single = readSingleLine(self.testfile, regex)
@@ -50,7 +50,7 @@ class RustTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         expected = rust.rustExtractor(self.testfile).get_dict()

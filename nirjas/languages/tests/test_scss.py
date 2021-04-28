@@ -39,7 +39,7 @@ class ScssTest(unittest.TestCase):
         Check for the scan correctness.
         '''
         regex1 = r'''(?<!\/)\/\/(?!\/)\s*(.*)'''
-        regex2 = r'''\/\/\/\s*(.*)'''
+        regex2 = r'''(?<!["'`])\/\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         comment_single_doubleSlash = readSingleLine(self.testfile, regex1)
@@ -59,7 +59,7 @@ class ScssTest(unittest.TestCase):
         Check for the output format correctness.
         '''
         regex1 = r'''(?<!\/)\/\/(?!\/)\s*(.*)'''
-        regex2 = r'''\/\/\/\s*(.*)'''
+        regex2 = r'''(?<!["'`])\/\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         expected = scss.scssExtractor(self.testfile).get_dict()
