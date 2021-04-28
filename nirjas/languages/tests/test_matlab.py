@@ -35,7 +35,7 @@ class matlabTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''\%\s*(.*)'''
+        regex = r'''(?<!["'`])\%\s*(.*)'''
         syntax_start = "%{"
         syntax_end = "%}"
         comment_single = readSingleLine(self.testfile, regex)
@@ -50,7 +50,7 @@ class matlabTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''\%\s*(.*)'''
+        regex = r'''(?<!["'`])\%\s*(.*)'''
         syntax_start = "%{"
         syntax_end = "%}"
         expected = matlab.matlabExtractor(self.testfile).get_dict()

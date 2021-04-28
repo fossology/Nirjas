@@ -35,7 +35,7 @@ class PythonTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         syntax_single = "'''"
         syntax_double = '"""'
         comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
@@ -51,7 +51,7 @@ class PythonTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         syntax_single = "'''"
         syntax_double = '"""'
         expected = python.pythonExtractor(self.testfile).get_dict()

@@ -35,7 +35,7 @@ class CSharpTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         comment_single = readSingleLine(self.testfile, regex)
@@ -51,7 +51,7 @@ class CSharpTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
         syntax_start = "/*"
         syntax_end = '*/'
         expected = c_sharp.c_sharpExtractor(self.testfile).get_dict()

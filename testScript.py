@@ -69,7 +69,7 @@ def download_files(cwd):
             ext = file_name[-1]
             with urllib.request.urlopen(url) as data:
                 filename = "textcomment." + ext
-                with open(os.path.join(directory, filename), 'w') as newfile:
+                with open(os.path.join(directory, filename), 'w', encoding='utf-8') as newfile:
                     newfile.write(data.read().decode('utf-8'))
             print(".", end="")
         print()

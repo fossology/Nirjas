@@ -35,7 +35,7 @@ class RubyTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+(?!\{)\s*(.*)'''
         syntax_start = "=begin"
         syntax_end = "=end"
         comment_single = readSingleLine(self.testfile, regex)
@@ -50,7 +50,7 @@ class RubyTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+(?!\{)\s*(.*)'''
         syntax_start = "=begin"
         syntax_end = "=cut"
         expected = ruby.rubyExtractor(self.testfile).get_dict()

@@ -35,7 +35,7 @@ class rTest(unittest.TestCase):
         '''
         Check for the scan correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         comment_single = readSingleLine(self.testfile, regex)
         self.assertTrue(comment_single)
 
@@ -43,7 +43,7 @@ class rTest(unittest.TestCase):
         '''
         Check for the output format correctness.
         '''
-        regex = r'''#+\s*(.*)'''
+        regex = r'''(?<!["'`])#+\s*(.*)'''
         expected = r.rExtractor(self.testfile).get_dict()
         comment_single = readSingleLine(self.testfile, regex)
         file = self.testfile.split("/")
