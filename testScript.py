@@ -1,11 +1,34 @@
 #!/usr/bin/env python3
 
+'''
+Script to download test files and test Nirjas on them.
+
+SPDX-License-Identifier: LGPL-2.1
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+'''
+
 import urllib.request
 import unittest
+import sys
 import os
 
 
 def download_files(cwd):
+    '''
+    Download the files from github and place them under
+    'nirjas/languages/tests/TestFiles'
+    '''
 
     urls = [
         "https://raw.githubusercontent.com/fossology/fossology/6793719f9837fa6585744c09f9882a31024d26e9/src/lib/c/libfossdbmanager.c",
@@ -44,10 +67,10 @@ def download_files(cwd):
         for url in urls:
             file_name = url.split(".")
             ext = file_name[-1]
-            data = urllib.request.urlopen(url)
-            filename = "textcomment." + ext
-            with open(os.path.join(directory, filename), 'w') as f:
-                f.write(data.read().decode('utf-8'))
+            with urllib.request.urlopen(url) as data:
+                filename = "textcomment." + ext
+                with open(os.path.join(directory, filename), 'w') as newfile:
+                    newfile.write(data.read().decode('utf-8'))
             print(".", end="")
         print()
 
@@ -60,5 +83,4 @@ if __name__ == "__main__":
     test_suite = test_loader.discover('nirjas/languages/tests',
                                       pattern='test_*.py')
     result = test_runner.run(test_suite)
-    exit(int(not result.wasSuccessful()))
-
+    sys.exit(int(not result.wasSuccessful()))
