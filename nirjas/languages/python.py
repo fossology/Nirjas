@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -20,11 +21,18 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from nirjas.binder import *
+from nirjas.binder import CommentSyntax, contSingleLines
 from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def pythonExtractor(file):
+    '''
+    Extract comments from Python file.
+    :param file: File to scan
+    :type file: string
+    :return: Scan output
+    :rtype: ScanOutput
+    '''
     result = CommentSyntax()
     single_line_comment = result.hash(file)
     multiline_single_comment = result.singleQuotes(file)
@@ -35,7 +43,9 @@ def pythonExtractor(file):
     output.filename = file[-1]
     output.lang = 'Python'
     output.total_lines = single_line_comment[1]
-    output.total_lines_of_comments = single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3]
+    output.total_lines_of_comments = single_line_comment[3] + \
+                                     multiline_single_comment[3] + \
+                                     multiline_double_comment[3]
     output.blank_lines = single_line_comment[2]
 
     if cont_single_line_comment:
@@ -44,13 +54,13 @@ def pythonExtractor(file):
     for i in single_line_comment[0]:
         output.single_line_comment.append(SingleLine(i[0], i[1]))
 
-    for idx, i in enumerate(cont_single_line_comment[1]):
+    for idx, _ in enumerate(cont_single_line_comment[1]):
         output.cont_single_line_comment.append(MultiLine(
             cont_single_line_comment[1][idx], cont_single_line_comment[2][idx],
             cont_single_line_comment[3][idx]))
 
     try:
-        for idx, i in enumerate(multiline_single_comment[0]):
+        for idx, _ in enumerate(multiline_single_comment[0]):
             output.multi_line_comment.append(MultiLine(
                 multiline_single_comment[0][idx],
                 multiline_single_comment[1][idx],
@@ -59,7 +69,7 @@ def pythonExtractor(file):
         pass
 
     try:
-        for idx, i in enumerate(multiline_double_comment[0]):
+        for idx, _ in enumerate(multiline_double_comment[0]):
             output.multi_line_comment.append(MultiLine(
                 multiline_double_comment[0][idx],
                 multiline_double_comment[1][idx],
@@ -71,6 +81,15 @@ def pythonExtractor(file):
 
 
 def pythonSource(file, new_file: str):
+    '''
+    Extract source from Python file and put at new_file.
+    :param file: File to process
+    :type file: string
+    :param new_file: File to put source at
+    :type new_file: string
+    :return: Path to new file
+    :rtype: string
+    '''
     copy = True
     with open(new_file, 'w+') as f1:
         with open(file) as f:

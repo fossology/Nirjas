@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -24,10 +25,17 @@ from nirjas.output import ScanOutput, MultiLine
 
 
 def textExtractor(file):
+    '''
+    Extract comments from txt file.
+    :param file: File to scan
+    :type file: string
+    :return: Scan output
+    :rtype: ScanOutput
+    '''
     content = ""
     total_lines, blank_lines = 0, 0
     with open(file) as f:
-        for line_number, line in enumerate(f, start=1):
+        for line in f:
             total_lines += 1
             line = line.strip()
             content = content + line.replace('\n', ' ')
