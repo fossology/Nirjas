@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 Copyright (C) 2020  Aman Dwivedi (aman.dwivedi5@gmail.com)
 
@@ -21,32 +23,42 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 import unittest
 import os
 from nirjas.languages import typescript
-from nirjas.binder import readSingleLine, readMultiLineDiff
+from nirjas.binder import readSingleLine, readMultiLineDiff, contSingleLines
 
 
 class TSTest(unittest.TestCase):
+    '''
+    Test cases for TypeScript language.
+    :ivar testfile: Location of test file
+    '''
     testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.ts")
 
     def test_output(self):
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
-        self.syntax_start = "/*"
-        self.syntax_end = '*/'
-        sign = '//'
-        comment_single = typescript.readSingleLine(self.testfile, regex, sign)
-        comment_multiline = typescript.readMultiLineDiff(self.testfile, self.syntax_start, self.syntax_end)
-        comment_contSingleline = typescript.contSingleLines(comment_single)
+        '''
+        Check for the scan correctness.
+        '''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
+        syntax_start = "/*"
+        syntax_end = '*/'
+        comment_single = readSingleLine(self.testfile, regex)
+        comment_multiline = readMultiLineDiff(self.testfile, syntax_start,
+                                              syntax_end)
+        comment_contSingleline = contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)
 
     def test_outputFormat(self):
-        regex = r'''(?<![pst]:)\/\/\s*(.*)'''
-        self.syntax_start = "/*"
-        self.syntax_end = '*/'
-        sign = '//'
+        '''
+        Check for the output format correctness.
+        '''
+        regex = r'''(?<![pst'"`]:)\/\/\s*(.*)'''
+        syntax_start = "/*"
+        syntax_end = '*/'
         expected = typescript.typescriptExtractor(self.testfile).get_dict()
-        comment_single = readSingleLine(self.testfile, regex, sign)
-        comment_multiline = readMultiLineDiff(self.testfile, self.syntax_start, self.syntax_end)
+        comment_single = readSingleLine(self.testfile, regex)
+        comment_multiline = readMultiLineDiff(self.testfile, syntax_start,
+                                              syntax_end)
         comment_contSingleline = typescript.contSingleLines(comment_single)
         file = self.testfile.split("/")
         output = {
@@ -69,18 +81,25 @@ class TSTest(unittest.TestCase):
         for i in comment_single[0]:
             output['single_line_comment'].append({"line_number":i[0], "comment": i[1]})
 
-        for idx, i in enumerate(comment_contSingleline[1]):
-            output['cont_single_line_comment'].append({"start_line": comment_contSingleline[1][idx], "end_line": comment_contSingleline[2][idx], "comment": comment_contSingleline[3][idx]})
+        for idx, _ in enumerate(comment_contSingleline[1]):
+            output['cont_single_line_comment'].append({
+              "start_line": comment_contSingleline[1][idx],
+              "end_line": comment_contSingleline[2][idx],
+              "comment": comment_contSingleline[3][idx]})
 
-        try:
-            for idx, i in enumerate(comment_multiline[0]):
-                output['multi_line_comment'].append({"start_line": comment_multiline[0][idx], "end_line": comment_multiline[1][idx], "comment": comment_multiline[2][idx]})
-        except:
-            pass
+        for idx, _ in enumerate(comment_multiline[0]):
+            output['multi_line_comment'].append({
+              "start_line": comment_multiline[0][idx],
+              "end_line": comment_multiline[1][idx],
+              "comment": comment_multiline[2][idx]})
 
         self.assertEqual(output, expected)
 
     def test_Source(self):
+        '''
+        Test the source code extraction.
+        Call the source function and check if new file exists.
+        '''
         name = "source.txt"
         newfile = typescript.typescriptSource(self.testfile, name)
 

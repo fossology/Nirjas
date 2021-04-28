@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -24,9 +25,7 @@ import os
 import json
 import argparse
 
-from nirjas.binder import *
 from nirjas.languages import *
-
 
 class NotSupportedExtension(Exception):
     '''
@@ -98,10 +97,16 @@ class LanguageMapper:
 
 
 def run_and_print():
+    '''
+    Call the run_cli() method and print results to stdout.
+    '''
     print(run_cli())
 
 
 def run_cli():
+    '''
+    Accept the parameters from CLI, run the nirjas logic and return the results.
+    '''
     parser = argparse.ArgumentParser()
     parser.add_argument("path", default=None, nargs='?',
                         help="Specify the input file/directory path to scan")
@@ -117,25 +122,40 @@ def run_cli():
     try:
         if file is not None:
             return file_runner(file)
-        else:
-            return inputfile_runner(inputfile, out_file)
+        return inputfile_runner(inputfile, out_file)
     except NotSupportedExtension as e:
         print(e, file=os.sys.stderr)
+        return None
 
 
 def scan_the_file(file):
+    '''
+    Run scanner on single file and return the results.
+    :param file: File to scan
+    :type file: string
+    :return: Scan result
+    :rtype: ScanOutput
+    '''
     langname = LanguageMapper.langIdentifier(file)
     func = langname + '.' + langname + 'Extractor'
     return eval(func)(file)
 
 def file_runner(file):
+    '''
+    Check if the input is a file or a directory and iterate with
+    scan_the_file()
+    :param file: Path to scan
+    :type file: string
+    :return: List of scan result
+    :rtype: list
+    '''
     result = []
     if os.path.isfile(file):
         result = scan_the_file(file).get_dict()
     elif os.path.isdir(file):
-        for root, dirs, files in os.walk(file, followlinks=True):
-            for file in files:
-                file_to_scan = os.path.join(root, file)
+        for root, _, files in os.walk(file, followlinks=True):
+            for scanfile in files:
+                file_to_scan = os.path.join(root, scanfile)
                 try:
                     if os.path.isfile(file_to_scan):
                         result.append(scan_the_file(file_to_scan).get_dict())
@@ -146,6 +166,13 @@ def file_runner(file):
 
 
 def inputfile_runner(inputfile, out_file):
+    '''
+    Extract the source from inputfile and put at out_file.
+    :param inputfile: File to process
+    :type inputfile: string
+    :param out_file: Output file location
+    :type out_file: string
+    '''
     langname = LanguageMapper.langIdentifier(inputfile)
     func = langname + '.' + langname + 'Source'
     return eval(func)(inputfile, out_file)

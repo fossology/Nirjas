@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
 
-class ScanOutput(object):
+class ScanOutput:
     '''
     Generate the output for a single file scan.
     '''

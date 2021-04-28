@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -20,11 +21,18 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from nirjas.binder import *
+from nirjas.binder import CommentSyntax, contSingleLines
 from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def shellExtractor(file):
+    '''
+    Extract comments from Shell file.
+    :param file: File to scan
+    :type file: string
+    :return: Scan output
+    :rtype: ScanOutput
+    '''
     result = CommentSyntax()
     single_line_comment = result.hash(file)
     cont_single_line_comment = contSingleLines(single_line_comment)
@@ -42,7 +50,7 @@ def shellExtractor(file):
     for i in single_line_comment[0]:
         output.single_line_comment.append(SingleLine(i[0], i[1]))
 
-    for idx, i in enumerate(cont_single_line_comment[1]):
+    for idx, _ in enumerate(cont_single_line_comment[1]):
         output.cont_single_line_comment.append(MultiLine(
             cont_single_line_comment[1][idx], cont_single_line_comment[2][idx],
             cont_single_line_comment[3][idx]))
@@ -51,6 +59,15 @@ def shellExtractor(file):
 
 
 def shellSource(file, new_file: str):
+    '''
+    Extract source from Shell file and put at new_file.
+    :param file: File to process
+    :type file: string
+    :param new_file: File to put source at
+    :type new_file: string
+    :return: Path to new file
+    :rtype: string
+    '''
     with open(new_file, 'w+') as f1:
         with open(file) as f:
             for line in f:

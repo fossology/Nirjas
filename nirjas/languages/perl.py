@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com), Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
+Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -20,11 +21,18 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from nirjas.binder import *
+from nirjas.binder import CommentSyntax, contSingleLines
 from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def perlExtractor(file):
+    '''
+    Extract comments from Perl file.
+    :param file: File to scan
+    :type file: string
+    :return: Scan output
+    :rtype: ScanOutput
+    '''
     result = CommentSyntax()
     single_line_comment = result.hash(file)
     multiline_comment = result.beginCut(file)
@@ -57,7 +65,15 @@ def perlExtractor(file):
 
 
 def perlSource(file, new_file: str):
-    closingCount = 0
+    '''
+    Extract source from Perl file and put at new_file.
+    :param file: File to process
+    :type file: string
+    :param new_file: File to put source at
+    :type new_file: string
+    :return: Path to new file
+    :rtype: string
+    '''
     copy = True
     with open(new_file, 'w+') as f1:
         with open(file) as f:
