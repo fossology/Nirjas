@@ -9,7 +9,6 @@
 ![python version](https://img.shields.io/badge/Python-v3%2B-blue)
 ![Unit Tests](https://github.com/fossology/Nirjas/workflows/Unit%20Tests/badge.svg)
 ![status](https://img.shields.io/pypi/status/Nirjas)
-[![HitCount](http://hits.dwyl.com/fossology/Nirjas.svg)](http://hits.dwyl.com/fossology/Nirjas)
 ![License LGPL-2.1](https://img.shields.io/github/license/fossology/nirjas)
 ![release](https://img.shields.io/github/v/release/fossology/Nirjas)
 [![Slack Channel](https://img.shields.io/badge/slack-fossology-blue.svg?longCache=true&logo=slack)](https://join.slack.com/t/fossology/shared_invite/enQtNzI0OTEzMTk0MjYzLTYyZWQxNDc0N2JiZGU2YmI3YmI1NjE4NDVjOGYxMTVjNGY3Y2MzZmM1OGZmMWI5NTRjMzJlNjExZGU2N2I5NGY)
