@@ -1,8 +1,7 @@
-# Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
-# Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
-# Aswin Murali (aswinmurali.co@gmail.com)
+# Copyright (C) 2021 Aswin Murali (aswinmurali.co@gmail.com)
+# Copyright (C) 2021 Gaurav Mishra <mishra.gaurav@siemens.com>
 #
-# SPDX-License-Identifier: LGPL-2.1
+# SPDX-License-Identifier: LGPL-2.1-only
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,15 +23,47 @@
 #   docker build -t nirjas .
 #
 # Run
-#   docker run --rm -it nirjas
-#   docker run --rm -it nirjas nirjas <args>
+#   docker run --rm -it nirjas <args>
+
+FROM python:3.8-alpine as builder
+
+WORKDIR /nirjas
+
+COPY . .
+
+RUN python3 -m pip wheel --wheel-dir wheels .
 
 FROM python:3.8-alpine
 
-COPY . ./
+ARG user=nirjas
+ARG group=nirjas
+ARG uid=1000
+ARG gid=1000
+ARG AGENT_HOME=/home/${user}
 
-RUN python3 setup.py install
+ENV AGENT_HOME ${AGENT_HOME}
+
+RUN addgroup -g ${gid} ${group} \
+ && adduser -h "${AGENT_HOME}" -u "${uid}" -G "${group}" -D "${user}"
+
+WORKDIR "${AGENT_HOME}"
+
+COPY --from=builder /nirjas/wheels/ .
+
+RUN python -m pip install --prefix=/usr/local ./*.whl \
+ && rm ./*.whl
+
+USER nirjas
 
 # Default command as intro text
 
-CMD [ "nirjas" , "-h" ]
+ENTRYPOINT [ "nirjas" ]
+CMD [ "-h" ]
+
+LABEL \
+    org.opencontainers.image.vendor="FOSSology" \
+    org.opencontainers.image.title="Official Nirjas Docker image" \
+    org.opencontainers.image.description="Image to run Nirjas without installing" \
+    org.opencontainers.image.url="https://fossology.org" \
+    org.opencontainers.image.source="https://github.com/fossology/Nirjas" \
+    org.opencontainers.image.licenses="LGPL-2.1-only"
