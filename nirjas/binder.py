@@ -148,8 +148,29 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
         for idx, _ in enumerate(endLine):
             line_of_comments = line_of_comments + (endLine[idx] - startLine[idx]) + 1
         line_of_comments += len(output)
-        output = [s.strip(startSyntax).strip(endSyntax).strip() for s in output]
+        output = [s.strip(startSyntax).strip(endSyntax).strip()for s in output]
     return startLine, endLine, output, line_of_comments, total_lines, blank_lines
+
+
+def extractAssignedString(file):
+    '''
+    Read file line by line and match string type variable to get string.
+    Return the content of the string.
+    '''
+    content = []
+    regex = r'(?<=(=\s*[\'\"]))(.*?)(?=[\'\"])'
+    total_lines, line_of_assignedString = 0, 0
+    with open(file) as f:
+        for line_number, line in enumerate(f, start=1):
+            total_lines += 1
+            output = re.findall(regex, line, re.S)
+            if len(output) >= 2:
+                line_of_assignedString += 1
+            output = ''.join(output)
+            if output and len(output) > 1:
+                content.append([line_number, output.strip()])
+            line = line.strip()
+    return content, line_of_assignedString
 
 
 class CommentSyntax:
@@ -157,6 +178,7 @@ class CommentSyntax:
     Class to hold various regex and helper functions based on comment format
     used by a language.
     '''
+
     def __init__(self):
         self.sign = None
         self.pattern = None
