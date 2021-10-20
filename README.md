@@ -134,6 +134,21 @@ pip3 install .
 
   `nirjas -h` or `nirjas --help`
 
+### Docker image
+
+Nirjas also hosts Docker images on Docker hub. They can be pulled using
+
+```sh
+docker pull fossology/nirjas:latest
+```
+
+To scan with Docker image, just mount the directory you want to analyze and
+pass the path as argument.
+
+```sh
+docker run --rm -v $(pwd):/opt/ fossology/nirjas:latest /opt/<file_to_analyze>
+```
+
 ## Example Usage
 
 - For help
