@@ -143,13 +143,19 @@ nirjas -h
 - To extract comments from a single file
 
 ```sh
-nirjas -p <path to file>
+nirjas <path to file>
+```
+
+- To extract strings which assigned to variables from a source code file (Not yet implemented)
+
+```sh
+nirjas <path to source code file>
 ```
 
 - To extract comments from all the files in directory/sub-directory
 
 ```sh
-nirjas -p <path to directory>
+nirjas <path to directory>
 ```
 
 - To extract only source code (excludes commented part) out of a file
