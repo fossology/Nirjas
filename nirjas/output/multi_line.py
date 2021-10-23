@@ -21,6 +21,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
+from .output import Output
+
 
 class MultiLine:
     '''
@@ -36,8 +38,6 @@ class MultiLine:
         '''
         Get the output as dictionary
         '''
-        return {
-            "start_line": self.start_line,
-            "end_line": self.end_line,
-            "comment": self.comment
-        }
+        return Output(
+            start_line=self.start_line, end_line=self.end_line, comment=self.comment
+        ).output

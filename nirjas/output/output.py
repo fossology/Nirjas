@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Copyright (C) 2020 Siemens AG
-Author: Gaurav Mishra <mishra.gaurav@siemens.com>
+Copyright (C) 2021 Hamed Faramarzi
+Author: Hamed Faramarzi <hamed.faramarzi@gmail.com>
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -21,20 +21,20 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
-from .output import Output
 
-
-class SingleLine:
+class Output(object):
     '''
-    Store result for single line comments
+    return results
     '''
 
-    def __init__(self, line_number, comment):
-        self.line_number = line_number
-        self.comment = comment
+    def __init__(self, **kwargs):
+        self.result = {}
+        for key, value in kwargs.items():
+            self.result.setdefault(key, value)
 
-    def get_dict(self):
+    @property
+    def output(self):
         '''
-        Get the output as dictionary
+        return results
         '''
-        return Output(line_number=self.line_number, comment=self.comment).output
+        return self.result

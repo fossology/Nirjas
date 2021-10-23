@@ -21,6 +21,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 
+from .output import Output
+
 
 class ScanOutput:
     '''
@@ -33,24 +35,27 @@ class ScanOutput:
         self.total_lines = None
         self.total_lines_of_comments = None
         self.blank_lines = None
-        self.single_line_comment = list()
-        self.cont_single_line_comment = list()
-        self.multi_line_comment = list()
+        self.single_line_comment = []
+        self.cont_single_line_comment = []
+        self.multi_line_comment = []
 
     def get_dict(self):
         '''
         Get the output as dictionary
         '''
-        return {
-            "metadata": {
-                "filename": self.filename,
-                "lang": self.lang,
-                "total_lines": self.total_lines,
-                "total_lines_of_comments": self.total_lines_of_comments,
-                "blank_lines": self.blank_lines,
-                "sloc": self.total_lines - (self.total_lines_of_comments + self.blank_lines)
-            },
-            "single_line_comment": [c.get_dict() for c in self.single_line_comment],
-            "cont_single_line_comment": [c.get_dict() for c in self.cont_single_line_comment],
-            "multi_line_comment": [c.get_dict() for c in self.multi_line_comment]
-        }
+        return Output(
+            metadata=Output(
+                filename=self.filename,
+                lang=self.lang,
+                total_lines=self.total_lines,
+                total_lines_of_comments=self.total_lines_of_comments,
+                blank_lines=self.blank_lines,
+                sloc=self.total_lines
+                - (self.total_lines_of_comments + self.blank_lines),
+            ).output,
+            single_line_comment=[c.get_dict() for c in self.single_line_comment],
+            cont_single_line_comment=[
+                c.get_dict() for c in self.cont_single_line_comment
+            ],
+            multi_line_comment=[c.get_dict() for c in self.multi_line_comment],
+        ).output
