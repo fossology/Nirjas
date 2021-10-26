@@ -69,7 +69,7 @@ class LanguageMapper:
         '.php': 'php',
         '.pl': 'perl',
         '.r': 'r',
-        '.R':'r',
+        '.R': 'r',
         '.rb': 'ruby',
         '.rs': 'rust',
         '.sh': 'shell',
@@ -82,7 +82,7 @@ class LanguageMapper:
         '.lic': 'text',
         '.install': 'text',
         '.OSS': 'text',
-        '.gl': 'text'
+        '.gl': 'text',
     }
 
     @staticmethod
@@ -121,7 +121,7 @@ def run_cli():
     out_file = args.outFile
     try:
         if file is not None:
-            return file_runner(file)
+            return file_runner(file, 'json')
         return inputfile_runner(inputfile, out_file)
     except NotSupportedExtension as e:
         print(e, file=os.sys.stderr)
@@ -140,7 +140,8 @@ def scan_the_file(file):
     func = langname + '.' + langname + 'Extractor'
     return eval(func)(file)
 
-def file_runner(file):
+
+def file_runner(file, type='dictionary'):
     '''
     Check if the input is a file or a directory and iterate with
     scan_the_file()
@@ -161,7 +162,8 @@ def file_runner(file):
                         result.append(scan_the_file(file_to_scan).get_dict())
                 except Exception:
                     continue
-    result = json.dumps(result, sort_keys=False, indent=4)
+    if type == 'json':
+        return json.dumps(result, sort_keys=False, indent=4)
     return result
 
 
