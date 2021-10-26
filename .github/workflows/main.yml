@@ -1,0 +1,16 @@
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    name: CI workflow
+    steps:
+      - name: checkout source repo
+        uses: actions/checkout@v2
+
+      - name: linting
+        uses: alexanderdamiani/pylinter@v1.3.0
+        with:
+          python-root: "."
+          flake8-flags: ""
+          fail-on-isort: true
