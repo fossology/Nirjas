@@ -1,16 +1,15 @@
-on: [push, pull_request, workflow_dispatch]
-
+name: Lint
+on: [push, pull_request]
 jobs:
-  python-lint:
+  CI-Linter:
     runs-on: ubuntu-latest
-    name: CI workflow
     steps:
-      - name: checkout source repo
-        uses: actions/checkout@v2
-
-      - name: linting
-        uses: alexanderdamiani/pylinter@v1.3.0
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
         with:
-          python-root: "."
-          flake8-flags: ""
-          fail-on-isort: true
+          python-version: 3.8
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run flake8
+        run: flake8 ./nirjas
