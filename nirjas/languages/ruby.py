@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
@@ -19,20 +19,20 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from nirjas.binder import CommentSyntax, contSingleLines
 from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def rubyExtractor(file):
-    '''
+    """
     Extract comments from Ruby file.
     :param file: File to scan
     :type file: string
     :return: Scan output
     :rtype: ScanOutput
-    '''
+    """
     result = CommentSyntax()
     single_line_comment = result.hashNoCurl(file)
     multiline_comment = result.beginEnd(file)
@@ -40,7 +40,7 @@ def rubyExtractor(file):
     file = file.split("/")
     output = ScanOutput()
     output.filename = file[-1]
-    output.lang = 'Ruby'
+    output.lang = "Ruby"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
     output.blank_lines = single_line_comment[2]
@@ -52,20 +52,28 @@ def rubyExtractor(file):
         output.single_line_comment.append(SingleLine(i[0], i[1]))
 
     for idx, _ in enumerate(cont_single_line_comment[1]):
-        output.cont_single_line_comment.append(MultiLine(
-            cont_single_line_comment[1][idx], cont_single_line_comment[2][idx],
-            cont_single_line_comment[3][idx]))
+        output.cont_single_line_comment.append(
+            MultiLine(
+                cont_single_line_comment[1][idx],
+                cont_single_line_comment[2][idx],
+                cont_single_line_comment[3][idx],
+            )
+        )
 
     for idx, _ in enumerate(multiline_comment[0]):
-        output.multi_line_comment.append(MultiLine(multiline_comment[0][idx],
-                                                   multiline_comment[1][idx],
-                                                   multiline_comment[2][idx]))
+        output.multi_line_comment.append(
+            MultiLine(
+                multiline_comment[0][idx],
+                multiline_comment[1][idx],
+                multiline_comment[2][idx],
+            )
+        )
 
     return output
 
 
 def rubySource(file, new_file: str):
-    '''
+    """
     Extract source from Ruby file and put at new_file.
     :param file: File to process
     :type file: string
@@ -73,30 +81,30 @@ def rubySource(file, new_file: str):
     :type new_file: string
     :return: Path to new file
     :rtype: string
-    '''
+    """
     copy = True
-    with open(new_file, 'w+') as f1:
+    with open(new_file, "w+") as f1:
         with open(file) as f:
             for line in f:
                 content = ""
                 found = False
-                if '=begin' in line:
-                    pos = line.find('=begin')
+                if "=begin" in line:
+                    pos = line.find("=begin")
                     content = line[:pos].rstrip()
                     line = line[pos:]
                     copy = False
                     found = True
-                if '=end' in line:
-                    content = content + line[line.rfind('=end') + 4:]
+                if "=end" in line:
+                    content = content + line[line.rfind("=end") + 4 :]
                     line = content
                     copy = True
                     found = True
-                if '#' in line:
-                    content = line[:line.find('#')].rstrip() + '\n'
+                if "#" in line:
+                    content = line[: line.find("#")].rstrip() + "\n"
                     found = True
                 if not found:
                     content = line
-                if copy and content.strip() != '':
+                if copy and content.strip() != "":
                     f1.write(content)
     f.close()
     f1.close()

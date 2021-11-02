@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
@@ -19,27 +19,27 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from nirjas.binder import CommentSyntax, contSingleLines
 from nirjas.output import ScanOutput, SingleLine, MultiLine
 
 
 def shellExtractor(file):
-    '''
+    """
     Extract comments from Shell file.
     :param file: File to scan
     :type file: string
     :return: Scan output
     :rtype: ScanOutput
-    '''
+    """
     result = CommentSyntax()
     single_line_comment = result.hash(file)
     cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
     output = ScanOutput()
     output.filename = file[-1]
-    output.lang = 'Shell'
+    output.lang = "Shell"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3]
     output.blank_lines = single_line_comment[2]
@@ -51,15 +51,19 @@ def shellExtractor(file):
         output.single_line_comment.append(SingleLine(i[0], i[1]))
 
     for idx, _ in enumerate(cont_single_line_comment[1]):
-        output.cont_single_line_comment.append(MultiLine(
-            cont_single_line_comment[1][idx], cont_single_line_comment[2][idx],
-            cont_single_line_comment[3][idx]))
+        output.cont_single_line_comment.append(
+            MultiLine(
+                cont_single_line_comment[1][idx],
+                cont_single_line_comment[2][idx],
+                cont_single_line_comment[3][idx],
+            )
+        )
 
     return output
 
 
 def shellSource(file, new_file: str):
-    '''
+    """
     Extract source from Shell file and put at new_file.
     :param file: File to process
     :type file: string
@@ -67,14 +71,14 @@ def shellSource(file, new_file: str):
     :type new_file: string
     :return: Path to new file
     :rtype: string
-    '''
-    with open(new_file, 'w+') as f1:
+    """
+    with open(new_file, "w+") as f1:
         with open(file) as f:
             for line in f:
                 content = line
-                if '#' in line:
-                    content = line[:line.find('#')].rstrip() + '\n'
-                if content.strip() != '':
+                if "#" in line:
+                    content = line[: line.find("#")].rstrip() + "\n"
+                if content.strip() != "":
                     f1.write(content)
     f.close()
     f1.close()

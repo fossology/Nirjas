@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 SPDX-License-Identifier: LGPL-2.1
 
 This library is free software; you can redistribute it and/or
@@ -18,9 +18,31 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 Module holding different language syntax
-'''
+"""
 
-__all__ = ["c", "c_sharp", "cpp", "css", "dart", "go", "haskell", "html",
-           "java", "javascript", "kotlin", "matlab", "perl", "php", "python",
-           "r", "ruby", "rust", "scala", "scss", "shell", "swift", "text",
-           "typescript"]
+__all__ = [
+    "c",
+    "c_sharp",
+    "cpp",
+    "css",
+    "dart",
+    "go",
+    "haskell",
+    "html",
+    "java",
+    "javascript",
+    "kotlin",
+    "matlab",
+    "perl",
+    "php",
+    "python",
+    "r",
+    "ruby",
+    "rust",
+    "scala",
+    "scss",
+    "shell",
+    "swift",
+    "text",
+    "typescript",
+]

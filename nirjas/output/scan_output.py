@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020 Siemens AG
 Author: Gaurav Mishra <mishra.gaurav@siemens.com>
 
@@ -19,15 +19,15 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from .output import Output
 
 
 class ScanOutput:
-    '''
+    """
     Generate the output for a single file scan.
-    '''
+    """
 
     def __init__(self):
         self.filename = None
@@ -40,9 +40,9 @@ class ScanOutput:
         self.multi_line_comment = []
 
     def get_dict(self):
-        '''
+        """
         Get the output as dictionary
-        '''
+        """
         return Output(
             metadata=Output(
                 filename=self.filename,

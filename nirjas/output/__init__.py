@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020 Siemens AG
 Author: Gaurav Mishra <mishra.gaurav@siemens.com>
 
@@ -21,9 +21,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 Module to hold output classes.
-'''
+"""
 
-from .scan_output import ScanOutput
-from .single_line import SingleLine
-from .multi_line import MultiLine
-from .output import Output
+from .scan_output import ScanOutput  # noqa
+from .single_line import SingleLine  # noqa
+from .multi_line import MultiLine  # noqa
+from .output import Output  # noqa

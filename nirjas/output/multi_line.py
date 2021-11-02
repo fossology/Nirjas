@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020 Siemens AG
 Author: Gaurav Mishra <mishra.gaurav@siemens.com>
 
@@ -19,15 +19,15 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from .output import Output
 
 
 class MultiLine:
-    '''
+    """
     Store result for multi line comments
-    '''
+    """
 
     def __init__(self, start, end, comment):
         self.start_line = start
@@ -35,9 +35,9 @@ class MultiLine:
         self.comment = comment
 
     def get_dict(self):
-        '''
+        """
         Get the output as dictionary
-        '''
+        """
         return Output(
             start_line=self.start_line, end_line=self.end_line, comment=self.comment
         ).output
