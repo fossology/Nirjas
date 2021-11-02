@@ -95,7 +95,7 @@ def rubySource(file, new_file: str):
                     copy = False
                     found = True
                 if "=end" in line:
-                    content = content + line[line.rfind("=end") + 4 :]
+                    content = content + line[line.rfind("=end") + 4:]
                     line = content
                     copy = True
                     found = True

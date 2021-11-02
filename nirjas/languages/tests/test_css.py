@@ -60,8 +60,7 @@ class CssTest(unittest.TestCase):
                 "total_lines": comment_multiline[4],
                 "total_lines_of_comments": comment_multiline[3],
                 "blank_lines": comment_multiline[5],
-                "sloc": comment_multiline[4]
-                - (comment_multiline[3] + comment_multiline[5]),
+                "sloc": comment_multiline[4] - (comment_multiline[3] + comment_multiline[5]),
             },
             "single_line_comment": [],
             "cont_single_line_comment": [],

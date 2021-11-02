@@ -95,7 +95,7 @@ def perlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "=cut" in line:
-                    content = content + line[line.rfind("=cut") + 4 :]
+                    content = content + line[line.rfind("=cut") + 4:]
                     line = content
                     copy = True
                     found = True

@@ -71,8 +71,7 @@ class HTMLTest(unittest.TestCase):
                 "total_lines": comment_single[4],
                 "total_lines_of_comments": comment_single[3] + comment_multiline[3],
                 "blank_lines": comment_single[5],
-                "sloc": comment_single[4]
-                - (comment_single[3] + comment_multiline[3] + comment_single[5]),
+                "sloc": comment_single[4] - (comment_single[3] + comment_multiline[3] + comment_single[5]),
             },
             "single_line_comment": [],
             "cont_single_line_comment": [],

@@ -12,4 +12,4 @@ jobs:
       - name: Install flake8
         run: pip install flake8
       - name: Run flake8
-        run: flake8 --ignore=E501,W503,E203 ./nirjas
+        run: flake8 --ignore=E501 ./nirjas

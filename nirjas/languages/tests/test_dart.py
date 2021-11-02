@@ -75,16 +75,10 @@ class DartTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Dart",
                 "total_lines": comment_single_doubleSlash[1],
-                "total_lines_of_comments": comment_single_doubleSlash[3]
-                + comment_single_tripleSlash[3]
-                + comment_multiline[3],
+                "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
                 "blank_lines": comment_single_doubleSlash[2],
-                "sloc": comment_single_doubleSlash[1]
-                - (
-                    comment_single_doubleSlash[3]
-                    + comment_single_tripleSlash[3]
-                    + comment_multiline[3]
-                    + comment_single_doubleSlash[2]
+                "sloc": comment_single_doubleSlash[1] - (
+                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
                 ),
             },
             "single_line_comment": [],

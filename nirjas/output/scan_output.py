@@ -50,8 +50,7 @@ class ScanOutput:
                 total_lines=self.total_lines,
                 total_lines_of_comments=self.total_lines_of_comments,
                 blank_lines=self.blank_lines,
-                sloc=self.total_lines
-                - (self.total_lines_of_comments + self.blank_lines),
+                sloc=self.total_lines - (self.total_lines_of_comments + self.blank_lines),
             ).output,
             single_line_comment=[c.get_dict() for c in self.single_line_comment],
             cont_single_line_comment=[

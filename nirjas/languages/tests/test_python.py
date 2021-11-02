@@ -68,16 +68,10 @@ class PythonTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Python",
                 "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3]
-                + comment_multi_single[3]
-                + comment_multi_double[3],
+                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3],
                 "blank_lines": comment_single[2],
-                "sloc": comment_single[1]
-                - (
-                    comment_single[3]
-                    + comment_multi_single[3]
-                    + comment_multi_double[3]
-                    + comment_single[2]
+                "sloc": comment_single[1] - (
+                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
                 ),
             },
             "single_line_comment": [],

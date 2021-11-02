@@ -130,7 +130,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
             if startSyntax in line:
                 copy = True
                 startLine.append(lineNumber)
-                line = line[line.find(startSyntax) + len(startSyntax) :]
+                line = line[line.find(startSyntax) + len(startSyntax):]
             if endSyntax in line:
                 copy = False
                 line = line[: line.rfind(endSyntax) + len(endSyntax)]

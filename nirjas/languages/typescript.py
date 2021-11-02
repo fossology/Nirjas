@@ -97,7 +97,7 @@ def typescriptSource(file, new_file: str):
                     copy = False
                     found = True
                 if "*/" in line:
-                    content = content + line[line.rfind("*/") + 2 :]
+                    content = content + line[line.rfind("*/") + 2:]
                     line = content
                     copy = True
                     found = True
