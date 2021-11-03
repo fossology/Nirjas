@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2021 Hamed Faramarzi
 Author: Hamed Faramarzi <hamed.faramarzi@gmail.com>
 
@@ -19,13 +19,13 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 
 class Output(object):
-    '''
+    """
     return results
-    '''
+    """
 
     def __init__(self, **kwargs):
         self.result = {}
@@ -34,7 +34,7 @@ class Output(object):
 
     @property
     def output(self):
-        '''
+        """
         return results
-        '''
+        """
         return self.result

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
@@ -19,26 +19,26 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from nirjas.binder import CommentSyntax
 from nirjas.output import ScanOutput, SingleLine
 
 
 def rExtractor(file):
-    '''
+    """
     Extract comments from R file.
     :param file: File to scan
     :type file: string
     :return: Scan output
     :rtype: ScanOutput
-    '''
+    """
     result = CommentSyntax()
     single_line_comment = result.hash(file)
     file = file.split("/")
     output = ScanOutput()
     output.filename = file[-1]
-    output.lang = 'R'
+    output.lang = "R"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3]
     output.blank_lines = single_line_comment[2]
@@ -50,7 +50,7 @@ def rExtractor(file):
 
 
 def rSource(file, new_file: str):
-    '''
+    """
     Extract source from R file and put at new_file.
     :param file: File to process
     :type file: string
@@ -58,14 +58,14 @@ def rSource(file, new_file: str):
     :type new_file: string
     :return: Path to new file
     :rtype: string
-    '''
-    with open(new_file, 'w+') as f1:
+    """
+    with open(new_file, "w+") as f1:
         with open(file) as f:
             for line in f:
                 content = line
-                if '#' in line:
-                    content = line[:line.find('#')].rstrip() + '\n'
-                if content.strip() != '':
+                if "#" in line:
+                    content = line[: line.find("#")].rstrip() + "\n"
+                if content.strip() != "":
                     f1.write(content)
     f.close()
     f1.close()

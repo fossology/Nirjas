@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
@@ -19,34 +19,34 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
 from nirjas.output import ScanOutput, MultiLine
 
 
 def textExtractor(file):
-    '''
+    """
     Extract comments from txt file.
     :param file: File to scan
     :type file: string
     :return: Scan output
     :rtype: ScanOutput
-    '''
+    """
     content = ""
     total_lines, blank_lines = 0, 0
     with open(file) as f:
         for line in f:
             total_lines += 1
             line = line.strip()
-            content = content + line.replace('\n', ' ')
-            if line == '':
+            content = content + line.replace("\n", " ")
+            if line == "":
                 blank_lines += 1
 
-    file = file.split('/')
+    file = file.split("/")
 
     output = ScanOutput()
     output.filename = file[-1]
-    output.lang = 'text'
+    output.lang = "text"
     output.total_lines = total_lines
     output.total_lines_of_comments = total_lines - blank_lines
     output.blank_lines = blank_lines
