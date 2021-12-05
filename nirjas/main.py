@@ -86,6 +86,7 @@ class LanguageMapper:
         ".install": "text",
         ".OSS": "text",
         ".gl": "text",
+        ".jl": "julia",
     }
 
     @staticmethod
