@@ -55,7 +55,8 @@ def download_files(cwd):
         "https://raw.githubusercontent.com/airbnb/react-with-styles/2532394bb866aaade4dc750ee94c0ff213d9b6de/src/withStyles.jsx",
         "https://raw.githubusercontent.com/flutter/plugins/e61e9d45bcaadc3e409d529d30735cb4db75c5c5/packages/android_alarm_manager/lib/android_alarm_manager.dart",
         "https://raw.githubusercontent.com/microsoft/TypeScript/c33a14d66d0a452673ce77256e178bf84e875d2b/tests/cases/user/formik/index.tsx",
-        "https://raw.githubusercontent.com/twbs/bootstrap/9488978fb55286ba83e8193a871d1ff9815045b9/scss/_reboot.scss"
+        "https://raw.githubusercontent.com/twbs/bootstrap/9488978fb55286ba83e8193a871d1ff9815045b9/scss/_reboot.scss",
+        "https://raw.githubusercontent.com/its-sushant/SQL/a4bf2972905c8df89d6a60752a2c60920a4b9465/check.sql"
     ]
 
     directory = os.path.join(cwd, "nirjas/languages/tests/TestFiles")

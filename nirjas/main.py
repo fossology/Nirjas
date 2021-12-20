@@ -75,6 +75,7 @@ class LanguageMapper:
         ".rb": "ruby",
         ".rs": "rust",
         ".sh": "shell",
+        ".sql": "sql",
         ".swift": "swift",
         ".scala": "scala",
         ".sc": "scala",
@@ -152,6 +153,7 @@ def scan_the_file(file):
     """
     langname = LanguageMapper.langIdentifier(file)
     func = langname + "." + langname + "Extractor"
+
     return eval(func)(file)
 
 
