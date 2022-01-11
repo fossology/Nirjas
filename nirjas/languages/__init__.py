@@ -42,6 +42,7 @@ __all__ = [
     "scala",
     "scss",
     "shell",
+    "sql",
     "swift",
     "text",
     "typescript",
