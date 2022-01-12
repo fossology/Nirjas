@@ -46,4 +46,5 @@ __all__ = [
     "swift",
     "text",
     "typescript",
+    "julia",
 ]
