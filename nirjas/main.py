@@ -64,6 +64,7 @@ class LanguageMapper:
         ".java": "java",
         ".js": "javascript",
         ".jsx": "javascript",
+        ".jl": "julia",
         ".kt": "kotlin",
         ".kts": "kotlin",
         ".ktm": "kotlin",
@@ -86,7 +87,6 @@ class LanguageMapper:
         ".install": "text",
         ".OSS": "text",
         ".gl": "text",
-        ".jl": "julia",
     }
 
     @staticmethod

@@ -31,6 +31,7 @@ __all__ = [
     "html",
     "java",
     "javascript",
+    "julia",
     "kotlin",
     "matlab",
     "perl",
@@ -46,5 +47,4 @@ __all__ = [
     "swift",
     "text",
     "typescript",
-    "julia",
 ]
