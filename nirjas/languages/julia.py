@@ -36,6 +36,7 @@ def juliaExtractor(file):
     single_line_comment = result.hash(file)
     multiline_single_comment = result.singleQuotes(file)
     multiline_double_comment = result.doubleQuotes(file)
+    multiline_hashEqual_comment = result.hashEqual(file)
     cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
     output = ScanOutput()
@@ -43,7 +44,8 @@ def juliaExtractor(file):
     output.lang = "Julia"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = (
-        single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3])
+        single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3] + multiline_hashEqual_comment[3]
+    )
     output.blank_lines = single_line_comment[2]
 
     if cont_single_line_comment:
@@ -80,6 +82,18 @@ def juliaExtractor(file):
                     multiline_double_comment[0][idx],
                     multiline_double_comment[1][idx],
                     multiline_double_comment[2][idx],
+                )
+            )
+    except BaseException:
+        pass
+
+    try:
+        for idx, _ in enumerate(multiline_hashEqual_comment[0]):
+            output.multi_line_comment.append(
+                MultiLine(
+                    multiline_hashEqual_comment[0][idx],
+                    multiline_hashEqual_comment[1][idx],
+                    multiline_hashEqual_comment[2][idx],
                 )
             )
     except BaseException:
@@ -128,6 +142,17 @@ def juliaSource(file, new_file: str):
                         line = content
                         copy = True
                         found = True
+                if "#=" in line:
+                    pos = line.find("#=")
+                    content = line[:pos].rstrip()
+                    line = line[pos:]
+                    copy = False
+                    found = True
+                if "=#" in line:
+                    content = content + line[line.rfind("=#") + 2:]
+                    line = content
+                    copy = True
+                    found = True
                 if "#" in line:
                     content = line[: line.find("#")].rstrip() + "\n"
                     found = True

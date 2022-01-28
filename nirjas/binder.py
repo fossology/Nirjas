@@ -316,3 +316,11 @@ class CommentSyntax:
         self.start = "/**"
         self.end = "*/"
         return readMultiLineDiff(file, self.start, self.end)
+
+    def hashEqual(self, file):
+        """
+        sign: #= ~ =#
+        """
+        self.start = "#="
+        self.end = "=#"
+        return readMultiLineDiff(file, self.start, self.end)

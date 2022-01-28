@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 import unittest
 import os
 from nirjas.languages import julia
-from nirjas.binder import readSingleLine, readMultiLineSame, contSingleLines
+from nirjas.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, contSingleLines
 
 
 class JuliaTest(unittest.TestCase):
@@ -41,13 +41,19 @@ class JuliaTest(unittest.TestCase):
         regex = r"""(?<!["'`])#+\s*(.*)"""
         syntax_single = "'''"
         syntax_double = '"""'
+        syntax_start = "#="
+        syntax_end = "=#"
         comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
         comment_single = readSingleLine(self.testfile, regex)
         comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
+        comment_multi_hashEqual = readMultiLineDiff(
+            self.testfile, syntax_start, syntax_end
+        )
         comment_contSingleline = contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multi_single)
         self.assertTrue(comment_multi_double)
+        self.assertTrue(comment_multi_hashEqual)
         self.assertTrue(comment_contSingleline)
 
     def test_outputFormat(self):
@@ -57,10 +63,15 @@ class JuliaTest(unittest.TestCase):
         regex = r"""(?<!["'`])#+\s*(.*)"""
         syntax_single = "'''"
         syntax_double = '"""'
+        syntax_start = "#="
+        syntax_end = "=#"
         expected = julia.juliaExtractor(self.testfile).get_dict()
         comment_single = readSingleLine(self.testfile, regex)
         comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
         comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
+        comment_multi_hashEqual = readMultiLineDiff(
+            self.testfile, syntax_start, syntax_end
+        )
         comment_contSingleline = contSingleLines(comment_single)
         file = self.testfile.split("/")
         output = {
@@ -68,10 +79,10 @@ class JuliaTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Julia",
                 "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3],
+                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3],
                 "blank_lines": comment_single[2],
                 "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
+                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + comment_single[2]
                 ),
             },
             "single_line_comment": [],
@@ -115,6 +126,16 @@ class JuliaTest(unittest.TestCase):
                         "start_line": comment_multi_double[0][idx],
                         "end_line": comment_multi_double[1][idx],
                         "comment": comment_multi_double[2][idx],
+                    }
+                )
+
+        if comment_multi_hashEqual:
+            for idx, _ in enumerate(comment_multi_hashEqual[0]):
+                output["multi_line_comment"].append(
+                    {
+                        "start_line": comment_multi_hashEqual[0][idx],
+                        "end_line": comment_multi_hashEqual[1][idx],
+                        "comment": comment_multi_hashEqual[2][idx],
                     }
                 )
 
