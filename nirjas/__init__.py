@@ -18,7 +18,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from nirjas.main import file_runner  # noqa
+from nirjas.main import file_runner    # noqa
+from nirjas.main import LanguageMapper # noqa
 
 
 def extract(file):
@@ -31,4 +32,4 @@ def extract(file):
     return file_runner(file)  # noqa
 
 
-__all__ = ["file_runner", "extract", "LanguageMapper"]
+__all__ = ["file_runner", "extract"]
