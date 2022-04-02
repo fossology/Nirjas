@@ -18,10 +18,12 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
+from nirjas.binder import (contSingleLines, readMultiLineDiff,
+                           readMultiLineSame, readSingleLine)
 from nirjas.languages import julia
-from nirjas.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, contSingleLines
 
 
 class JuliaTest(unittest.TestCase):
@@ -79,10 +81,18 @@ class JuliaTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Julia",
                 "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3],
+                "total_lines_of_comments": comment_single[3]
+                + comment_multi_single[3]
+                + comment_multi_double[3]
+                + comment_multi_hashEqual[3],
                 "blank_lines": comment_single[2],
-                "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + comment_single[2]
+                "sloc": comment_single[1]
+                - (
+                    comment_single[3]
+                    + comment_multi_single[3]
+                    + comment_multi_double[3]
+                    + comment_multi_hashEqual[3]
+                    + comment_single[2]
                 ),
             },
             "single_line_comment": [],

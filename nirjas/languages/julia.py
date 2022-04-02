@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import MultiLine, ScanOutput, SingleLine
 
 
 def juliaExtractor(file):
@@ -44,7 +44,10 @@ def juliaExtractor(file):
     output.lang = "Julia"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = (
-        single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3] + multiline_hashEqual_comment[3]
+        single_line_comment[3]
+        + multiline_single_comment[3]
+        + multiline_double_comment[3]
+        + multiline_hashEqual_comment[3]
     )
     output.blank_lines = single_line_comment[2]
 
@@ -126,7 +129,7 @@ def juliaSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind('"""') + 3:]
+                        content = content + line[line.rfind('"""') + 3 :]
                         line = content
                         copy = True
                         found = True
@@ -138,7 +141,7 @@ def juliaSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind("'''") + 3:]
+                        content = content + line[line.rfind("'''") + 3 :]
                         line = content
                         copy = True
                         found = True
@@ -149,7 +152,7 @@ def juliaSource(file, new_file: str):
                     copy = False
                     found = True
                 if "=#" in line:
-                    content = content + line[line.rfind("=#") + 2:]
+                    content = content + line[line.rfind("=#") + 2 :]
                     line = content
                     copy = True
                     found = True
