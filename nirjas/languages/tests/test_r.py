@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
-from nirjas.languages import r
+import unittest
+
 from nirjas.binder import readSingleLine
+from nirjas.languages import r
 
 
 class rTest(unittest.TestCase):

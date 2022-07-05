@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import MultiLine, ScanOutput, SingleLine
 
 
 def perlExtractor(file):
@@ -95,7 +95,7 @@ def perlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "=cut" in line:
-                    content = content + line[line.rfind("=cut") + 4:]
+                    content = content + line[line.rfind("=cut") + 4 :]
                     line = content
                     copy = True
                     found = True

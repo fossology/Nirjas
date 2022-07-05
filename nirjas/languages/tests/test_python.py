@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
+from nirjas.binder import contSingleLines, readMultiLineSame, readSingleLine
 from nirjas.languages import python
-from nirjas.binder import readSingleLine, readMultiLineSame, contSingleLines
 
 
 class PythonTest(unittest.TestCase):
@@ -68,10 +69,16 @@ class PythonTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Python",
                 "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3],
+                "total_lines_of_comments": comment_single[3]
+                + comment_multi_single[3]
+                + comment_multi_double[3],
                 "blank_lines": comment_single[2],
-                "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
+                "sloc": comment_single[1]
+                - (
+                    comment_single[3]
+                    + comment_multi_single[3]
+                    + comment_multi_double[3]
+                    + comment_single[2]
                 ),
             },
             "single_line_comment": [],

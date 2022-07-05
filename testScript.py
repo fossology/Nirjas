@@ -18,10 +18,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import urllib.request
-import unittest
-import sys
 import os
+import sys
+import unittest
+import urllib.request
 
 
 def download_files(cwd):

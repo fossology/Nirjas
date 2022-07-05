@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import MultiLine, ScanOutput, SingleLine
 
 
 def javascriptExtractor(file):
@@ -98,7 +98,7 @@ def javascriptSource(file, new_file: str):
                     copy = False
                     found = True
                 if "*/" in line:
-                    content = content + line[line.rfind("*/") + 2:]
+                    content = content + line[line.rfind("*/") + 2 :]
                     line = content
                     copy = True
                     found = True

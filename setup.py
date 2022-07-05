@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-'''
+"""
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
 
@@ -16,15 +16,16 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-'''
+"""
 
-from os import path
 from io import open
-from setuptools import setup, find_packages
+from os import path
+
+from setuptools import find_packages, setup
 
 here = path.abspath(path.dirname(__file__))
 # fetch the long description from the README.md
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 CLASSIFIERS = """\
@@ -39,25 +40,20 @@ Topic :: Text Processing
 """
 
 setup(
-    name='Nirjas',
-    version='1.0.1',
-    description='A Python library to extract comments and source code out of your file(s)',
+    name="Nirjas",
+    version="1.0.1",
+    description="A Python library to extract comments and source code out of your file(s)",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/fossology/nirjas',
-    author='Ayush Bhardwaj, Kaushlendra Pratap',
-    author_email='classicayush@gmail.com, kaushlendrapratap.9837@gmail.com',
-
-    classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
-    keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor,' +
-             ' Source Code Extractor, Source Extractor',
+    long_description_content_type="text/markdown",
+    url="https://github.com/fossology/nirjas",
+    author="Ayush Bhardwaj, Kaushlendra Pratap",
+    author_email="classicayush@gmail.com, kaushlendrapratap.9837@gmail.com",
+    classifiers=[_f for _f in CLASSIFIERS.split("\n") if _f],
+    keywords="Nirjas,Code Comment, Comment Extractor, Code Comment Extractor,"
+    + " Source Code Extractor, Source Extractor",
     packages=find_packages(),
     python_requires=">=3",
-    entry_points={
-        'console_scripts': [
-            'nirjas = nirjas.main:run_and_print'
-        ]
-    },
+    entry_points={"console_scripts": ["nirjas = nirjas.main:run_and_print"]},
     license="LGPL-2.1-or-later",
-    platforms=['any']
+    platforms=["any"],
 )

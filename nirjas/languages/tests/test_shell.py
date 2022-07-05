@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
+from nirjas.binder import contSingleLines, readSingleLine
 from nirjas.languages import shell
-from nirjas.binder import readSingleLine, contSingleLines
 
 
 class ShellTest(unittest.TestCase):
