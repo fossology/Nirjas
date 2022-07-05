@@ -52,6 +52,7 @@ The Languages we support till now:
 - HTML
 - Java
 - JavaScript
+- Julia
 - JSX
 - Kotlin
 - MATLAB
@@ -65,6 +66,7 @@ The Languages we support till now:
 - Scss
 - Shell
 - Swift
+- Sql
 - TypeScript
 - TSX
 
