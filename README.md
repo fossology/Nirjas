@@ -218,7 +218,7 @@ Feel free to ask questions or discuss suggestions on [Slack](https://fossology.s
 
 This repository is licensed under the terms of [LGPL-2.1](/LICENSE). Check the [LICENSE](/LICENSE) file for more details.
 
-## Citattion
+## Citation
 
 If you find this project useful, please consider giving a star ⭐ and please cite as:
 
