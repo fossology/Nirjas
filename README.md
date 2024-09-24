@@ -24,6 +24,8 @@ Nirjas is a fully dedicated python library to extract the comments and source co
 
 Apart from that the library serves you with all the required metadata about your Code, Comments and File(s)
 
+For more details, read our [paper](https://arxiv.org/abs/2409.14609)
+
 ## Requirements
 
 - Python 3
@@ -215,3 +217,20 @@ Feel free to ask questions or discuss suggestions on [Slack](https://fossology.s
 ## License
 
 This repository is licensed under the terms of [LGPL-2.1](/LICENSE). Check the [LICENSE](/LICENSE) file for more details.
+
+## Citattion
+
+If you find this project useful, please consider giving a star ⭐ and please cite as:
+
+```
+@INPROCEEDINGS{9734222,
+  author={Bhardwaj, Ayush and Sahil and Pratap, Kaushlendra and Mishra, Gaurav},
+  booktitle={2022 12th International Conference on Cloud Computing, Data Science & Engineering (Confluence)}, 
+  title={Nirjas: An open source framework for extracting metadata from the source code}, 
+  year={2022},
+  pages={47-52},
+  doi={10.1109/Confluence52989.2022.9734222}}
+
+```
+
+
