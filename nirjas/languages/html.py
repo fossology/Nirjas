@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax
-from nirjas.output import ScanOutput, MultiLine
+from nirjas.output import MultiLine, ScanOutput
 
 
 def htmlExtractor(file):
@@ -96,7 +96,7 @@ def htmlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "*/" in line:
-                    content = content + line[line.rfind("*/") + 2:]
+                    content = content + line[line.rfind("*/") + 2 :]
                     line = content
                     copy = True
                     found = True
@@ -107,7 +107,7 @@ def htmlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "-->" in line:
-                    content = content + line[line.rfind("-->") + 3:]
+                    content = content + line[line.rfind("-->") + 3 :]
                     line = content
                     copy = True
                     found = True

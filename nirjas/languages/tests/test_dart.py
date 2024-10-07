@@ -20,10 +20,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
+from nirjas.binder import readMultiLineDiff, readSingleLine
 from nirjas.languages import dart
-from nirjas.binder import readSingleLine, readMultiLineDiff
 
 
 class DartTest(unittest.TestCase):
@@ -75,10 +76,16 @@ class DartTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Dart",
                 "total_lines": comment_single_doubleSlash[1],
-                "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
+                "total_lines_of_comments": comment_single_doubleSlash[3]
+                + comment_single_tripleSlash[3]
+                + comment_multiline[3],
                 "blank_lines": comment_single_doubleSlash[2],
-                "sloc": comment_single_doubleSlash[1] - (
-                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
+                "sloc": comment_single_doubleSlash[1]
+                - (
+                    comment_single_doubleSlash[3]
+                    + comment_single_tripleSlash[3]
+                    + comment_multiline[3]
+                    + comment_single_doubleSlash[2]
                 ),
             },
             "single_line_comment": [],

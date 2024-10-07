@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 Module to hold output classes.
 """
 
-from .scan_output import ScanOutput  # noqa
-from .single_line import SingleLine  # noqa
 from .multi_line import MultiLine  # noqa
 from .output import Output  # noqa
+from .scan_output import ScanOutput  # noqa
+from .single_line import SingleLine  # noqa

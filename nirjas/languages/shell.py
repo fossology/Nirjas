@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import MultiLine, ScanOutput, SingleLine
 
 
 def shellExtractor(file):
