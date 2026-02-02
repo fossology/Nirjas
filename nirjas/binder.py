@@ -83,6 +83,7 @@ def readMultiLineSame(file, syntax: str):
     Read multiline comments where starting and ending symbols are same.
     """
     start_line, end_line, output = [], [], []
+    blank_lines_inside_comment = 0
     content = ""
     if '"' in syntax:
         syntax_in_string = "'" + syntax
@@ -110,10 +111,12 @@ def readMultiLineSame(file, syntax: str):
 
             if copy:
                 lines_of_comment += 1
+                if line.strip() == "":
+                    blank_lines_inside_comment+=1
                 content = content + line.replace("\n", " ")
 
     output = [s.strip(syntax).strip() for s in output]
-    return start_line, end_line, output, lines_of_comment
+    return start_line, end_line, output, lines_of_comment, blank_lines_inside_comment
 
 
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):

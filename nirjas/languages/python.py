@@ -37,6 +37,10 @@ def pythonExtractor(file):
     single_line_comment = result.hash(file)
     multiline_single_comment = result.singleQuotes(file)
     multiline_double_comment = result.doubleQuotes(file)
+    blank_lines_in_comment=(
+        multiline_double_comment[4] + multiline_single_comment[4])
+    total_blank_lines = single_line_comment[2]
+    blank_lines_outside_comment = total_blank_lines - blank_lines_in_comment
     cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
     output = ScanOutput()
@@ -45,7 +49,10 @@ def pythonExtractor(file):
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = (
         single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3])
-    output.blank_lines = single_line_comment[2]
+    output.blank_lines_in_comment=blank_lines_in_comment    
+    output.blank_lines = total_blank_lines
+    output.blank_lines_outside_comment = blank_lines_outside_comment
+
 
     if cont_single_line_comment:
         single_line_comment = cont_single_line_comment[0]
