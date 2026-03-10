@@ -86,8 +86,8 @@ def cppSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8", errors="ignore") as f:
             for line in f:
                 content = ""
                 found = False

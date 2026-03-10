@@ -33,7 +33,7 @@ def readSingleLine(file, regex):
     """
     content = []
     total_lines, line_of_comments, blank_lines = 0, 0, 0
-    with open(file) as f:
+    with open(file, encoding="utf-8", errors="ignore") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
             output = re.findall(regex, line, re.I)
@@ -90,7 +90,7 @@ def readMultiLineSame(file, syntax: str):
         syntax_in_string = '"' + syntax
     closingCount, lines_of_comment = 0, 0
     copy = False
-    with open(file) as f:
+    with open(file, encoding="utf-8", errors="ignore") as f:
         for line_number, line in enumerate(f, start=1):
             if syntax in line and syntax_in_string not in line:
                 closingCount += 1
@@ -124,7 +124,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     content = ""
     total_lines, line_of_comments, blank_lines = 0, 0, 0
     inComment = False
-    with open(file) as f:
+    with open(file, encoding="utf-8", errors="ignore") as f:
         for lineNumber, line in enumerate(f, start=1):
             total_lines += 1
             stripped_line = line.strip()
@@ -162,23 +162,35 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
 
 def extractAssignedString(file):
     """
-    Read file line by line and match string type variable to get string.
-    Return the content of the string.
+    Read file and match string type variable assignments.
+    Supports multiline strings, prefixing (f, r, b), and escapes.
     """
     content = []
-    regex = r"(?<=(=\s*[\'\"]))(.*?)(?=[\'\"])"
-    total_lines, line_of_assignedString = 0, 0
-    with open(file) as f:
-        for line_number, line in enumerate(f, start=1):
-            total_lines += 1
-            output = re.findall(regex, line, re.S)
-            if len(output) >= 2:
-                line_of_assignedString += 1
-            output = "".join(output)
-            if output and len(output) > 1:
-                content.append([line_number, output.strip()])
-            line = line.strip()
-    return content, line_of_assignedString
+    assigned_lines = set()
+
+    with open(file, "r", encoding="utf-8", errors="ignore") as f:
+        full_text = f.read()
+
+    # Robust regex for assignments:
+    # Handles: var = "text", var = f"""multiline""", var = r'raw', etc.
+    regex = r"(?m)^[ \t]*[a-zA-Z_][a-zA-Z0-9_]*[ \t]*=[ \t]*(?:[frbFRB]*)?(['\"]{1,3})(.*?)(?<!\\)\1"
+
+    matches = re.finditer(regex, full_text, re.DOTALL)
+
+    for match in matches:
+        full_match = match.group(0)
+        # Calculate line number based on the index in the full text
+        line_num = full_text.count("\n", 0, match.start()) + 1
+        string_content = match.group(2)
+
+        # Track which lines are part of an assignment
+        lines_in_match = full_match.count("\n") + 1
+        for i in range(lines_in_match):
+            assigned_lines.add(line_num + i)
+
+        content.append([line_num, string_content.strip()])
+
+    return content, len(assigned_lines)
 
 
 class CommentSyntax:

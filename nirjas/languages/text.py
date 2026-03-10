@@ -34,7 +34,7 @@ def textExtractor(file):
     """
     content = ""
     total_lines, blank_lines = 0, 0
-    with open(file) as f:
+    with open(file, encoding="utf-8", errors="ignore") as f:
         for line in f:
             total_lines += 1
             line = line.strip()

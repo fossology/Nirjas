@@ -72,8 +72,8 @@ def shellSource(file, new_file: str):
     :return: Path to new file
     :rtype: string
     """
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8", errors="ignore") as f:
             for line in f:
                 content = line
                 if "#" in line:
