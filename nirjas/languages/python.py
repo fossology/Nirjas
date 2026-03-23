@@ -21,8 +21,41 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.languages._base import TreeSitterExtractor
+
+_TRIPLE_QUOTE_OPENINGS = ('"""', "'''")
+_STRING_PREFIXES = frozenset("rRbBuUfF")
+
+
+def _is_triple_quoted(node) -> bool:
+    text: str = node.text.decode("utf-8", errors="replace")
+    i = 0
+    while i < len(text) and text[i] in _STRING_PREFIXES:
+        i += 1
+    rest = text[i:]
+    return rest.startswith(_TRIPLE_QUOTE_OPENINGS[0]) or rest.startswith(
+        _TRIPLE_QUOTE_OPENINGS[1]
+    )
+
+
+class _PythonExtractor(TreeSitterExtractor):
+
+    def __init__(self) -> None:
+        super().__init__("python")
+
+    def classify_node(self, node):
+        if node.type == "comment":
+            return "single"
+
+        if node.type == "string" and _is_triple_quoted(node):
+            start = node.start_point[0]
+            end = node.end_point[0]
+            return "single" if start == end else "multi"
+
+        return None
+
+
+_EXTRACTOR = _PythonExtractor()
 
 
 def pythonExtractor(file):
@@ -33,60 +66,7 @@ def pythonExtractor(file):
     :return: Scan output
     :rtype: ScanOutput
     """
-    result = CommentSyntax()
-    single_line_comment = result.hash(file)
-    multiline_single_comment = result.singleQuotes(file)
-    multiline_double_comment = result.doubleQuotes(file)
-    cont_single_line_comment = contSingleLines(single_line_comment)
-    file = file.split("/")
-    output = ScanOutput()
-    output.filename = file[-1]
-    output.lang = "Python"
-    output.total_lines = single_line_comment[1]
-    output.total_lines_of_comments = (
-        single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3])
-    output.blank_lines = single_line_comment[2]
-
-    if cont_single_line_comment:
-        single_line_comment = cont_single_line_comment[0]
-
-    for i in single_line_comment[0]:
-        output.single_line_comment.append(SingleLine(i[0], i[1]))
-
-    for idx, _ in enumerate(cont_single_line_comment[1]):
-        output.cont_single_line_comment.append(
-            MultiLine(
-                cont_single_line_comment[1][idx],
-                cont_single_line_comment[2][idx],
-                cont_single_line_comment[3][idx],
-            )
-        )
-
-    try:
-        for idx, _ in enumerate(multiline_single_comment[0]):
-            output.multi_line_comment.append(
-                MultiLine(
-                    multiline_single_comment[0][idx],
-                    multiline_single_comment[1][idx],
-                    multiline_single_comment[2][idx],
-                )
-            )
-    except BaseException:
-        pass
-
-    try:
-        for idx, _ in enumerate(multiline_double_comment[0]):
-            output.multi_line_comment.append(
-                MultiLine(
-                    multiline_double_comment[0][idx],
-                    multiline_double_comment[1][idx],
-                    multiline_double_comment[2][idx],
-                )
-            )
-    except BaseException:
-        pass
-
-    return output
+    return _EXTRACTOR.build_scan_output(file, "Python")
 
 
 def pythonSource(file, new_file: str):

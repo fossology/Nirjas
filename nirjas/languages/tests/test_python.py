@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import tempfile
+import unittest
+
 from nirjas.languages import python
-from nirjas.binder import readSingleLine, readMultiLineSame, contSingleLines
 
 
 class PythonTest(unittest.TestCase):
@@ -31,101 +32,112 @@ class PythonTest(unittest.TestCase):
     """
 
     testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.py"
+        os.path.abspath(os.path.dirname(__file__)), "TestFiles", "textcomment.py"
     )
 
-    def test_output(self):
-        """
-        Check for the scan correctness.
-        """
-        regex = r"""(?<!["'`])#+\s*(.*)"""
-        syntax_single = "'''"
-        syntax_double = '"""'
-        comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
-        comment_single = readSingleLine(self.testfile, regex)
-        comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
-        comment_contSingleline = contSingleLines(comment_single)
-        self.assertTrue(comment_single)
-        self.assertTrue(comment_multi_single)
-        self.assertTrue(comment_multi_double)
-        self.assertTrue(comment_contSingleline)
+    def setUp(self):
+        self.result = python.pythonExtractor(self.testfile)
 
-    def test_outputFormat(self):
-        """
-        Check for the output format correctness.
-        """
-        regex = r"""(?<!["'`])#+\s*(.*)"""
-        syntax_single = "'''"
-        syntax_double = '"""'
-        expected = python.pythonExtractor(self.testfile).get_dict()
-        comment_single = readSingleLine(self.testfile, regex)
-        comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
-        comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
-        comment_contSingleline = contSingleLines(comment_single)
-        file = self.testfile.split("/")
-        output = {
-            "metadata": {
-                "filename": file[-1],
-                "lang": "Python",
-                "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3],
-                "blank_lines": comment_single[2],
-                "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
-                ),
-            },
-            "single_line_comment": [],
-            "cont_single_line_comment": [],
-            "multi_line_comment": [],
-        }
+    def test_returns_scan_output(self):
+        """pythonExtractor returns an object with the expected attributes."""
+        out = self.result
+        self.assertIsNotNone(out.filename)
+        self.assertIsNotNone(out.lang)
+        self.assertIsNotNone(out.total_lines)
+        self.assertIsNotNone(out.total_lines_of_comments)
+        self.assertIsNotNone(out.blank_lines)
+        self.assertIsInstance(out.single_line_comment, list)
+        self.assertIsInstance(out.cont_single_line_comment, list)
+        self.assertIsInstance(out.multi_line_comment, list)
 
-        if comment_contSingleline:
-            comment_single = comment_contSingleline[0]
+    def test_language_is_python(self):
+        self.assertEqual(self.result.lang, "Python")
 
-        if comment_single:
-            for i in comment_single[0]:
-                output["single_line_comment"].append(
-                    {"line_number": i[0], "comment": i[1]}
-                )
+    def test_filename(self):
+        self.assertEqual(self.result.filename, "textcomment.py")
 
-        if comment_contSingleline:
-            for idx, _ in enumerate(comment_contSingleline[1]):
-                output["cont_single_line_comment"].append(
-                    {
-                        "start_line": comment_contSingleline[1][idx],
-                        "end_line": comment_contSingleline[2][idx],
-                        "comment": comment_contSingleline[3][idx],
-                    }
-                )
+    def test_total_lines(self):
+        self.assertEqual(self.result.total_lines, 17)
 
-        if comment_multi_single:
-            for idx, _ in enumerate(comment_multi_single[0]):
-                output["multi_line_comment"].append(
-                    {
-                        "start_line": comment_multi_single[0][idx],
-                        "end_line": comment_multi_single[1][idx],
-                        "comment": comment_multi_single[2][idx],
-                    }
-                )
+    def test_blank_lines(self):
+        self.assertEqual(self.result.blank_lines, 4)
 
-        if comment_multi_double:
-            for idx, _ in enumerate(comment_multi_double[0]):
-                output["multi_line_comment"].append(
-                    {
-                        "start_line": comment_multi_double[0][idx],
-                        "end_line": comment_multi_double[1][idx],
-                        "comment": comment_multi_double[2][idx],
-                    }
-                )
+    def test_total_lines_of_comments(self):
+        # 1 (line 2) + 2 (lines 4-5) + 4 (lines 7-10) + 1 (line 13) = 8
+        self.assertEqual(self.result.total_lines_of_comments, 8)
 
-        self.assertEqual(output, expected)
+    def test_sloc(self):
+        out = self.result.get_dict()
+        self.assertEqual(out["metadata"]["sloc"], 5)
+
+    def test_single_line_count(self):
+        # Line 2 + line 13 (single-line triple-quoted string)
+        self.assertEqual(len(self.result.single_line_comment), 2)
+
+    def test_single_line_hash_comment(self):
+        comment = self.result.single_line_comment[0]
+        self.assertEqual(comment.line_number, 2)
+        self.assertEqual(comment.comment, "# Single standalone comment")
+
+    def test_single_line_triple_quote_docstring(self):
+        comment = self.result.single_line_comment[1]
+        self.assertEqual(comment.line_number, 13)
+        self.assertEqual(comment.comment, "'''A single-line docstring'''")
+
+    def test_cont_single_line_count(self):
+        self.assertEqual(len(self.result.cont_single_line_comment), 1)
+
+    def test_cont_single_line_span(self):
+        group = self.result.cont_single_line_comment[0]
+        self.assertEqual(group.start_line, 4)
+        self.assertEqual(group.end_line, 5)
+
+    def test_cont_single_line_text(self):
+        group = self.result.cont_single_line_comment[0]
+        self.assertIn("Consecutive comment A", group.comment)
+        self.assertIn("Consecutive comment B", group.comment)
+
+    def test_multi_line_count(self):
+        self.assertEqual(len(self.result.multi_line_comment), 1)
+
+    def test_multi_line_span(self):
+        docstring = self.result.multi_line_comment[0]
+        self.assertEqual(docstring.start_line, 7)
+        self.assertEqual(docstring.end_line, 10)
+
+    def test_multi_line_text(self):
+        docstring = self.result.multi_line_comment[0]
+        self.assertIn("Multi-line docstring", docstring.comment)
+        self.assertIn('"""', docstring.comment)
+
+    def test_hash_inside_string_is_not_comment(self):
+        """Line 16 y = "# not a comment" must not produce an extra comment."""
+        all_line_numbers = (
+            [c.line_number for c in self.result.single_line_comment]
+            + [c.start_line for c in self.result.cont_single_line_comment]
+            + [c.start_line for c in self.result.multi_line_comment]
+        )
+        self.assertNotIn(16, all_line_numbers)
+
+    def test_get_dict_structure(self):
+        d = self.result.get_dict()
+        self.assertIn("metadata", d)
+        self.assertIn("single_line_comment", d)
+        self.assertIn("cont_single_line_comment", d)
+        self.assertIn("multi_line_comment", d)
+        meta = d["metadata"]
+        for key in ("filename", "lang", "total_lines", "total_lines_of_comments",
+                    "blank_lines", "sloc"):
+            self.assertIn(key, meta)
+
 
     def test_Source(self):
-        """
-        Test the source code extraction.
-        Call the source function and check if new file exists.
-        """
-        name = "source.txt"
-        newfile = python.pythonSource(self.testfile, name)
-
-        self.assertTrue(newfile)
+        """pythonSource creates a new file with comments stripped."""
+        with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+            name = tmp.name
+        try:
+            newfile = python.pythonSource(self.testfile, name)
+            self.assertTrue(os.path.exists(newfile))
+        finally:
+            if os.path.exists(name):
+                os.unlink(name)
