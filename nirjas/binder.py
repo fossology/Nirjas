@@ -33,7 +33,7 @@ def readSingleLine(file, regex):
     """
     content = []
     total_lines, line_of_comments, blank_lines = 0, 0, 0
-    with open(file, encoding="utf-8") as f:
+    with open(file, encoding="utf-8", errors="replace") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
             output = re.findall(regex, line, re.I)
@@ -90,7 +90,7 @@ def readMultiLineSame(file, syntax: str):
         syntax_in_string = '"' + syntax
     closingCount, lines_of_comment = 0, 0
     copy = False
-    with open(file, encoding="utf-8") as f:
+    with open(file, encoding="utf-8", errors="replace") as f:
         for line_number, line in enumerate(f, start=1):
             if syntax in line and syntax_in_string not in line:
                 closingCount += 1
@@ -124,7 +124,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     content = ""
     total_lines, line_of_comments, blank_lines = 0, 0, 0
     inComment = False
-    with open(file, encoding="utf-8") as f:
+    with open(file, encoding="utf-8", errors="replace") as f:
         for lineNumber, line in enumerate(f, start=1):
             total_lines += 1
             stripped_line = line.strip()
@@ -166,9 +166,9 @@ def extractAssignedString(file):
     Return the content of the string.
     """
     content = []
-    regex = r"(?<=(=\s*[\'\"]))(.*?)(?=[\'\"])"
+    regex = r"=\s*['\"](.+?)['\"]"
     total_lines, line_of_assignedString = 0, 0
-    with open(file, encoding="utf-8") as f:
+    with open(file, encoding="utf-8", errors="replace") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
             output = re.findall(regex, line, re.S)
