@@ -74,7 +74,7 @@ class PythonTest(unittest.TestCase):
                 "blank_lines_in_comment": blank_lines_in_comment,
                 "blank_lines_outside_comment": comment_single[2] - blank_lines_in_comment,
                 "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + (comment_single[2] - blank_lines_in_comment)
+                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
                 ),
             },
             "single_line_comment": [],
@@ -140,7 +140,7 @@ class PythonTest(unittest.TestCase):
         expected_sloc = 1
         result = python.pythonExtractor(multiline_blank_file).get_dict()
         self.assertEqual(result["metadata"]["sloc"], expected_sloc)
-        self.assertEqual(result["metadata"]["total_lines_of_comments"], 6)
+        self.assertEqual(result["metadata"]["total_lines_of_comments"], 5)
         self.assertEqual(result["metadata"]["blank_lines"], 1)
 
     def test_Source(self):

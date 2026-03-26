@@ -69,7 +69,7 @@ class matlabTest(unittest.TestCase):
                 "blank_lines": comment_single[2],
                 "blank_lines_in_comment": comment_multiline[6],
                 "blank_lines_outside_comment": comment_single[2] - comment_multiline[6],
-                "sloc": comment_single[1] - (comment_single[3] + comment_multiline[3] + (comment_single[2] - comment_multiline[6])),
+                "sloc": comment_single[1] - (comment_single[3] + comment_multiline[3] + comment_single[2]),
             },
             "single_line_comment": [],
             "cont_single_line_comment": [],

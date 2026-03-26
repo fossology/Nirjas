@@ -89,7 +89,7 @@ class JuliaTest(unittest.TestCase):
                 "blank_lines_in_comment": blank_lines_in_comment,
                 "blank_lines_outside_comment": comment_single[2] - blank_lines_in_comment,
                 "sloc": comment_single[1] - (
-                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + (comment_single[2] - blank_lines_in_comment)
+                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + comment_single[2]
                 ),
             },
             "single_line_comment": [],

@@ -80,7 +80,7 @@ class DartTest(unittest.TestCase):
                 "blank_lines_in_comment": comment_multiline[6],
                 "blank_lines_outside_comment": comment_single_doubleSlash[2] - comment_multiline[6],
                 "sloc": comment_single_doubleSlash[1] - (
-                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + (comment_single_doubleSlash[2] - comment_multiline[6])
+                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
                 ),
             },
             "single_line_comment": [],
