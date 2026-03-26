@@ -33,7 +33,7 @@ def readSingleLine(file, regex):
     """
     content = []
     total_lines, line_of_comments, blank_lines = 0, 0, 0
-    with open(file) as f:
+    with open(file, encoding="utf-8") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
             output = re.findall(regex, line, re.I)
@@ -83,6 +83,7 @@ def readMultiLineSame(file, syntax: str):
     Read multiline comments where starting and ending symbols are same.
     """
     start_line, end_line, output = [], [], []
+    blank_lines_inside_comment = 0
     content = ""
     if '"' in syntax:
         syntax_in_string = "'" + syntax
@@ -90,7 +91,7 @@ def readMultiLineSame(file, syntax: str):
         syntax_in_string = '"' + syntax
     closingCount, lines_of_comment = 0, 0
     copy = False
-    with open(file) as f:
+    with open(file, encoding="utf-8") as f:
         for line_number, line in enumerate(f, start=1):
             if syntax in line and syntax_in_string not in line:
                 closingCount += 1
@@ -105,15 +106,20 @@ def readMultiLineSame(file, syntax: str):
                     output.append(content.strip())
                     content = ""
                     end_line.append(line_number)
+                    if line.strip() != "":
+                        lines_of_comment += 1
                 else:
                     start_line.append(line_number)
 
             if copy:
-                lines_of_comment += 1
+                if line.strip() != "":
+                    lines_of_comment += 1
+                else:
+                    blank_lines_inside_comment += 1
                 content = content + line.replace("\n", " ")
 
     output = [s.strip(syntax).strip() for s in output]
-    return start_line, end_line, output, lines_of_comment
+    return start_line, end_line, output, lines_of_comment, blank_lines_inside_comment
 
 
 def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
@@ -124,16 +130,28 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
     content = ""
     total_lines, line_of_comments, blank_lines = 0, 0, 0
     inComment = False
-    with open(file) as f:
+    blank_lines_inside_comment = 0
+    with open(file, encoding="utf-8") as f:
         for lineNumber, line in enumerate(f, start=1):
             total_lines += 1
             stripped_line = line.strip()
+
+            if stripped_line == "":
+                blank_lines += 1
+
             if startSyntax in stripped_line and not inComment:
                 inComment = True
                 startLine.append(lineNumber)
-                line = line[line.find(startSyntax) + len(startSyntax):]
+                if stripped_line != "":
+                    line_of_comments += 1
+                line = line[line.find(startSyntax) + len(startSyntax) :]
+
             if endSyntax in stripped_line and inComment:
                 inComment = False
+                if lineNumber != startLine[-1]:
+                    if stripped_line != "":
+                        line_of_comments += 1
+
                 line = line[: line.rfind(endSyntax) + len(endSyntax)]
                 content = content + line.replace("\n", " ")
                 content = content.strip(startSyntax).strip(endSyntax).strip()
@@ -141,14 +159,15 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
                 content = ""
                 endLine.append(lineNumber)
                 continue
+
             if inComment:
+                if lineNumber != startLine[-1]:
+                    if stripped_line != "":
+                        line_of_comments += 1
+                    else:
+                        blank_lines_inside_comment += 1
                 content = content + (line.replace("\n", " ")).strip()
-            if stripped_line == "":
-                blank_lines += 1
-        min_length = min(len(startLine), len(endLine))
-        for idx in range(min_length):
-            line_of_comments = line_of_comments + (endLine[idx] - startLine[idx]) + 1
-        line_of_comments += len(output)
+
         output = [s.strip(startSyntax).strip(endSyntax).strip() for s in output]
     return (
         startLine,
@@ -157,6 +176,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
         line_of_comments,
         total_lines,
         blank_lines,
+        blank_lines_inside_comment,
     )  # noqa
 
 

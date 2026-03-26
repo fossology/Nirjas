@@ -35,6 +35,8 @@ class ScanOutput:
         self.total_lines = None
         self.total_lines_of_comments = None
         self.blank_lines = None
+        self.blank_lines_in_comment = None
+        self.blank_lines_outside_comment = None
         self.single_line_comment = []
         self.cont_single_line_comment = []
         self.multi_line_comment = []
@@ -43,15 +45,21 @@ class ScanOutput:
         """
         Get the output as dictionary
         """
+        metadata = {
+            "filename": self.filename,
+            "lang": self.lang,
+            "total_lines": self.total_lines,
+            "total_lines_of_comments": self.total_lines_of_comments,
+            "blank_lines": self.blank_lines,
+            "sloc": self.total_lines - (self.total_lines_of_comments + self.blank_lines),
+        }
+        if self.blank_lines_in_comment is not None:
+            metadata["blank_lines_in_comment"] = self.blank_lines_in_comment
+        if self.blank_lines_outside_comment is not None:
+            metadata["blank_lines_outside_comment"] = self.blank_lines_outside_comment
+
         return Output(
-            metadata=Output(
-                filename=self.filename,
-                lang=self.lang,
-                total_lines=self.total_lines,
-                total_lines_of_comments=self.total_lines_of_comments,
-                blank_lines=self.blank_lines,
-                sloc=self.total_lines - (self.total_lines_of_comments + self.blank_lines),
-            ).output,
+            metadata=Output(**metadata).output,
             single_line_comment=[c.get_dict() for c in self.single_line_comment],
             cont_single_line_comment=[
                 c.get_dict() for c in self.cont_single_line_comment

@@ -74,6 +74,11 @@ class JuliaTest(unittest.TestCase):
         )
         comment_contSingleline = contSingleLines(comment_single)
         file = self.testfile.split("/")
+        blank_lines_in_comment = (
+            comment_multi_single[4]
+            + comment_multi_double[4]
+            + comment_multi_hashEqual[6]
+        )
         output = {
             "metadata": {
                 "filename": file[-1],
@@ -81,6 +86,8 @@ class JuliaTest(unittest.TestCase):
                 "total_lines": comment_single[1],
                 "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3],
                 "blank_lines": comment_single[2],
+                "blank_lines_in_comment": blank_lines_in_comment,
+                "blank_lines_outside_comment": comment_single[2] - blank_lines_in_comment,
                 "sloc": comment_single[1] - (
                     comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + comment_single[2]
                 ),

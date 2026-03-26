@@ -63,6 +63,7 @@ class PythonTest(unittest.TestCase):
         comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
         comment_contSingleline = contSingleLines(comment_single)
         file = self.testfile.split("/")
+        blank_lines_in_comment = comment_multi_single[4] + comment_multi_double[4]
         output = {
             "metadata": {
                 "filename": file[-1],
@@ -70,6 +71,8 @@ class PythonTest(unittest.TestCase):
                 "total_lines": comment_single[1],
                 "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3],
                 "blank_lines": comment_single[2],
+                "blank_lines_in_comment": blank_lines_in_comment,
+                "blank_lines_outside_comment": comment_single[2] - blank_lines_in_comment,
                 "sloc": comment_single[1] - (
                     comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_single[2]
                 ),
@@ -119,6 +122,26 @@ class PythonTest(unittest.TestCase):
                 )
 
         self.assertEqual(output, expected)
+
+    def test_blank_in_multiline(self):
+        """
+        Check for correctness when a multiline comment contains a blank line.
+        """
+        multiline_blank_file = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)), "TestFiles/multiline_blank.py"
+        )
+        # Create it if it doesn't exist for some reason
+        if not os.path.exists(os.path.dirname(multiline_blank_file)):
+            os.makedirs(os.path.dirname(multiline_blank_file))
+        with open(multiline_blank_file, "w", encoding="utf-8") as f:
+            f.write('"""\nTesting multiline\n\nwith blank lines\n"""\nprint("Hello")\n# comment')
+        
+        # total=7, comment=5(multi)+1(single)=6, blank=1, blank_in_comment=1, sloc=7-(6+0)=1
+        expected_sloc = 1
+        result = python.pythonExtractor(multiline_blank_file).get_dict()
+        self.assertEqual(result["metadata"]["sloc"], expected_sloc)
+        self.assertEqual(result["metadata"]["total_lines_of_comments"], 5)
+        self.assertEqual(result["metadata"]["blank_lines"], 1)
 
     def test_Source(self):
         """

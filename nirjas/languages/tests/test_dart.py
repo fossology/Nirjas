@@ -77,6 +77,8 @@ class DartTest(unittest.TestCase):
                 "total_lines": comment_single_doubleSlash[1],
                 "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
                 "blank_lines": comment_single_doubleSlash[2],
+                "blank_lines_in_comment": comment_multiline[6],
+                "blank_lines_outside_comment": comment_single_doubleSlash[2] - comment_multiline[6],
                 "sloc": comment_single_doubleSlash[1] - (
                     comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
                 ),

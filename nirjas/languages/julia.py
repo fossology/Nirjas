@@ -47,6 +47,10 @@ def juliaExtractor(file):
         single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3] + multiline_hashEqual_comment[3]
     )
     output.blank_lines = single_line_comment[2]
+    output.blank_lines_in_comment = (
+        multiline_single_comment[4] + multiline_double_comment[4] + multiline_hashEqual_comment[6]
+    )
+    output.blank_lines_outside_comment = output.blank_lines - output.blank_lines_in_comment
 
     if cont_single_line_comment:
         single_line_comment = cont_single_line_comment[0]
@@ -113,8 +117,8 @@ def juliaSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8") as f:
             for line in f:
                 content = ""
                 found = False

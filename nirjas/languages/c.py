@@ -36,6 +36,8 @@ def cExtractor(file):
     result = CommentSyntax()
     single_line_comment = result.doubleSlash(file)
     multiline_comment = result.slashStar(file)
+    blank_lines_in_comment = multiline_comment[6]
+    total_blank_lines = single_line_comment[2]
     cont_single_line_comment = contSingleLines(single_line_comment)
     file = file.split("/")
     output = ScanOutput()
@@ -43,7 +45,9 @@ def cExtractor(file):
     output.lang = "C"
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
-    output.blank_lines = single_line_comment[2]
+    output.blank_lines = total_blank_lines
+    output.blank_lines_in_comment = blank_lines_in_comment
+    output.blank_lines_outside_comment = total_blank_lines - blank_lines_in_comment
 
     if cont_single_line_comment:
         single_line_comment = cont_single_line_comment[0]
@@ -86,8 +90,8 @@ def cSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8") as f:
             for line in f:
                 content = ""
                 found = False
