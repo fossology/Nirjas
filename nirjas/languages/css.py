@@ -42,6 +42,8 @@ def cssExtractor(file):
     output.total_lines = multiline_comment[4]
     output.total_lines_of_comments = multiline_comment[3]
     output.blank_lines = multiline_comment[5]
+    output.blank_lines_in_comment = multiline_comment[6]
+    output.blank_lines_outside_comment = multiline_comment[5] - multiline_comment[6]
 
     try:
         for idx, _ in enumerate(multiline_comment[0]):
@@ -69,8 +71,8 @@ def cssSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8") as f:
             for line in f:
                 content = ""
                 found = False

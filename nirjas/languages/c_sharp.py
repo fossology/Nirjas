@@ -44,6 +44,8 @@ def c_sharpExtractor(file):
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
     output.blank_lines = single_line_comment[2]
+    output.blank_lines_in_comment = multiline_comment[6]
+    output.blank_lines_outside_comment = single_line_comment[2] - multiline_comment[6]
 
     if cont_single_line_comment:
         single_line_comment = cont_single_line_comment[0]
@@ -83,7 +85,7 @@ def c_sharpSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
+    with open(new_file, "w+", encoding="utf-8") as f1:
         with open(file, "r") as f:
             for line in f:
                 content = ""

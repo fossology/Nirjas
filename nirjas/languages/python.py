@@ -49,8 +49,8 @@ def pythonExtractor(file):
     output.total_lines = single_line_comment[1]
     output.total_lines_of_comments = (
         single_line_comment[3] + multiline_single_comment[3] + multiline_double_comment[3])
-    output.blank_lines_in_comment=blank_lines_in_comment    
     output.blank_lines = total_blank_lines
+    output.blank_lines_in_comment = blank_lines_in_comment
     output.blank_lines_outside_comment = blank_lines_outside_comment
 
 
@@ -107,8 +107,8 @@ def pythonSource(file, new_file: str):
     :rtype: string
     """
     copy = True
-    with open(new_file, "w+") as f1:
-        with open(file) as f:
+    with open(new_file, "w+", encoding="utf-8") as f1:
+        with open(file, encoding="utf-8") as f:
             for line in f:
                 content = ""
                 found = False
