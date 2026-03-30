@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
-from nirjas.languages import html
+import unittest
+
 from nirjas.binder import readMultiLineDiff
+from nirjas.languages import html
 
 
 class HTMLTest(unittest.TestCase):
@@ -30,9 +31,7 @@ class HTMLTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.html"
-    )
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.html")
 
     def test_output(self):
         """
@@ -42,9 +41,7 @@ class HTMLTest(unittest.TestCase):
         end_exclamation = "-->"
         syntax_start = "/*"
         syntax_end = "*/"
-        comment_single = readMultiLineDiff(
-            self.testfile, start_exclamation, end_exclamation
-        )
+        comment_single = readMultiLineDiff(self.testfile, start_exclamation, end_exclamation)
         comment_multiline = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
 
         self.assertTrue(comment_single)
@@ -59,9 +56,7 @@ class HTMLTest(unittest.TestCase):
         syntax_start = "/*"
         syntax_end = "*/"
         expected = html.htmlExtractor(self.testfile).get_dict()
-        comment_single = readMultiLineDiff(
-            self.testfile, start_exclamation, end_exclamation
-        )
+        comment_single = readMultiLineDiff(self.testfile, start_exclamation, end_exclamation)
         comment_multiline = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
         file = self.testfile.split("/")
         output = {

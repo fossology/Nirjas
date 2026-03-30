@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
-from nirjas.languages import r
+import unittest
+
 from nirjas.binder import readSingleLine
+from nirjas.languages import r
 
 
 class rTest(unittest.TestCase):
@@ -30,9 +31,7 @@ class rTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.R"
-    )
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.R")
 
     def test_output(self):
         """
@@ -65,9 +64,7 @@ class rTest(unittest.TestCase):
         }
         if comment_single:
             for i in comment_single[0]:
-                output["single_line_comment"].append(
-                    {"line_number": i[0], "comment": i[1]}
-                )
+                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
         self.assertEqual(output, expected)
 
     def test_Source(self):

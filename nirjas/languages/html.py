@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax
-from nirjas.output import ScanOutput, MultiLine
+from nirjas.output import MultiLine, ScanOutput
 
 
 def htmlExtractor(file):
@@ -41,9 +41,7 @@ def htmlExtractor(file):
     output.filename = file[-1]
     output.lang = "HTML"
     output.total_lines = multiline_dash_comment[4]
-    output.total_lines_of_comments = (
-        multiline_dash_comment[3] + multiline_star_comment[3]
-    )
+    output.total_lines_of_comments = multiline_dash_comment[3] + multiline_star_comment[3]
     output.blank_lines = multiline_dash_comment[5]
 
     try:
@@ -96,7 +94,7 @@ def htmlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "*/" in line:
-                    content = content + line[line.rfind("*/") + 2:]
+                    content = content + line[line.rfind("*/") + 2 :]
                     line = content
                     copy = True
                     found = True
@@ -107,7 +105,7 @@ def htmlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "-->" in line:
-                    content = content + line[line.rfind("-->") + 3:]
+                    content = content + line[line.rfind("-->") + 3 :]
                     line = content
                     copy = True
                     found = True

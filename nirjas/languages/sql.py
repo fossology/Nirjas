@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.binder import CommentSyntax, contSingleLines
-from nirjas.output import ScanOutput, SingleLine, MultiLine
+from nirjas.output import MultiLine, ScanOutput, SingleLine
 
 
 def sqlExtractor(file):
@@ -37,8 +37,7 @@ def sqlExtractor(file):
     output.filename = file[-1]
     output.lang = "SQL"
     output.total_lines = single_line_comment[1]
-    output.total_lines_of_comments = single_line_comment[3] + \
-        multiline_comment[3]
+    output.total_lines_of_comments = single_line_comment[3] + multiline_comment[3]
     output.blank_lines = single_line_comment[2]
 
     if cont_single_line_comment:
@@ -90,7 +89,7 @@ def sqlSource(file, new_file: str):
                     copy = False
                     found = True
                 if "*/" in line:
-                    content = content + line[line.rfind("*/") + 2:]
+                    content = content + line[line.rfind("*/") + 2 :]
                     line = content
                     copy = True
                     found = True

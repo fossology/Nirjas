@@ -18,10 +18,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
+from nirjas.binder import contSingleLines, readMultiLineDiff, readSingleLine
 from nirjas.languages import scala
-from nirjas.binder import readSingleLine, readMultiLineDiff, contSingleLines
 
 
 class ScalaTest(unittest.TestCase):
@@ -30,9 +31,7 @@ class ScalaTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scala"
-    )
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scala")
 
     def test_output(self):
         """
@@ -79,9 +78,7 @@ class ScalaTest(unittest.TestCase):
 
         if comment_single:
             for i in comment_single[0]:
-                output["single_line_comment"].append(
-                    {"line_number": i[0], "comment": i[1]}
-                )
+                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
 
         if comment_contSingleline:
             for idx, _ in enumerate(comment_contSingleline[1]):

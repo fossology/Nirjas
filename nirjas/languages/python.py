@@ -33,13 +33,10 @@ def _is_triple_quoted(node) -> bool:
     while i < len(text) and text[i] in _STRING_PREFIXES:
         i += 1
     rest = text[i:]
-    return rest.startswith(_TRIPLE_QUOTE_OPENINGS[0]) or rest.startswith(
-        _TRIPLE_QUOTE_OPENINGS[1]
-    )
+    return rest.startswith(_TRIPLE_QUOTE_OPENINGS[0]) or rest.startswith(_TRIPLE_QUOTE_OPENINGS[1])
 
 
 class _PythonExtractor(TreeSitterExtractor):
-
     def __init__(self) -> None:
         super().__init__("python")
 
@@ -93,7 +90,7 @@ def pythonSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind('"""') + 3:]
+                        content = content + line[line.rfind('"""') + 3 :]
                         line = content
                         copy = True
                         found = True
@@ -105,7 +102,7 @@ def pythonSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind("'''") + 3:]
+                        content = content + line[line.rfind("'''") + 3 :]
                         line = content
                         copy = True
                         found = True

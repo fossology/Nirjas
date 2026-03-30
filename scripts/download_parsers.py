@@ -7,8 +7,9 @@ Run after `uv sync`:
 """
 
 import sys
-import tomllib
 from pathlib import Path
+
+import tomllib
 
 
 def main() -> None:

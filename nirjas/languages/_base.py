@@ -51,11 +51,10 @@ class TreeSitterExtractor:
         """Return (and cache) the tree-sitter parser for this language."""
         if self.language_name not in TreeSitterExtractor._parser_cache:
             from tree_sitter_language_pack import download, downloaded_languages, get_parser
+
             if self.language_name not in downloaded_languages():
                 download([self.language_name])
-            TreeSitterExtractor._parser_cache[self.language_name] = get_parser(
-                self.language_name
-            )
+            TreeSitterExtractor._parser_cache[self.language_name] = get_parser(self.language_name)
         return TreeSitterExtractor._parser_cache[self.language_name]
 
     def classify_node(self, node) -> _Classification:
@@ -79,7 +78,7 @@ class TreeSitterExtractor:
         classification = self.classify_node(node)
 
         if classification in ("single", "multi"):
-            start = node.start_point[0] + 1   # tree-sitter is 0-based
+            start = node.start_point[0] + 1  # tree-sitter is 0-based
             end = node.end_point[0] + 1
             text = node.text.decode("utf-8", errors="replace")
             results.append(_CommentNode(classification, start, end, text))
@@ -113,9 +112,7 @@ class TreeSitterExtractor:
         isolated: list[_CommentNode] = []
         groups: list[_CommentNode] = []
 
-        for _, run in groupby(
-            enumerate(line_numbers), lambda x: x[0] - x[1]
-        ):
+        for _, run in groupby(enumerate(line_numbers), lambda x: x[0] - x[1]):
             run_lines = list(map(itemgetter(1), run))
             if len(run_lines) == 1:
                 ln = run_lines[0]
@@ -160,17 +157,11 @@ class TreeSitterExtractor:
         self._collect(tree.root_node, raw)
 
         singles = [c for c in raw if c.kind == "single"]
-        multis = sorted(
-            [c for c in raw if c.kind == "multi"], key=lambda c: c.start_line
-        )
+        multis = sorted([c for c in raw if c.kind == "multi"], key=lambda c: c.start_line)
 
-        isolated, cont_groups = self._group_consecutive(
-            sorted(singles, key=lambda c: c.start_line)
-        )
+        isolated, cont_groups = self._group_consecutive(sorted(singles, key=lambda c: c.start_line))
 
-        total_lines_of_comments = len(singles) + sum(
-            c.end_line - c.start_line + 1 for c in multis
-        )
+        total_lines_of_comments = len(singles) + sum(c.end_line - c.start_line + 1 for c in multis)
 
         filename = os.path.basename(filepath)
 
@@ -185,13 +176,9 @@ class TreeSitterExtractor:
             output.single_line_comment.append(SingleLine(c.start_line, c.text))
 
         for c in cont_groups:
-            output.cont_single_line_comment.append(
-                MultiLine(c.start_line, c.end_line, c.text)
-            )
+            output.cont_single_line_comment.append(MultiLine(c.start_line, c.end_line, c.text))
 
         for c in multis:
-            output.multi_line_comment.append(
-                MultiLine(c.start_line, c.end_line, c.text)
-            )
+            output.multi_line_comment.append(MultiLine(c.start_line, c.end_line, c.text))
 
         return output

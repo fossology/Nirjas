@@ -31,9 +31,7 @@ class PythonTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles", "textcomment.py"
-    )
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles", "textcomment.py")
 
     def setUp(self):
         self.result = python.pythonExtractor(self.testfile)
@@ -126,10 +124,8 @@ class PythonTest(unittest.TestCase):
         self.assertIn("cont_single_line_comment", d)
         self.assertIn("multi_line_comment", d)
         meta = d["metadata"]
-        for key in ("filename", "lang", "total_lines", "total_lines_of_comments",
-                    "blank_lines", "sloc"):
+        for key in ("filename", "lang", "total_lines", "total_lines_of_comments", "blank_lines", "sloc"):
             self.assertIn(key, meta)
-
 
     def test_Source(self):
         """pythonSource creates a new file with comments stripped."""

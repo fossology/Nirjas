@@ -38,6 +38,4 @@ class MultiLine:
         """
         Get the output as dictionary
         """
-        return Output(
-            start_line=self.start_line, end_line=self.end_line, comment=self.comment
-        ).output
+        return Output(start_line=self.start_line, end_line=self.end_line, comment=self.comment).output
