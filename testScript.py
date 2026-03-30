@@ -18,10 +18,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import urllib.request
-import unittest
-import sys
 import os
+import sys
+import unittest
+import urllib.request
 
 
 def download_files(cwd):
@@ -71,9 +71,7 @@ def download_files(cwd):
             ext = file_name[-1]
             with urllib.request.urlopen(url) as data:
                 filename = "textcomment." + ext
-                with open(
-                    os.path.join(directory, filename), "w", encoding="utf-8"
-                ) as newfile:
+                with open(os.path.join(directory, filename), "w", encoding="utf-8") as newfile:
                     newfile.write(data.read().decode("utf-8"))
             print(".", end="")
         print()
