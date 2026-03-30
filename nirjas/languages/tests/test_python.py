@@ -31,7 +31,7 @@ class PythonTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles", "textcomment.py")
+    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "python_fixture.py")
 
     def setUp(self):
         self.result = python.pythonExtractor(self.testfile)
@@ -52,7 +52,7 @@ class PythonTest(unittest.TestCase):
         self.assertEqual(self.result.lang, "Python")
 
     def test_filename(self):
-        self.assertEqual(self.result.filename, "textcomment.py")
+        self.assertEqual(self.result.filename, "python_fixture.py")
 
     def test_total_lines(self):
         self.assertEqual(self.result.total_lines, 17)
@@ -80,7 +80,7 @@ class PythonTest(unittest.TestCase):
     def test_single_line_triple_quote_docstring(self):
         comment = self.result.single_line_comment[1]
         self.assertEqual(comment.line_number, 13)
-        self.assertEqual(comment.comment, "'''A single-line docstring'''")
+        self.assertEqual(comment.comment, '"""A single-line docstring"""')
 
     def test_cont_single_line_count(self):
         self.assertEqual(len(self.result.cont_single_line_comment), 1)
