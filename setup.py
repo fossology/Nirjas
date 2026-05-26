@@ -52,10 +52,10 @@ setup(
     keywords='Nirjas,Code Comment, Comment Extractor, Code Comment Extractor,' +
              ' Source Code Extractor, Source Extractor',
     packages=find_packages(),
-    python_requires=">=3",
+    python_requires=">=3.10",
     install_requires=[
-        "tree-sitter>=0.25.2; python_version >= '3.10'",
-        "tree-sitter-language-pack>=1.1.2; python_version >= '3.10'",
+        "tree-sitter==0.25.2",
+        "tree-sitter-language-pack==1.1.2",
         "tomli>=2.0; python_version < '3.11'",
     ],
     entry_points={
