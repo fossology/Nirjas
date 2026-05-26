@@ -90,7 +90,7 @@ def pythonSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind('"""') + 3 :]
+                        content = content + line[line.rfind('"""') + 3:]
                         line = content
                         copy = True
                         found = True
@@ -102,7 +102,7 @@ def pythonSource(file, new_file: str):
                         copy = False
                         found = True
                     else:
-                        content = content + line[line.rfind("'''") + 3 :]
+                        content = content + line[line.rfind("'''") + 3:]
                         line = content
                         copy = True
                         found = True

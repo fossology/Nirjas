@@ -110,11 +110,11 @@ class PythonTest(unittest.TestCase):
 
     def test_hash_inside_string_is_not_comment(self):
         """Line 16 y = "# not a comment" must not produce an extra comment."""
-        all_line_numbers = (
-            [c.line_number for c in self.result.single_line_comment]
-            + [c.start_line for c in self.result.cont_single_line_comment]
-            + [c.start_line for c in self.result.multi_line_comment]
-        )
+        all_line_numbers = [
+            *[c.line_number for c in self.result.single_line_comment],
+            *[c.start_line for c in self.result.cont_single_line_comment],
+            *[c.start_line for c in self.result.multi_line_comment],
+        ]
         self.assertNotIn(16, all_line_numbers)
 
     def test_get_dict_structure(self):
