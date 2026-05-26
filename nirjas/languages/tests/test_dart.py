@@ -20,11 +20,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import os
 import unittest
-
-from nirjas.binder import readMultiLineDiff, readSingleLine
+import os
 from nirjas.languages import dart
+from nirjas.binder import readSingleLine, readMultiLineDiff
 
 
 class DartTest(unittest.TestCase):
@@ -33,7 +32,9 @@ class DartTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.dart")
+    testfile = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.dart"
+    )
 
     def test_output(self):
         """
@@ -74,16 +75,10 @@ class DartTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Dart",
                 "total_lines": comment_single_doubleSlash[1],
-                "total_lines_of_comments": comment_single_doubleSlash[3]
-                + comment_single_tripleSlash[3]
-                + comment_multiline[3],
+                "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
                 "blank_lines": comment_single_doubleSlash[2],
-                "sloc": comment_single_doubleSlash[1]
-                - (
-                    comment_single_doubleSlash[3]
-                    + comment_single_tripleSlash[3]
-                    + comment_multiline[3]
-                    + comment_single_doubleSlash[2]
+                "sloc": comment_single_doubleSlash[1] - (
+                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
                 ),
             },
             "single_line_comment": [],
@@ -99,11 +94,15 @@ class DartTest(unittest.TestCase):
 
         if comment_single_doubleSlash:
             for i in comment_single_doubleSlash[0]:
-                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
+                output["single_line_comment"].append(
+                    {"line_number": i[0], "comment": i[1]}
+                )
 
         if comment_single_tripleSlash:
             for i in comment_single_tripleSlash[0]:
-                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
+                output["single_line_comment"].append(
+                    {"line_number": i[0], "comment": i[1]}
+                )
 
         if comment_contSingleline1:
             for idx, _ in enumerate(comment_contSingleline1[1]):

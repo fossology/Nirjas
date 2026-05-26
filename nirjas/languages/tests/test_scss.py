@@ -20,11 +20,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import os
 import unittest
-
-from nirjas.binder import contSingleLines, readMultiLineDiff, readSingleLine
+import os
 from nirjas.languages import scss
+from nirjas.binder import readSingleLine, readMultiLineDiff, contSingleLines
 
 
 class ScssTest(unittest.TestCase):
@@ -33,7 +32,9 @@ class ScssTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scss")
+    testfile = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.scss"
+    )
 
     def test_output(self):
         """
@@ -74,16 +75,10 @@ class ScssTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Scss",
                 "total_lines": comment_single_doubleSlash[1],
-                "total_lines_of_comments": comment_single_doubleSlash[3]
-                + comment_single_tripleSlash[3]
-                + comment_multiline[3],
+                "total_lines_of_comments": comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3],
                 "blank_lines": comment_single_doubleSlash[2],
-                "sloc": comment_single_doubleSlash[1]
-                - (
-                    comment_single_doubleSlash[3]
-                    + comment_single_tripleSlash[3]
-                    + comment_multiline[3]
-                    + comment_single_doubleSlash[2]
+                "sloc": comment_single_doubleSlash[1] - (
+                    comment_single_doubleSlash[3] + comment_single_tripleSlash[3] + comment_multiline[3] + comment_single_doubleSlash[2]
                 ),
             },
             "single_line_comment": [],
@@ -99,11 +94,15 @@ class ScssTest(unittest.TestCase):
 
         if comment_single_doubleSlash:
             for i in comment_single_doubleSlash[0]:
-                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
+                output["single_line_comment"].append(
+                    {"line_number": i[0], "comment": i[1]}
+                )
 
         if comment_single_tripleSlash:
             for i in comment_single_tripleSlash[0]:
-                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
+                output["single_line_comment"].append(
+                    {"line_number": i[0], "comment": i[1]}
+                )
 
         if comment_contSingleline1:
             for idx, _ in enumerate(comment_contSingleline1[1]):

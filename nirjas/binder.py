@@ -131,7 +131,7 @@ def readMultiLineDiff(file, startSyntax: str, endSyntax: str):
             if startSyntax in stripped_line and not inComment:
                 inComment = True
                 startLine.append(lineNumber)
-                line = line[line.find(startSyntax) + len(startSyntax) :]
+                line = line[line.find(startSyntax) + len(startSyntax):]
             if endSyntax in stripped_line and inComment:
                 inComment = False
                 line = line[: line.rfind(endSyntax) + len(endSyntax)]

@@ -18,11 +18,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import os
 import unittest
-
-from nirjas.binder import contSingleLines, readMultiLineDiff, readMultiLineSame, readSingleLine
+import os
 from nirjas.languages import julia
+from nirjas.binder import readSingleLine, readMultiLineSame, readMultiLineDiff, contSingleLines
 
 
 class JuliaTest(unittest.TestCase):
@@ -31,7 +30,9 @@ class JuliaTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.jl")
+    testfile = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.jl"
+    )
 
     def test_output(self):
         """
@@ -45,7 +46,9 @@ class JuliaTest(unittest.TestCase):
         comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
         comment_single = readSingleLine(self.testfile, regex)
         comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
-        comment_multi_hashEqual = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
+        comment_multi_hashEqual = readMultiLineDiff(
+            self.testfile, syntax_start, syntax_end
+        )
         comment_contSingleline = contSingleLines(comment_single)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multi_single)
@@ -66,7 +69,9 @@ class JuliaTest(unittest.TestCase):
         comment_single = readSingleLine(self.testfile, regex)
         comment_multi_single = readMultiLineSame(self.testfile, syntax_single)
         comment_multi_double = readMultiLineSame(self.testfile, syntax_double)
-        comment_multi_hashEqual = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
+        comment_multi_hashEqual = readMultiLineDiff(
+            self.testfile, syntax_start, syntax_end
+        )
         comment_contSingleline = contSingleLines(comment_single)
         file = self.testfile.split("/")
         output = {
@@ -74,18 +79,10 @@ class JuliaTest(unittest.TestCase):
                 "filename": file[-1],
                 "lang": "Julia",
                 "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3]
-                + comment_multi_single[3]
-                + comment_multi_double[3]
-                + comment_multi_hashEqual[3],
+                "total_lines_of_comments": comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3],
                 "blank_lines": comment_single[2],
-                "sloc": comment_single[1]
-                - (
-                    comment_single[3]
-                    + comment_multi_single[3]
-                    + comment_multi_double[3]
-                    + comment_multi_hashEqual[3]
-                    + comment_single[2]
+                "sloc": comment_single[1] - (
+                    comment_single[3] + comment_multi_single[3] + comment_multi_double[3] + comment_multi_hashEqual[3] + comment_single[2]
                 ),
             },
             "single_line_comment": [],
@@ -98,7 +95,9 @@ class JuliaTest(unittest.TestCase):
 
         if comment_single:
             for i in comment_single[0]:
-                output["single_line_comment"].append({"line_number": i[0], "comment": i[1]})
+                output["single_line_comment"].append(
+                    {"line_number": i[0], "comment": i[1]}
+                )
 
         if comment_contSingleline:
             for idx, _ in enumerate(comment_contSingleline[1]):

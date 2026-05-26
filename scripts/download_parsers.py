@@ -2,14 +2,22 @@
 """
 Download tree-sitter parsers listed in language-pack.toml.
 
-Run after `uv sync`:
-    uv run download-parsers
+Usage:
+    python scripts/download_parsers.py
 """
 
 import sys
 from pathlib import Path
 
-import tomllib
+try:
+    import tomllib  # Python >= 3.11
+except ModuleNotFoundError:  # pragma: no cover - fallback for Python < 3.11
+    try:
+        import tomli as tomllib
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "tomllib is unavailable. Install 'tomli' for Python < 3.11 to use parser downloads."
+        ) from exc
 
 
 def main() -> None:

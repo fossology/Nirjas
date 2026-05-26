@@ -20,11 +20,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import os
 import unittest
-
-from nirjas.binder import contSingleLines, readMultiLineDiff, readSingleLine
+import os
 from nirjas.languages import typescript
+from nirjas.binder import readSingleLine, readMultiLineDiff, contSingleLines
 
 
 class TSTest(unittest.TestCase):
@@ -33,7 +32,9 @@ class TSTest(unittest.TestCase):
     :ivar testfile: Location of test file
     """
 
-    testfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.ts")
+    testfile = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.ts"
+    )
 
     def test_output(self):
         """
