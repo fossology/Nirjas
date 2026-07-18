@@ -37,15 +37,13 @@ def readSingleLine(file, regex):
     with open(file, encoding="utf-8", errors="replace") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
-            output = re.findall(regex, line, re.I)
-            if len(output) > 0:
+            match = re.search(regex, line, re.I)
+            if match:
                 line_of_comments += 1
-            output = "".join(output)
-
-            if output:
-                match = re.search(regex, line, re.I)
-                is_full_line = line[: match.start()].strip() == ""
-                content.append([line_number, output.strip(), is_full_line])
+                output = "".join(match.groups())
+                if output:
+                    is_full_line = line[: match.start()].strip() == ""
+                    content.append([line_number, output.strip(), is_full_line])
 
             line = line.strip()
 
