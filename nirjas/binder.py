@@ -22,27 +22,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 import re
-from itertools import groupby
-from operator import itemgetter
 
 
 def readSingleLine(file, regex):
     """
     Read file line by line and match the given regex to get comment.
     Return comments, lines read, blank lines, and lines with comments.
+    Each comment entry is [line_number, comment, is_full_line] where
+    is_full_line tells whether the comment occupies the whole line or
+    trails code on the same line.
     """
     content = []
     total_lines, line_of_comments, blank_lines = 0, 0, 0
     with open(file, encoding="utf-8", errors="replace") as f:
         for line_number, line in enumerate(f, start=1):
             total_lines += 1
-            output = re.findall(regex, line, re.I)
-            if len(output) > 0:
+            match = re.search(regex, line, re.I)
+            if match:
                 line_of_comments += 1
-            output = "".join(output)
-
-            if output:
-                content.append([line_number, output.strip()])
+                output = "".join(match.groups())
+                if output:
+                    is_full_line = line[: match.start()].strip() == ""
+                    content.append([line_number, output.strip(), is_full_line])
 
             line = line.strip()
 
@@ -54,27 +55,37 @@ def readSingleLine(file, regex):
 
 def contSingleLines(data):
     """
-    Merge consecutive single line comments as cont_single_line_comment
+    Merge consecutive single line comments as cont_single_line_comment.
+    Only comments that occupy their whole line are merged; a comment
+    that trails code on the same line is an independent comment, so it
+    is never part of a continuation block.
     """
-    lines, start_line, end_line, output = [], [], [], []
-    content = ""
-    for i in data[0]:
-        lines.append(i[0])
+    start_line, end_line, output = [], [], []
+    remaining, streak = [], []
 
-    for _, b in groupby(enumerate(lines), lambda x: x[0] - x[1]):
-        temp = list(map(itemgetter(1), b))
-        content = ""
+    def flushStreak():
+        if len(streak) > 1:
+            start_line.append(streak[0][0])
+            end_line.append(streak[-1][0])
+            output.append("".join(" " + entry[1] for entry in streak))
+        else:
+            remaining.extend(streak)
+        streak.clear()
 
-        if len(temp) > 1:
-            start_line.append(temp[0])
-            end_line.append(temp[-1])
-            for i in temp:
-                comment = [x[1] for x in data[0] if x[0] == i]
-                for index, x in enumerate(data[0]):
-                    if x[0] == i:
-                        del data[0][index]
-                content = content + " " + comment[0]
-            output.append(content)
+    for entry in data[0]:
+        # Entries without the flag come from older callers; treat them
+        # as full-line comments to keep the previous behaviour.
+        is_full_line = entry[2] if len(entry) > 2 else True
+        if not is_full_line:
+            flushStreak()
+            remaining.append(entry)
+            continue
+        if streak and entry[0] != streak[-1][0] + 1:
+            flushStreak()
+        streak.append(entry)
+    flushStreak()
+
+    data = ([entry[:2] for entry in remaining], *data[1:])
     return data, start_line, end_line, output
 
 
