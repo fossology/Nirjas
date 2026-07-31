@@ -21,23 +21,23 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from .output import Output
-
 
 class MultiLine:
     """
     Store result for multi line comments
     """
 
-    def __init__(self, start, end, comment):
+    def __init__(self, start: int, end: int, comment: str) -> None:
         self.start_line = start
         self.end_line = end
         self.comment = comment
 
-    def get_dict(self):
+    def get_dict(self) -> dict[str, int | str]:
         """
         Get the output as dictionary
         """
-        return Output(
-            start_line=self.start_line, end_line=self.end_line, comment=self.comment
-        ).output
+        return {
+            "start_line": self.start_line,
+            "end_line": self.end_line,
+            "comment": self.comment,
+        }

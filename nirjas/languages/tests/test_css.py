@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+"""Contract tests for CSS extractor.
+
+Copyright (C) 2026  Swapnil Dutta (swapnil@rycerz.es)
+
 SPDX-License-Identifier: LGPL-2.1
 
 This library is free software; you can redistribute it and/or
@@ -18,72 +21,31 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
 from nirjas.languages import css
-from nirjas.binder import readMultiLineDiff
+from nirjas.languages.tests._contract import (
+    assert_scan_output_contract,
+    assert_source_extractor_contract,
+)
 
 
-class CssTest(unittest.TestCase):
-    """
-    Test cases for CSS language.
-    :ivar testfile: Location of test file
-    """
+class CSSTest(unittest.TestCase):
+    """Contract tests for CSS language support."""
 
     testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.css"
+        os.path.abspath(os.path.dirname(__file__)),
+        "TestFiles/textcomment.css",
     )
 
-    def test_output(self):
-        """
-        Check for the scan correctness.
-        """
-        syntax_start = "/*"
-        syntax_end = "*/"
-        comment_multiline = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
+    def test_output_contract(self):
+        """Verify extractor schema and metadata invariants."""
 
-        self.assertTrue(comment_multiline)
+        scan_result = css.cssExtractor(self.testfile).get_dict()
+        assert_scan_output_contract(self, scan_result, self.testfile, 'CSS')
 
-    def test_outputFormat(self):
-        """
-        Check for the output format correctness.
-        """
-        syntax_start = "/*"
-        syntax_end = "*/"
-        expected = css.cssExtractor(self.testfile).get_dict()
-        comment_multiline = readMultiLineDiff(self.testfile, syntax_start, syntax_end)
-        file = self.testfile.split("/")
-        output = {
-            "metadata": {
-                "filename": file[-1],
-                "lang": "CSS",
-                "total_lines": comment_multiline[4],
-                "total_lines_of_comments": comment_multiline[3],
-                "blank_lines": comment_multiline[5],
-                "sloc": comment_multiline[4] - (comment_multiline[3] + comment_multiline[5]),
-            },
-            "single_line_comment": [],
-            "cont_single_line_comment": [],
-            "multi_line_comment": [],
-        }
-        if comment_multiline:
-            for idx, _ in enumerate(comment_multiline[0]):
-                output["multi_line_comment"].append(
-                    {
-                        "start_line": comment_multiline[0][idx],
-                        "end_line": comment_multiline[1][idx],
-                        "comment": comment_multiline[2][idx],
-                    }
-                )
+    def test_source_contract(self):
+        """Verify source extraction API contract."""
 
-        self.assertEqual(output, expected)
-
-    def test_Source(self):
-        """
-        Test the source code extraction.
-        Call the source function and check if new file exists.
-        """
-        name = "source.txt"
-        newfile = css.cssSource(self.testfile, name)
-
-        self.assertTrue(newfile)
+        assert_source_extractor_contract(self, css.cssSource, self.testfile)

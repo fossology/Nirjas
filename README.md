@@ -6,7 +6,7 @@
 
 <p align="center">
 
-![python version](https://img.shields.io/badge/Python-v3%2B-blue)
+![python version](https://img.shields.io/badge/Python-v3.10%2B-blue)
 ![Unit Tests](https://github.com/fossology/Nirjas/workflows/Unit%20Tests/badge.svg)
 ![status](https://img.shields.io/pypi/status/Nirjas)
 ![License LGPL-2.1](https://img.shields.io/github/license/fossology/nirjas)
@@ -28,7 +28,7 @@ For more details, read our [paper](https://arxiv.org/abs/2409.14609)
 
 ## Requirements
 
-- Python 3
+- Python 3.10+
 
 Installing Python on Linux machines:
 
@@ -193,13 +193,14 @@ nirjas -i <target file>
 
 ## Tests
 
-To run a test for Nirjas, execute the following script:
+To run tests for Nirjas, download Tree-Sitter parsers and execute the test script:
 
 ```sh
+python3 scripts/download_parsers.py
 python3 testScript.py
 ```
 
-This will download all the test files into `nirjas/languages/tests/TestFiles` folder and will run the tests as well.
+`testScript.py` downloads all test files into `nirjas/languages/tests/TestFiles` and runs the test suite.
 
 ## Documentation
 

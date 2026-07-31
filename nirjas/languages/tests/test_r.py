@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+"""Contract tests for R extractor.
+
+Copyright (C) 2026  Swapnil Dutta (swapnil@rycerz.es)
+
 SPDX-License-Identifier: LGPL-2.1
 
 This library is free software; you can redistribute it and/or
@@ -18,64 +21,31 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-import unittest
 import os
+import unittest
+
 from nirjas.languages import r
-from nirjas.binder import readSingleLine
+from nirjas.languages.tests._contract import (
+    assert_scan_output_contract,
+    assert_source_extractor_contract,
+)
 
 
-class rTest(unittest.TestCase):
-    """
-    Test cases for R language.
-    :ivar testfile: Location of test file
-    """
+class RTest(unittest.TestCase):
+    """Contract tests for R language support."""
 
     testfile = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), "TestFiles/textcomment.R"
+        os.path.abspath(os.path.dirname(__file__)),
+        "TestFiles/textcomment.R",
     )
 
-    def test_output(self):
-        """
-        Check for the scan correctness.
-        """
-        regex = r"""(?<!["'`])#+\s*(.*)"""
-        comment_single = readSingleLine(self.testfile, regex)
-        self.assertTrue(comment_single)
+    def test_output_contract(self):
+        """Verify extractor schema and metadata invariants."""
 
-    def test_outputFormat(self):
-        """
-        Check for the output format correctness.
-        """
-        regex = r"""(?<!["'`])#+\s*(.*)"""
-        expected = r.rExtractor(self.testfile).get_dict()
-        comment_single = readSingleLine(self.testfile, regex)
-        file = self.testfile.split("/")
-        output = {
-            "metadata": {
-                "filename": file[-1],
-                "lang": "R",
-                "total_lines": comment_single[1],
-                "total_lines_of_comments": comment_single[3],
-                "blank_lines": comment_single[2],
-                "sloc": comment_single[1] - (comment_single[3] + comment_single[2]),
-            },
-            "single_line_comment": [],
-            "cont_single_line_comment": [],
-            "multi_line_comment": [],
-        }
-        if comment_single:
-            for i in comment_single[0]:
-                output["single_line_comment"].append(
-                    {"line_number": i[0], "comment": i[1]}
-                )
-        self.assertEqual(output, expected)
+        scan_result = r.rExtractor(self.testfile).get_dict()
+        assert_scan_output_contract(self, scan_result, self.testfile, 'R')
 
-    def test_Source(self):
-        """
-        Test the source code extraction.
-        Call the source function and check if new file exists.
-        """
-        name = "source.txt"
-        newfile = r.rSource(self.testfile, name)
+    def test_source_contract(self):
+        """Verify source extraction API contract."""
 
-        self.assertTrue(newfile)
+        assert_source_extractor_contract(self, r.rSource, self.testfile)

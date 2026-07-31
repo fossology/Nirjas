@@ -3,6 +3,7 @@
 """
 Copyright (C) 2020 Siemens AG
 Author: Gaurav Mishra <mishra.gaurav@siemens.com>
+Copyright (C) 2026  Swapnil Dutta (swapnil@rycerz.es)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -21,7 +22,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from .output import Output
+from .multi_line import MultiLine
+from .single_line import SingleLine
 
 
 class ScanOutput:
@@ -29,32 +31,39 @@ class ScanOutput:
     Generate the output for a single file scan.
     """
 
-    def __init__(self):
-        self.filename = None
-        self.lang = None
-        self.total_lines = None
-        self.total_lines_of_comments = None
-        self.blank_lines = None
-        self.single_line_comment = []
-        self.cont_single_line_comment = []
-        self.multi_line_comment = []
+    def __init__(self) -> None:
+        self.filename = ""
+        self.lang = ""
+        self.total_lines = 0
+        self.total_lines_of_comments = 0
+        self.blank_lines = 0
+        self.single_line_comment: list[SingleLine] = []
+        self.cont_single_line_comment: list[MultiLine] = []
+        self.multi_line_comment: list[MultiLine] = []
 
-    def get_dict(self):
+    def get_dict(self) -> dict[str, object]:
         """
         Get the output as dictionary
         """
-        return Output(
-            metadata=Output(
-                filename=self.filename,
-                lang=self.lang,
-                total_lines=self.total_lines,
-                total_lines_of_comments=self.total_lines_of_comments,
-                blank_lines=self.blank_lines,
-                sloc=self.total_lines - (self.total_lines_of_comments + self.blank_lines),
-            ).output,
-            single_line_comment=[c.get_dict() for c in self.single_line_comment],
-            cont_single_line_comment=[
-                c.get_dict() for c in self.cont_single_line_comment
+        # Every line belongs to exactly one bucket, so what is left after the
+        # comment and blank lines are removed is the code.
+        sloc = self.total_lines - self.total_lines_of_comments - self.blank_lines
+        return {
+            "metadata": {
+                "filename": self.filename,
+                "lang": self.lang,
+                "total_lines": self.total_lines,
+                "total_lines_of_comments": self.total_lines_of_comments,
+                "blank_lines": self.blank_lines,
+                "sloc": sloc,
+            },
+            "single_line_comment": [
+                comment.get_dict() for comment in self.single_line_comment
             ],
-            multi_line_comment=[c.get_dict() for c in self.multi_line_comment],
-        ).output
+            "cont_single_line_comment": [
+                comment.get_dict() for comment in self.cont_single_line_comment
+            ],
+            "multi_line_comment": [
+                comment.get_dict() for comment in self.multi_line_comment
+            ],
+        }
