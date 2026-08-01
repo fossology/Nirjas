@@ -3,6 +3,7 @@
 """
 Copyright (C) 2020  Ayush Bhardwaj (classicayush@gmail.com),
 Kaushlendra Pratap (kaushlendrapratap.9837@gmail.com)
+Copyright (C) 2026  Swapnil Dutta (swapnil@rycerz.es)
 
 SPDX-License-Identifier: LGPL-2.1
 
@@ -24,80 +25,112 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 import os
 import json
 import argparse
+import sys
 
-from nirjas.languages import *  # noqa
-
-
-class NotSupportedExtension(Exception):
-    """
-    Exception if file extension is not recognized
-    """
-
-    def __str__(self):
-        return "extension '" + self.args[0] + "' not supported"
+from nirjas.language_registry import (
+    EXTENSION_MAP,
+    NotSupportedExtension,
+    nirjas_name_from_path,
+)
+from nirjas.languages import (
+    c,
+    c_sharp,
+    cpp,
+    css,
+    dart,
+    go,
+    haskell,
+    html,
+    java,
+    javascript,
+    julia,
+    kotlin,
+    matlab,
+    perl,
+    php,
+    python,
+    r,
+    ruby,
+    rust,
+    scala,
+    scss,
+    shell,
+    sql,
+    swift,
+    text,
+    typescript,
+)
 
 
 class LanguageMapper:
-    """
-    Class to help identify language based on file extension
-    """
+    """Compatibility wrapper around the shared language registry."""
 
-    LANG_MAP = {
-        ".py": "python",
-        ".m4": "python",
-        ".nsi": "python",
-        ".hpp": "cpp",
-        ".c": "c",
-        ".h": "cpp",
-        ".cs": "c_sharp",
-        ".cpp": "cpp",
-        ".scss": "scss",
-        ".sep": "cpp",
-        ".hxx": "cpp",
-        ".cc": "cpp",
-        ".css": "css",
-        ".dart": "dart",
-        ".go": "go",
-        ".hs": "haskell",
-        ".html": "html",
-        ".xml": "html",
-        ".java": "java",
-        ".js": "javascript",
-        ".jsx": "javascript",
-        ".jl": "julia",
-        ".kt": "kotlin",
-        ".kts": "kotlin",
-        ".ktm": "kotlin",
-        ".m": "matlab",
-        ".php": "php",
-        ".pl": "perl",
-        ".r": "r",
-        ".R": "r",
-        ".rb": "ruby",
-        ".rs": "rust",
-        ".sh": "shell",
-        ".sql": "sql",
-        ".swift": "swift",
-        ".scala": "scala",
-        ".sc": "scala",
-        ".ts": "typescript",
-        ".tsx": "typescript",
-        ".txt": "text",
-        ".lic": "text",
-        ".install": "text",
-        ".OSS": "text",
-        ".gl": "text",
-    }
+    LANG_MAP = EXTENSION_MAP
 
     @staticmethod
     def langIdentifier(file):
         """
         Return the programming language based on extension of path passed.
         """
-        extension = os.path.splitext(file)[1]
-        if extension not in LanguageMapper.LANG_MAP:
-            raise NotSupportedExtension(extension)
-        return LanguageMapper.LANG_MAP[extension]
+        return nirjas_name_from_path(file)
+
+
+EXTRACTORS = {
+    "c": c.cExtractor,
+    "c_sharp": c_sharp.c_sharpExtractor,
+    "cpp": cpp.cppExtractor,
+    "css": css.cssExtractor,
+    "dart": dart.dartExtractor,
+    "go": go.goExtractor,
+    "haskell": haskell.haskellExtractor,
+    "html": html.htmlExtractor,
+    "java": java.javaExtractor,
+    "javascript": javascript.javascriptExtractor,
+    "julia": julia.juliaExtractor,
+    "kotlin": kotlin.kotlinExtractor,
+    "matlab": matlab.matlabExtractor,
+    "perl": perl.perlExtractor,
+    "php": php.phpExtractor,
+    "python": python.pythonExtractor,
+    "r": r.rExtractor,
+    "ruby": ruby.rubyExtractor,
+    "rust": rust.rustExtractor,
+    "scala": scala.scalaExtractor,
+    "scss": scss.scssExtractor,
+    "shell": shell.shellExtractor,
+    "sql": sql.sqlExtractor,
+    "swift": swift.swiftExtractor,
+    "text": text.textExtractor,
+    "typescript": typescript.typescriptExtractor,
+}
+
+SOURCES = {
+    "c": c.cSource,
+    "c_sharp": c_sharp.c_sharpSource,
+    "cpp": cpp.cppSource,
+    "css": css.cssSource,
+    "dart": dart.dartSource,
+    "go": go.goSource,
+    "haskell": haskell.haskellSource,
+    "html": html.htmlSource,
+    "java": java.javaSource,
+    "javascript": javascript.javascriptSource,
+    "julia": julia.juliaSource,
+    "kotlin": kotlin.kotlinSource,
+    "matlab": matlab.matlabSource,
+    "perl": perl.perlSource,
+    "php": php.phpSource,
+    "python": python.pythonSource,
+    "r": r.rSource,
+    "ruby": ruby.rubySource,
+    "rust": rust.rustSource,
+    "scala": scala.scalaSource,
+    "scss": scss.scssSource,
+    "shell": shell.shellSource,
+    "sql": sql.sqlSource,
+    "swift": swift.swiftSource,
+    "typescript": typescript.typescriptSource,
+}
 
 
 def run_and_print():
@@ -140,7 +173,7 @@ def run_cli():
             return file_runner(file, "json")
         return inputfile_runner(inputfile, out_file)
     except NotSupportedExtension as e:
-        print(e, file=os.sys.stderr)
+        print(e, file=sys.stderr)
         return None
 
 
@@ -152,10 +185,8 @@ def scan_the_file(file):
     :return: Scan result
     :rtype: ScanOutput
     """
-    langname = LanguageMapper.langIdentifier(file)
-    func = langname + "." + langname + "Extractor"
-
-    return eval(func)(file)
+    langname = nirjas_name_from_path(file)
+    return EXTRACTORS[langname](file)
 
 
 def file_runner(file, type="dictionary"):
@@ -192,9 +223,8 @@ def inputfile_runner(inputfile, out_file):
     :param out_file: Output file location
     :type out_file: string
     """
-    langname = LanguageMapper.langIdentifier(inputfile)
-    func = langname + "." + langname + "Source"
-    return eval(func)(inputfile, out_file)
+    langname = nirjas_name_from_path(inputfile)
+    return SOURCES[langname](inputfile, out_file)
 
 
 if __name__ == "__main__":

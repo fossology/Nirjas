@@ -6,6 +6,8 @@ exclude *.sh
 exclude nirjas/languages/tests*
 
 include LICENSE
+include language-pack.toml
+include scripts/download_parsers.py
 
 prune .git
 prune venv

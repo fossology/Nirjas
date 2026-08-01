@@ -8,17 +8,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
 
     name: Unit Tests on Python ${{ matrix.python-version }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'setup.py'
+
+      - name: Cache Tree-Sitter parser bundles
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/tree-sitter-language-pack
+          key: >-
+            ${{ runner.os }}-ts-pack-${{ matrix.python-version }}-
+            ${{ hashFiles('language-pack.toml', 'setup.py') }}
+
+      - name: Install Nirjas and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .
+
+      - name: Download Tree-Sitter parsers
+        run: python scripts/download_parsers.py
 
       - name: Run tests
         run: python testScript.py

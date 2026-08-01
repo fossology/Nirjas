@@ -22,18 +22,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 
+OutputValue = str | int | dict[str, object] | list[dict[str, object]]
+OutputMapping = dict[str, OutputValue]
+
+
 class Output(object):
     """
     return results
     """
 
-    def __init__(self, **kwargs):
-        self.result = {}
+    def __init__(self, **kwargs: OutputValue) -> None:
+        self.result: OutputMapping = {}
         for key, value in kwargs.items():
             self.result.setdefault(key, value)
 
     @property
-    def output(self):
+    def output(self) -> OutputMapping:
         """
         return results
         """

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Copyright (C) 2026  Swapnil Dutta (swapnil@rycerz.es)
+
 SPDX-License-Identifier: LGPL-2.1
 
 This library is free software; you can redistribute it and/or
@@ -19,6 +21,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 Module holding different language syntax
 """
+
+from nirjas.languages import c
+from nirjas.languages import c_sharp
+from nirjas.languages import cpp
+from nirjas.languages import css
+from nirjas.languages import dart
+from nirjas.languages import go
+from nirjas.languages import haskell
+from nirjas.languages import html
+from nirjas.languages import java
+from nirjas.languages import javascript
+from nirjas.languages import julia
+from nirjas.languages import kotlin
+from nirjas.languages import matlab
+from nirjas.languages import perl
+from nirjas.languages import php
+from nirjas.languages import python
+from nirjas.languages import r
+from nirjas.languages import ruby
+from nirjas.languages import rust
+from nirjas.languages import scala
+from nirjas.languages import scss
+from nirjas.languages import shell
+from nirjas.languages import sql
+from nirjas.languages import swift
+from nirjas.languages import text
+from nirjas.languages import typescript
 
 __all__ = [
     "c",

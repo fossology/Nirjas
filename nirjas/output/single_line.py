@@ -21,20 +21,18 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from .output import Output
-
 
 class SingleLine:
     """
     Store result for single line comments
     """
 
-    def __init__(self, line_number, comment):
+    def __init__(self, line_number: int, comment: str) -> None:
         self.line_number = line_number
         self.comment = comment
 
-    def get_dict(self):
+    def get_dict(self) -> dict[str, int | str]:
         """
         Get the output as dictionary
         """
-        return Output(line_number=self.line_number, comment=self.comment).output
+        return {"line_number": self.line_number, "comment": self.comment}
