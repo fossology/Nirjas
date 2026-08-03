@@ -1,5 +1,6 @@
 # Copyright (C) 2021 Aswin Murali (aswinmurali.co@gmail.com)
 # Copyright (C) 2021 Gaurav Mishra <mishra.gaurav@siemens.com>
+# Copyright (C) 2021 Kaushlendra Pratap <kaushlendrapratap.9837@gmail.com>
 #
 # SPDX-License-Identifier: LGPL-2.1-only
 #
@@ -25,17 +26,17 @@
 # Run
 #   docker run --rm -it nirjas <args>
 
-FROM python:3.10-alpine as builder
+FROM python:3.10-slim as builder
 
 WORKDIR /nirjas
 
 COPY . .
 
-RUN python3 -m pip install . \
- && python3 scripts/download_parsers.py \
- && python3 -m pip wheel --wheel-dir wheels .
+RUN python3 -m pip install .
+RUN python3 scripts/download_parsers.py
+RUN python3 -m pip wheel --wheel-dir wheels .
 
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
 ARG user=nirjas
 ARG group=nirjas
@@ -43,17 +44,25 @@ ARG uid=1000
 ARG gid=1000
 ARG AGENT_HOME=/home/${user}
 
-ENV AGENT_HOME ${AGENT_HOME}
+ENV AGENT_HOME=${AGENT_HOME}
 
-RUN addgroup -g ${gid} ${group} \
- && adduser -h "${AGENT_HOME}" -u "${uid}" -G "${group}" -D "${user}"
+RUN groupadd --gid ${gid} ${group} \
+ && useradd \
+      --uid ${uid} \
+      --gid ${gid} \
+      --create-home \
+      --home-dir ${AGENT_HOME} \
+      --shell /bin/bash \
+      ${user}
 
 WORKDIR "${AGENT_HOME}"
 
 COPY --from=builder /nirjas/wheels/ .
 
-RUN python -m pip install --prefix=/usr/local ./*.whl \
- && rm ./*.whl
+RUN python -m pip install \
+    --prefix=/usr/local \
+    --find-links=. \
+    nirjas-*.whl
 
 USER nirjas
 
