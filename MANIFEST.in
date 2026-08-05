@@ -3,7 +3,6 @@ recursive-exclude __pycache__  *.pyc *.pyo *.orig
 
 exclude *.git*
 exclude *.sh
-exclude nirjas/languages/tests*
 
 include LICENSE
 include language-pack.toml
@@ -12,5 +11,4 @@ include scripts/download_parsers.py
 prune .git
 prune venv
 prune .venv
-prune nirjas/languages/tests
 

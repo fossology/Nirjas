@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "filename": "utils.jl",
+    "lang": "Julia",
+    "total_lines": 338,
+    "total_lines_of_comments": 16,
+    "blank_lines": 55,
+    "sloc": 267
+  },
+  "single_line_comment": [
+    {
+      "line_number": 209,
+      "comment": "suppress minus sign for signaling NaNs"
+    },
+    {
+      "line_number": 229,
+      "comment": "== pos + olength + 1"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 4,
+      "end_line": 5,
+      "comment": " Note: these are smaller than the values given in Figure 4 from the paper see https://github.com/ulfjack/ryu/issues/119"
+    },
+    {
+      "start_line": 65,
+      "end_line": 67,
+      "comment": " Assumptions: 0 < x < (1 << 53) 0 <= p <= 308"
+    },
+    {
+      "start_line": 70,
+      "end_line": 78,
+      "comment": " We are using wrapping arithmetic here, which can overflow, but we get the right answer anyway by the following argument (#47511): 1. False Negative No overflow occurs unless big(5)^p > typemax(UInt64), but typemax(UInt64) > (1 << 53), so z is never divisible by big(5)^p. QED. 2. False Positive We ask ∃ m2, p s.t. big(5)^p && m2 % wrapped_pow == 0. By exhaustive checking `all(p->UInt64(5)^p > 1<<53, 28:308)`, so there does not exist any such `m2` that satiesfies our assumptions above. QED."
+    },
+    {
+      "start_line": 186,
+      "end_line": 187,
+      "comment": " TODO: Fix LLVM to perform this optimization itself on 128 bit integers return (v % 10^9) % UInt32"
+    }
+  ],
+  "multi_line_comment": []
+}

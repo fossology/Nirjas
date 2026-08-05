@@ -1,0 +1,10 @@
+name: altmany/export_fig pdftops.m
+about_resource: pdftops.m
+homepage_url: https://github.com/altmany/export_fig
+download_url: https://github.com/altmany/export_fig/blob/a46bb12830e4abf8590260c72b5c83efd7f90f9b/pdftops.m
+license_expression: bsd-3-clause
+copyright: Copyright (C) Oliver J. Woodford and Yair M. Altman
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.

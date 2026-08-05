@@ -1,0 +1,10 @@
+name: JuliaLang/julia boundscheck_exec.jl
+about_resource: boundscheck_exec.jl
+homepage_url: https://github.com/JuliaLang/julia
+download_url: https://github.com/JuliaLang/julia/blob/c6cd168cb957c755c0e8b8d86d4847b1823bb32a/test/boundscheck_exec.jl
+license_expression: mit
+copyright: Copyright (C) JuliaLang contributors
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.

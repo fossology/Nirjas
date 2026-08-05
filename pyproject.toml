@@ -44,6 +44,7 @@ nirjas = "nirjas.main:run_and_print"
 [project.optional-dependencies]
 dev = [
     "pyright>=1.1.409,<2.0.0",
+    "pytest>=8.4.2,<9.0.0",
     "ruff>=0.15.15,<1.0.0",
 ]
 
@@ -57,10 +58,17 @@ include = [
     { path = "scripts/download_parsers.py", format = ["sdist", "wheel"] },
 ]
 
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+
 [tool.ruff]
 target-version = "py310"
+# Fixtures and vendored corpus files are test *data*: deliberately odd, and in
+# other languages. Linting them is meaningless.
 exclude = [
-    "nirjas/languages/tests/TestFiles",
+    "tests/data",
 ]
 
 [tool.ruff.lint]
@@ -71,9 +79,12 @@ ignore = ["E501"]
 pythonVersion = "3.10"
 venvPath = "."
 venv = ".venv"
-include = ["nirjas", "scripts"]
+include = ["nirjas", "scripts", "tests"]
+# `helpers` is imported as a top-level package because pytest puts `tests/` on
+# sys.path (there is no tests/__init__.py).
+extraPaths = ["tests"]
 exclude = [
-    "nirjas/languages/tests/TestFiles",
+    "tests/data",
     "build",
     "dist",
     "Nirjas.egg-info",

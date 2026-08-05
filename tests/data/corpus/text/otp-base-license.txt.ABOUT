@@ -1,0 +1,11 @@
+name: apache/thrift otp-base-license.txt
+about_resource: otp-base-license.txt
+homepage_url: https://github.com/apache/thrift
+download_url: https://github.com/apache/thrift/blob/a9663bc6661a5dd1d99d629e1f269c1907592a1a/doc/licenses/otp-base-license.txt
+license_expression: apache-2.0
+copyright: Copyright (C) The Apache Software Foundation
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Genuine prose text, which is
+ what the `text` handler exists for. Not distributed: tests/ is excluded from
+ the sdist and wheel.

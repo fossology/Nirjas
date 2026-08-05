@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "crlf_line_endings.py",
+    "lang": "Python",
+    "total_lines": 4,
+    "total_lines_of_comments": 2,
+    "blank_lines": 1,
+    "sloc": 1
+  },
+  "single_line_comment": [
+    {
+      "line_number": 4,
+      "comment": "last comment"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": " a comment followed by CRLF trailing after code"
+    }
+  ],
+  "multi_line_comment": []
+}

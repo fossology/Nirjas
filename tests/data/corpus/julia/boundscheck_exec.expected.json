@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "filename": "boundscheck_exec.jl",
+    "lang": "Julia",
+    "total_lines": 372,
+    "total_lines_of_comments": 34,
+    "blank_lines": 47,
+    "sloc": 291
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "This file is a part of Julia. License is MIT: https://julialang.org/license"
+    },
+    {
+      "line_number": 10,
+      "comment": "test for boundscheck block eliminated at same level"
+    },
+    {
+      "line_number": 46,
+      "comment": "test for boundscheck block eliminated one layer deep, if the called method is inlined"
+    },
+    {
+      "line_number": 84,
+      "comment": "test boundscheck NOT eliminated two layers deep, unless propagated"
+    },
+    {
+      "line_number": 115,
+      "comment": "swapped nesting order of @boundscheck and @inbounds"
+    },
+    {
+      "line_number": 128,
+      "comment": "elide a throw"
+    },
+    {
+      "line_number": 151,
+      "comment": "elide a simple branch"
+    },
+    {
+      "line_number": 173,
+      "comment": "second level"
+    },
+    {
+      "line_number": 179,
+      "comment": "This `Expr(:inbounds, true)` shouldn't affect `f1`"
+    },
+    {
+      "line_number": 187,
+      "comment": "Ensure that broadcast doesn't use @inbounds when calling the function"
+    },
+    {
+      "line_number": 194,
+      "comment": "issue #19554"
+    },
+    {
+      "line_number": 207,
+      "comment": "Ensure unsafe_view doesn't check bounds"
+    },
+    {
+      "line_number": 232,
+      "comment": "Test that @inbounds annotations don't propagate too far for Array; Issue #20469"
+    },
+    {
+      "line_number": 242,
+      "comment": "Accumulate: do not set inbounds context for user-supplied functions"
+    },
+    {
+      "line_number": 249,
+      "comment": "Ensure iteration over arrays is vectorizable"
+    },
+    {
+      "line_number": 260,
+      "comment": "Boundschecking removal of indices with different type, see #40281"
+    },
+    {
+      "line_number": 302,
+      "comment": "https://github.com/JuliaArrays/StaticArrays.jl/issues/1155"
+    },
+    {
+      "line_number": 308,
+      "comment": "Array/Memory escape analysis"
+    },
+    {
+      "line_number": 318,
+      "comment": "This requires changing the pointer_from_objref to something llvm sees through"
+    },
+    {
+      "line_number": 320,
+      "comment": "compile"
+    },
+    {
+      "line_number": 324,
+      "comment": "this was causing a bug on an in progress version of #55913."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 164,
+      "end_line": 166,
+      "comment": " Make sure type inference doesn't incorrectly optimize out `Expr(:inbounds, false)` Simply `return a[1]` doesn't work due to inlining bug"
+    },
+    {
+      "start_line": 168,
+      "end_line": 169,
+      "comment": " This has to be an arrayget / arrayset since these currently have a implicit `Expr(:boundscheck)` that's not visible to type inference"
+    },
+    {
+      "start_line": 222,
+      "end_line": 224,
+      "comment": " This tests both the bounds check elision and the behavior of `jl_array_isassigned` For `isbits` array the `ccall` should return a constant `true` and does not access the array"
+    },
+    {
+      "start_line": 267,
+      "end_line": 269,
+      "comment": " Given this is a sub-processed test file, not using @testsets avoids leaking the report print into the Base test runner report Pass inbounds meta to getindex on CartesianIndices (#42115)"
+    },
+    {
+      "start_line": 291,
+      "end_line": 293,
+      "comment": " Test that --check-bounds=off doesn't permit const prop of indices into function that are not dynamically reachable (the same test for @inbounds is in the compiler tests)."
+    },
+    {
+      "start_line": 295,
+      "end_line": 297,
+      "comment": " Inbounds here assumes that this is only ever called with n==0, but of course the compiler has no way of knowing that, so it must not attempt to run the @inbounds `getfield(sin, 1)`` that ntuple generates."
+    }
+  ],
+  "multi_line_comment": []
+}

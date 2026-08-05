@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "filename": "TSocket.py",
+    "lang": "Python",
+    "total_lines": 256,
+    "total_lines_of_comments": 52,
+    "blank_lines": 32,
+    "sloc": 172
+  },
+  "single_line_comment": [
+    {
+      "line_number": 94,
+      "comment": "the length will be zero if we got EOF (indicating connection closed)"
+    },
+    {
+      "line_number": 97,
+      "comment": "on modern python this is just BlockingIOError"
+    },
+    {
+      "line_number": 101,
+      "comment": "SSLSocket fails on recv with non-zero flags; fallback to the old behavior"
+    },
+    {
+      "line_number": 136,
+      "comment": "Preserve the last exception to report if all addresses fail."
+    },
+    {
+      "line_number": 141,
+      "comment": "TCP keep-alive"
+    },
+    {
+      "line_number": 162,
+      "comment": "TODO: remove socket.timeout when 3.10 becomes the earliest version of python supported."
+    },
+    {
+      "line_number": 173,
+      "comment": "Trigger the check to raise the END_OF_FILE exception below."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "  Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. "
+    },
+    {
+      "start_line": 81,
+      "end_line": 88,
+      "comment": " this lets us cheaply see if the other end of the socket is still connected. if disconnected, we'll get EOF back (expressed as zero bytes of data) otherwise we'll get one byte or an error indicating we'd have to block for data.  note that we're not doing this with socket.MSG_DONTWAIT because 1) it's linux-specific and 2) gevent-patched sockets hide EAGAIN from us when timeout is non-zero."
+    },
+    {
+      "start_line": 106,
+      "end_line": 107,
+      "comment": " The caller may assume that after isOpen() returns False, calling close() is not needed, so it is safer to close the socket here."
+    },
+    {
+      "start_line": 168,
+      "end_line": 171,
+      "comment": " freebsd and Mach don't follow POSIX semantic of recv and fail with ECONNRESET if peer performed shutdown. See corresponding comment and code in TSocket::read() in lib/cpp/src/transport/TSocket.cpp."
+    },
+    {
+      "start_line": 218,
+      "end_line": 219,
+      "comment": " We cann't update backlog when it is already listening, since the handle has been created."
+    },
+    {
+      "start_line": 229,
+      "end_line": 230,
+      "comment": " We need remove the old unix socket if the file exists and nobody is listening on it."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 52,
+      "end_line": 52,
+      "comment": "Socket implementation of TTransport base."
+    },
+    {
+      "start_line": 57,
+      "end_line": 65,
+      "comment": "Initialize a TSocket @param host(str)  The host to connect to. @param port(int)  The (TCP) port to connect to. @param unix_socket(str)  The filename of a unix socket to connect to. (host and port will be ignored.) @param socket_family(int)  The socket family to use with this socket. @param socket_keepalive(bool) enable TCP keepalive, default off."
+    },
+    {
+      "start_line": 204,
+      "end_line": 204,
+      "comment": "Socket implementation of TServerTransport base."
+    }
+  ]
+}

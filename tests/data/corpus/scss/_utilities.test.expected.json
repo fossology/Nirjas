@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "filename": "_utilities.test.scss",
+    "lang": "Scss",
+    "total_lines": 393,
+    "total_lines_of_comments": 3,
+    "blank_lines": 42,
+    "sloc": 348
+  },
+  "single_line_comment": [
+    {
+      "line_number": 4,
+      "comment": "Important: Do not import rfs to check that the mixin just calls the appropriate functions from it"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 304,
+      "end_line": 304,
+      "comment": "rtl:begin:remove"
+    },
+    {
+      "start_line": 310,
+      "end_line": 310,
+      "comment": "rtl:end:remove"
+    }
+  ]
+}

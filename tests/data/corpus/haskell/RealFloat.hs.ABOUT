@@ -1,0 +1,10 @@
+name: haskell/text RealFloat.hs
+about_resource: RealFloat.hs
+homepage_url: https://github.com/haskell/text
+download_url: https://github.com/haskell/text/blob/c0b11ac91eb1d54325c7d34b1db9612a8e8f91ee/src/Data/Text/Lazy/Builder/RealFloat.hs
+license_expression: bsd-2-clause
+copyright: Copyright (C) Bryan O'Sullivan and contributors
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.

@@ -1,0 +1,98 @@
+{
+  "metadata": {
+    "filename": "Thrift.java",
+    "lang": "Java",
+    "total_lines": 262,
+    "total_lines_of_comments": 110,
+    "blank_lines": 23,
+    "sloc": 129
+  },
+  "single_line_comment": [
+    {
+      "line_number": 96,
+      "comment": "result will always be 0 here."
+    },
+    {
+      "line_number": 110,
+      "comment": "add the executable"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    },
+    {
+      "start_line": 36,
+      "end_line": 42,
+      "comment": "* * This class represents an invokable configuration of the {@code thrift} * compiler. The actual executable is invoked using the plexus * {@link Commandline}. * <p/> * This class currently only supports generating java source files."
+    },
+    {
+      "start_line": 55,
+      "end_line": 64,
+      "comment": "* * Constructs a new instance. This should only be used by the {@link Builder}. * * @param executable          The path to the {@code thrift} executable. * @param generator           The value for the {@code --gen} option. * @param thriftPath          The directories in which to search for imports. * @param thriftFiles         The thrift source files to compile. * @param javaOutputDirectory The directory into which the java source files *                            will be generated."
+    },
+    {
+      "start_line": 76,
+      "end_line": 82,
+      "comment": "* * Invokes the {@code thrift} compiler using the configuration specified at * construction. * * @return The exit status of {@code thrift}. * @throws CommandLineException"
+    },
+    {
+      "start_line": 100,
+      "end_line": 107,
+      "comment": "* * Creates the command line arguments. * <p/> * This method has been made visible for testing only. * * @param thriftFile * @return A list consisting of the executable followed by any arguments."
+    },
+    {
+      "start_line": 123,
+      "end_line": 125,
+      "comment": "* * @return the output"
+    },
+    {
+      "start_line": 130,
+      "end_line": 132,
+      "comment": "* * @return the error"
+    },
+    {
+      "start_line": 137,
+      "end_line": 139,
+      "comment": "* * This class builds {@link Thrift} instances."
+    },
+    {
+      "start_line": 147,
+      "end_line": 157,
+      "comment": "* * Constructs a new builder. The two parameters are present as they are * required for all {@link Thrift} instances. * * @param executable          The path to the {@code thrift} executable. * @param javaOutputDirectory The directory into which the java source files *                            will be generated. * @throws NullPointerException     If either of the arguments are {@code null}. * @throws IllegalArgumentException If the {@code javaOutputDirectory} is *                                  not a directory."
+    },
+    {
+      "start_line": 166,
+      "end_line": 176,
+      "comment": "* * Adds a thrift file to be compiled. Thrift files must be on the thriftpath * and this method will fail if a thrift file is added without first adding a * parent directory to the thriftpath. * * @param thriftFile * @return The builder. * @throws IllegalStateException If a thrift file is added without first *                               adding a parent directory to the thriftpath. * @throws NullPointerException  If {@code thriftFile} is {@code null}."
+    },
+    {
+      "start_line": 186,
+      "end_line": 192,
+      "comment": "* * Adds the option string for the Thrift executable's {@code --gen} parameter. * * @param generator * @return The builder * @throws NullPointerException If {@code generator} is {@code null}."
+    },
+    {
+      "start_line": 215,
+      "end_line": 217,
+      "comment": "* * @see #addThriftFile(File)"
+    },
+    {
+      "start_line": 225,
+      "end_line": 234,
+      "comment": "* * Adds the {@code thriftPathElement} to the thriftPath. * * @param thriftPathElement A directory to be searched for imported thrift message *                          buffer definitions. * @return The builder. * @throws NullPointerException     If {@code thriftPathElement} is {@code null}. * @throws IllegalArgumentException If {@code thriftPathElement} is not a *                                  directory."
+    },
+    {
+      "start_line": 242,
+      "end_line": 244,
+      "comment": "* * @see #addThriftPathElement(File)"
+    },
+    {
+      "start_line": 252,
+      "end_line": 255,
+      "comment": "* * @return A configured {@link Thrift} instance. * @throws IllegalStateException If no thrift files have been added."
+    }
+  ]
+}

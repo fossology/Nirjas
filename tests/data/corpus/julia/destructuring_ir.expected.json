@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "filename": "destructuring_ir.jl",
+    "lang": "Julia",
+    "total_lines": 385,
+    "total_lines_of_comments": 82,
+    "blank_lines": 25,
+    "sloc": 278
+  },
+  "single_line_comment": [
+    {
+      "line_number": 6,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 23,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 34,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 50,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 69,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 87,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 97,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 126,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 148,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 161,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 176,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 190,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 205,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 221,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 245,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 260,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 272,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 286,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 294,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 306,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 321,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 333,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 344,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 356,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 374,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 377,
+      "comment": "└─────┘ ── property destructuring must use a single `;` before the property names, e.g. `(; a, b) = rhs`"
+    },
+    {
+      "line_number": 382,
+      "comment": "---------------------"
+    },
+    {
+      "line_number": 385,
+      "comment": "└─┘ ── expected identifier or `identifier::type`"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": "  Simple destructuring"
+    },
+    {
+      "start_line": 18,
+      "end_line": 19,
+      "comment": "  Trivial slurping"
+    },
+    {
+      "start_line": 29,
+      "end_line": 30,
+      "comment": "  Slurping last arg"
+    },
+    {
+      "start_line": 45,
+      "end_line": 46,
+      "comment": "  Slurping, first arg"
+    },
+    {
+      "start_line": 64,
+      "end_line": 65,
+      "comment": "  Slurping, middle arg"
+    },
+    {
+      "start_line": 84,
+      "end_line": 85,
+      "comment": "  Error: Slurping multiple args"
+    },
+    {
+      "start_line": 92,
+      "end_line": 93,
+      "comment": "  Recursive destructuring"
+    },
+    {
+      "start_line": 121,
+      "end_line": 122,
+      "comment": "  Recursive destructuring with slurping"
+    },
+    {
+      "start_line": 143,
+      "end_line": 144,
+      "comment": "  Destructuring with simple tuple elimination"
+    },
+    {
+      "start_line": 156,
+      "end_line": 157,
+      "comment": "  Destructuring with tuple elimination where variables are repeated"
+    },
+    {
+      "start_line": 171,
+      "end_line": 172,
+      "comment": "  Destructuring with simple tuple elimination and rhs with side effects"
+    },
+    {
+      "start_line": 185,
+      "end_line": 186,
+      "comment": "  Destructuring with simple tuple elimination and lhs with side effects"
+    },
+    {
+      "start_line": 200,
+      "end_line": 201,
+      "comment": "  Destructuring with tuple elimination and trailing rhs ..."
+    },
+    {
+      "start_line": 215,
+      "end_line": 217,
+      "comment": "  Destructuring with non-trailing rhs `...` does not use tuple elimination (though we could do it for the `x = a` part here)"
+    },
+    {
+      "start_line": 240,
+      "end_line": 241,
+      "comment": "  Destructuring with tuple elimination and final ... on lhs"
+    },
+    {
+      "start_line": 255,
+      "end_line": 256,
+      "comment": "  Destructuring with tuple elimination, slurping, and completely effect free right hand sides"
+    },
+    {
+      "start_line": 267,
+      "end_line": 268,
+      "comment": "  Destructuring with tuple elimination and non-final ... on lhs"
+    },
+    {
+      "start_line": 283,
+      "end_line": 284,
+      "comment": "  Error: Destructuring with tuple elimination and too few RHS elements"
+    },
+    {
+      "start_line": 291,
+      "end_line": 292,
+      "comment": "  Error: Destructuring with tuple elimination, slurping, and too few RHS elements"
+    },
+    {
+      "start_line": 299,
+      "end_line": 301,
+      "comment": "  Destructuring with tuple elimination but not in value position never creates the tuple"
+    },
+    {
+      "start_line": 316,
+      "end_line": 317,
+      "comment": "  Property destructuring"
+    },
+    {
+      "start_line": 327,
+      "end_line": 328,
+      "comment": "  Property destructuring with colliding symbolic lhs/rhs"
+    },
+    {
+      "start_line": 339,
+      "end_line": 340,
+      "comment": "  Property destructuring with nontrivial rhs"
+    },
+    {
+      "start_line": 351,
+      "end_line": 352,
+      "comment": "  Property destructuring with type decl"
+    },
+    {
+      "start_line": 371,
+      "end_line": 372,
+      "comment": "  Error: Property destructuring with frankentuple"
+    },
+    {
+      "start_line": 379,
+      "end_line": 380,
+      "comment": "  Error: Property destructuring with values for properties"
+    }
+  ],
+  "multi_line_comment": []
+}

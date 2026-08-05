@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "filename": "RepeatingEndToEndTests+ParsingStrategy.swift",
+    "lang": "Swift",
+    "total_lines": 312,
+    "total_lines_of_comments": 27,
+    "blank_lines": 36,
+    "sloc": 249
+  },
+  "single_line_comment": [
+    {
+      "line_number": 18,
+      "comment": "MARK: - allUnrecognized"
+    },
+    {
+      "line_number": 69,
+      "comment": "No need to test HelpCommand properties"
+    },
+    {
+      "line_number": 76,
+      "comment": "Only partially matches the `-fib` argument"
+    },
+    {
+      "line_number": 121,
+      "comment": "Extra arguments need to make it to the child"
+    },
+    {
+      "line_number": 127,
+      "comment": "MARK: - postTerminator"
+    },
+    {
+      "line_number": 173,
+      "comment": "Only partially matches the `-fib` argument"
+    },
+    {
+      "line_number": 175,
+      "comment": "The post-terminator input can't provide the option's value"
+    },
+    {
+      "line_number": 181,
+      "comment": "MARK: - captureForPassthrough"
+    },
+    {
+      "line_number": 309,
+      "comment": "Only partially matches the `-fib` argument"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 10,
+      "comment": " ===----------------------------------------------------------------------===//  This source file is part of the Swift Argument Parser open source project  Copyright (c) 2022 Apple Inc. and the Swift project authors Licensed under Apache License v2.0 with Runtime Library Exception  See https://swift.org/LICENSE.txt for license information  ===----------------------------------------------------------------------===//"
+    },
+    {
+      "start_line": 33,
+      "end_line": 34,
+      "comment": " swift-format-ignore: AlwaysUseLowerCamelCase https://github.com/apple/swift-argument-parser/issues/710"
+    },
+    {
+      "start_line": 96,
+      "end_line": 97,
+      "comment": " swift-format-ignore: AlwaysUseLowerCamelCase https://github.com/apple/swift-argument-parser/issues/710"
+    },
+    {
+      "start_line": 138,
+      "end_line": 139,
+      "comment": " swift-format-ignore: AlwaysUseLowerCamelCase https://github.com/apple/swift-argument-parser/issues/710"
+    },
+    {
+      "start_line": 191,
+      "end_line": 192,
+      "comment": " swift-format-ignore: AlwaysUseLowerCamelCase https://github.com/apple/swift-argument-parser/issues/710"
+    }
+  ],
+  "multi_line_comment": []
+}

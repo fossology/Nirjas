@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "dropdown.html",
+    "lang": "HTML",
+    "total_lines": 205,
+    "total_lines_of_comments": 1,
+    "blank_lines": 10,
+    "sloc": 194
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 149,
+      "end_line": 149,
+      "comment": "dropstart"
+    }
+  ]
+}

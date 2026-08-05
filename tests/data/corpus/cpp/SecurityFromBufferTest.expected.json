@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "filename": "SecurityFromBufferTest.cpp",
+    "lang": "C++",
+    "total_lines": 265,
+    "total_lines_of_comments": 30,
+    "blank_lines": 33,
+    "sloc": 202
+  },
+  "single_line_comment": [
+    {
+      "line_number": 211,
+      "comment": "matrix of connection success between client and server with different SSLProtocol selections"
+    },
+    {
+      "line_number": 228,
+      "comment": "Skip all SSLv2 cases - protocol not supported"
+    },
+    {
+      "line_number": 234,
+      "comment": "Skip all SSLv3 cases - protocol not supported"
+    },
+    {
+      "line_number": 245,
+      "comment": "thread_group manages the thread lifetime - ignore the return value of create_thread"
+    },
+    {
+      "line_number": 249,
+      "comment": "wait for listen() to succeed"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 72,
+      "end_line": 73,
+      "comment": " OpenSSL calls send() without MSG_NOSIGPIPE so writing to a socket that has disconnected can cause a SIGPIPE signal..."
+    },
+    {
+      "start_line": 113,
+      "end_line": 114,
+      "comment": " OpenSSL 1.1.0 introduced @SECLEVEL. Modern distributions limit TLS 1.0/1.1 to @SECLEVEL=0 or 1, so specify it to test all combinations."
+    },
+    {
+      "start_line": 165,
+      "end_line": 166,
+      "comment": " OpenSSL 1.1.0 introduced @SECLEVEL. Modern distributions limit TLS 1.0/1.1 to @SECLEVEL=0 or 1, so specify it to test all combinations."
+    },
+    {
+      "start_line": 215,
+      "end_line": 216,
+      "comment": " server    = SSLTLS   SSLv2    SSLv3    TLSv1_0  TLSv1_1  TLSv1_2 client"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    },
+    {
+      "start_line": 217,
+      "end_line": 217,
+      "comment": "SSLTLS"
+    },
+    {
+      "start_line": 218,
+      "end_line": 218,
+      "comment": "SSLv2"
+    },
+    {
+      "start_line": 219,
+      "end_line": 219,
+      "comment": "SSLv3"
+    },
+    {
+      "start_line": 220,
+      "end_line": 220,
+      "comment": "TLSv1_0"
+    },
+    {
+      "start_line": 221,
+      "end_line": 221,
+      "comment": "TLSv1_1"
+    },
+    {
+      "start_line": 222,
+      "end_line": 222,
+      "comment": "TLSv1_2"
+    }
+  ]
+}

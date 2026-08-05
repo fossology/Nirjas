@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "filename": "cc.R",
+    "lang": "R",
+    "total_lines": 129,
+    "total_lines_of_comments": 38,
+    "blank_lines": 8,
+    "sloc": 83
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "data.table dev"
+    },
+    {
+      "line_number": 2,
+      "comment": ""
+    },
+    {
+      "line_number": 3,
+      "comment": "Normal usage :"
+    },
+    {
+      "line_number": 4,
+      "comment": "$ R"
+    },
+    {
+      "line_number": 5,
+      "comment": "> cc()"
+    },
+    {
+      "line_number": 6,
+      "comment": "# change some files"
+    },
+    {
+      "line_number": 7,
+      "comment": "> cc()"
+    },
+    {
+      "line_number": 8,
+      "comment": "# run your tests"
+    },
+    {
+      "line_number": 9,
+      "comment": "# to compile, reload and run main test script"
+    },
+    {
+      "line_number": 10,
+      "comment": "> cc(T)"
+    },
+    {
+      "line_number": 11,
+      "comment": "# clean, compile, reload"
+    },
+    {
+      "line_number": 12,
+      "comment": "> cc(F, T)"
+    },
+    {
+      "line_number": 13,
+      "comment": "# clean, compile using specific version, reload"
+    },
+    {
+      "line_number": 14,
+      "comment": "> cc(F, T, CC=\"gcc-8\")"
+    },
+    {
+      "line_number": 15,
+      "comment": ""
+    },
+    {
+      "line_number": 16,
+      "comment": "To debug C level :"
+    },
+    {
+      "line_number": 17,
+      "comment": "$ R -d gdb"
+    },
+    {
+      "line_number": 18,
+      "comment": "run"
+    },
+    {
+      "line_number": 19,
+      "comment": "dd()"
+    },
+    {
+      "line_number": 20,
+      "comment": "Ctrl-C"
+    },
+    {
+      "line_number": 21,
+      "comment": "break file.c:line"
+    },
+    {
+      "line_number": 22,
+      "comment": "c"
+    },
+    {
+      "line_number": 23,
+      "comment": "test and step between R and C"
+    },
+    {
+      "line_number": 28,
+      "comment": "copied verbatim from example(source) in base R"
+    },
+    {
+      "line_number": 36,
+      "comment": "NB: since we only import from default packages, this is rarely needed, but useful for truly minimal dev environments (#6056)"
+    },
+    {
+      "line_number": 43,
+      "comment": "clean up from previous cc() because parseNamespaceFile() run getRversion() in NAMESPACE in .GlobalEnv"
+    },
+    {
+      "line_number": 44,
+      "comment": "weird signature to this function"
+    },
+    {
+      "line_number": 48,
+      "comment": "getNamespaceExports includes weird objects but that's intentional, consider evalq(.__C__VIRTUAL, asNamespace(\"Rcpp\")) due to import(methods) in that NAMESPACE"
+    },
+    {
+      "line_number": 50,
+      "comment": "Assign directly to better imitate actual namespace imports. Earlier tried to require(include.only=) these objects, but R doesn't allow multiple such require, meaning we can't add more objects later in tests, see:"
+    },
+    {
+      "line_number": 51,
+      "comment": "https://stat.ethz.ch/pipermail/r-devel/2024-April/083319.html"
+    },
+    {
+      "line_number": 65,
+      "comment": "if these objects aren't there to remove it's correctly an error (should always be there)"
+    },
+    {
+      "line_number": 68,
+      "comment": "Make sure library .so is not loaded (neither installed package nor from dev)"
+    },
+    {
+      "line_number": 74,
+      "comment": "hack for windows under mingw-like environment"
+    },
+    {
+      "line_number": 75,
+      "comment": "PROJ_PATH must be windows like i.e.: export PROJ_PATH=$(Rscript -e 'getwd()')"
+    },
+    {
+      "line_number": 78,
+      "comment": "when -std=c99, macro WIN32 is not defined (MinGW) so we define it"
+    },
+    {
+      "line_number": 79,
+      "comment": "otherwise will fail as sys/mman.h does not exists in windows (fread.c)"
+    },
+    {
+      "line_number": 98,
+      "comment": "the -isystem suppresses strict-prototypes warnings from R's headers, #5477. Look at the output to see what -I is and pass the same path to -isystem."
+    },
+    {
+      "line_number": 99,
+      "comment": "TODO add -Wextra too?"
+    },
+    {
+      "line_number": 104,
+      "comment": "clang -Weverything includes -pedantic and issues many more warnings than gcc"
+    },
+    {
+      "line_number": 105,
+      "comment": "system(\"R CMD SHLIB -o data_table.so *.c\")"
+    },
+    {
+      "line_number": 121,
+      "comment": "3968 follow up"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

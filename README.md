@@ -198,14 +198,44 @@ nirjas -i <target file>
 
 ## Tests
 
-To run tests for Nirjas, download Tree-Sitter parsers and execute the test script:
+To run tests for Nirjas, download the Tree-Sitter parsers and run pytest:
 
 ```sh
 python3 scripts/download_parsers.py
-python3 testScript.py
+pytest
 ```
 
-`testScript.py` downloads all test files into `nirjas/languages/tests/TestFiles` and runs the test suite.
+The suite is offline: every test input lives in `tests/data`, so nothing is
+downloaded at test time.
+
+It has two tiers:
+
+- **`tests/data/fixtures`** — small hand-written files we own, one per language
+  aimed at that language's hardest case (a `-->` operator versus a `--` comment
+  in Haskell, `'` as transpose versus a quote in MATLAB, `${x##*/}` expansion in
+  shell, a regex literal holding `//` in JavaScript), plus cross-cutting edge
+  cases: CRLF, a BOM, no trailing newline, an unterminated block, nesting.
+- **`tests/data/corpus`** — three real-world files per language, vendored
+  verbatim from permissively licensed upstreams at pinned commits. Real code
+  carries licence headers, doc-comment conventions and hundreds of comments that
+  no hand-written fixture thinks to include. Every vendored file has an `.ABOUT`
+  sidecar recording origin, pinned commit and licence. Run just these with
+  `pytest -m corpus`.
+
+Both tiers assert the same way: a `.expected.json` for extractor output and a
+`.expected.src` for the stripped source, with the invariant checks running
+alongside. Nobody reads a 600-line golden top to bottom, and nobody needs to —
+you read the *diff* when behaviour changes.
+
+When a change *should* alter output, review the diff and re-record the goldens:
+
+```sh
+NIRJAS_REGEN_FIXTURES=1 pytest
+```
+
+Regeneration rewrites goldens from current behaviour, so always read the
+resulting diff before committing it. The invariant checks still run in this
+mode, which is what stops a golden from enshrining a broken result.
 
 ## Linting and Type Checking
 

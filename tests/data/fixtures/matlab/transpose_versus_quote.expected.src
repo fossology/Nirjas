@@ -1,0 +1,5 @@
+A = [1 2 3];
+B = A';                   
+text = '% not a comment';
+
+disp(text); 

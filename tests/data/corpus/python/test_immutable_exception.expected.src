@@ -1,0 +1,194 @@
+#!/usr/bin/env python
+
+
+
+import unittest
+from collections.abc import Hashable
+
+import glob
+import os
+import sys
+
+SCRIPT_DIR = os.path.realpath(os.path.dirname(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(SCRIPT_DIR)))
+
+for libpath in glob.glob(os.path.join(ROOT_DIR, 'lib', 'py', 'build', 'lib.*')):
+    for pattern in ('-%d.%d', '-%d%d'):
+        postfix = pattern % (sys.version_info[0], sys.version_info[1])
+        if libpath.endswith(postfix):
+            sys.path.insert(0, libpath)
+            break
+else:
+    src_path = os.path.join(ROOT_DIR, 'lib', 'py', 'src')
+    if os.path.exists(src_path):
+        sys.path.insert(0, src_path)
+from thrift.Thrift import TException
+from thrift.transport import TTransport
+from thrift.protocol import TBinaryProtocol, TCompactProtocol
+
+
+class ImmutableException(TException):
+
+    thrift_spec = (
+        None,  
+        (1, 11, 'message', 'UTF8', None, ),  
+    )
+
+    def __init__(self, message=None):
+        super(ImmutableException, self).__init__(message)
+
+    def __setattr__(self, *args):
+        raise TypeError("can't modify immutable instance")
+
+    def __delattr__(self, *args):
+        raise TypeError("can't modify immutable instance")
+
+    def __hash__(self):
+        return hash(self.__class__) ^ hash((self.message,))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.message == other.message
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('ImmutableException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', 11, 1)
+            oprot.writeString(self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    @classmethod
+    def read(cls, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and cls.thrift_spec is not None:
+            return iprot._fast_decode(None, iprot, [cls, cls.thrift_spec])
+        return iprot.readStruct(cls, cls.thrift_spec, True)
+
+
+class MutableException(TException):
+
+    thrift_spec = (
+        None,  
+        (1, 11, 'message', 'UTF8', None, ),  
+    )
+
+    def __init__(self, message=None):
+        super(MutableException, self).__init__(message)
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('MutableException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', 11, 1)
+            oprot.writeString(self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    @classmethod
+    def read(cls, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and cls.thrift_spec is not None:
+            return iprot._fast_decode(None, iprot, [cls, cls.thrift_spec])
+        return iprot.readStruct(cls, cls.thrift_spec, False)
+
+
+class TestImmutableExceptionDeserialization(unittest.TestCase):
+
+    def _roundtrip(self, exc, protocol_class):
+        otrans = TTransport.TMemoryBuffer()
+        oproto = protocol_class.getProtocol(otrans)
+        exc.write(oproto)
+        itrans = TTransport.TMemoryBuffer(otrans.getvalue())
+        iproto = protocol_class.getProtocol(itrans)
+        return exc.__class__.read(iproto)
+
+    def test_immutable_exception_is_hashable(self):
+        exc = ImmutableException(message="test")
+        self.assertTrue(isinstance(exc, Hashable))
+        self.assertEqual(hash(exc), hash(ImmutableException(message="test")))
+
+    def test_immutable_exception_blocks_modification(self):
+        exc = ImmutableException(message="test")
+        with self.assertRaises(TypeError) as cm:
+            exc.message = "modified"
+        self.assertIn("immutable", str(cm.exception))
+
+    def test_immutable_exception_blocks_deletion(self):
+        exc = ImmutableException(message="test")
+        with self.assertRaises(TypeError) as cm:
+            del exc.message
+        self.assertIn("immutable", str(cm.exception))
+
+    def test_immutable_exception_binary_protocol(self):
+        exc = ImmutableException(message="test error")
+        deserialized = self._roundtrip(exc, TBinaryProtocol.TBinaryProtocolFactory())
+        self.assertEqual(exc.message, deserialized.message)
+        self.assertEqual(exc, deserialized)
+
+    def test_immutable_exception_compact_protocol(self):
+        exc = ImmutableException(message="test error")
+        deserialized = self._roundtrip(exc, TCompactProtocol.TCompactProtocolFactory())
+        self.assertEqual(exc.message, deserialized.message)
+        self.assertEqual(exc, deserialized)
+
+    def test_mutable_exception_can_be_modified(self):
+        exc = MutableException(message="original")
+        exc.message = "modified"
+        self.assertEqual(exc.message, "modified")
+
+
+class TestImmutableExceptionAccelerated(unittest.TestCase):
+
+    def setUp(self):
+        try:
+            from thrift.protocol import fastbinary  
+            self._has_c_extension = True
+        except ImportError:
+            self._has_c_extension = False
+
+    def _roundtrip(self, exc, protocol_class):
+        otrans = TTransport.TMemoryBuffer()
+        oproto = protocol_class.getProtocol(otrans)
+        exc.write(oproto)
+        itrans = TTransport.TMemoryBuffer(otrans.getvalue())
+        iproto = protocol_class.getProtocol(itrans)
+        return exc.__class__.read(iproto)
+
+    def test_immutable_exception_binary_accelerated(self):
+        if not self._has_c_extension:
+            self.skipTest("C extension not available")
+        exc = ImmutableException(message="test error")
+        deserialized = self._roundtrip(
+            exc,
+            TBinaryProtocol.TBinaryProtocolAcceleratedFactory(fallback=False)
+        )
+        self.assertEqual(exc.message, deserialized.message)
+        self.assertEqual(exc, deserialized)
+
+    def test_immutable_exception_compact_accelerated(self):
+        if not self._has_c_extension:
+            self.skipTest("C extension not available")
+        exc = ImmutableException(message="test error")
+        deserialized = self._roundtrip(
+            exc,
+            TCompactProtocol.TCompactProtocolAcceleratedFactory(fallback=False)
+        )
+        self.assertEqual(exc.message, deserialized.message)
+        self.assertEqual(exc, deserialized)
+
+
+def suite():
+    suite = unittest.TestSuite()
+    loader = unittest.TestLoader()
+    suite.addTest(loader.loadTestsFromTestCase(TestImmutableExceptionDeserialization))
+    suite.addTest(loader.loadTestsFromTestCase(TestImmutableExceptionAccelerated))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite", testRunner=unittest.TextTestRunner(verbosity=2))

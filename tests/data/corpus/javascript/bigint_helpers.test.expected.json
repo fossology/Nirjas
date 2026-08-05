@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "filename": "bigint_helpers.test.js",
+    "lang": "JavaScript",
+    "total_lines": 217,
+    "total_lines_of_comments": 40,
+    "blank_lines": 17,
+    "sloc": 160
+  },
+  "single_line_comment": [
+    {
+      "line_number": 66,
+      "comment": "node-int64 supports `new Int64(buffer, offset)`."
+    },
+    {
+      "line_number": 98,
+      "comment": "Numbers (safe integer range only)."
+    },
+    {
+      "line_number": 133,
+      "comment": "The decimal-string path still works for the same magnitudes."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 20,
+      "end_line": 23,
+      "comment": " Exercises `thrift.toBigInt` / `thrift.fromBigInt` — the JS-side helpers emitted by `--gen js:node,bigint` generated code to convert between node-int64 `Int64` and native `bigint`. Verifies they round-trip through the binary protocol without any runtime toggle on `TBinaryProtocol`."
+    },
+    {
+      "start_line": 74,
+      "end_line": 75,
+      "comment": " Anything outside [-2^63, 2^63 - 1] is wrapped via BigInt.asIntN(64, ...). 2^63 — wraps to -2^63"
+    },
+    {
+      "start_line": 82,
+      "end_line": 84,
+      "comment": " Generated `map<i64, …>` serialization passes a JS object-key string (`for (k in obj)` yields strings) into `fromBigInt`. Decimal strings must round-trip — including values outside Number's safe range."
+    },
+    {
+      "start_line": 110,
+      "end_line": 112,
+      "comment": " 2^53 + 1 cannot be represented exactly as a JS Number, so it has already lost precision by the time it reaches `fromBigInt`. The helper rejects it explicitly to avoid silent data corruption."
+    },
+    {
+      "start_line": 162,
+      "end_line": 169,
+      "comment": " --- bigint_compat fallback ---------------------------------------------  `toBigInt` / `fromBigInt` use `Buffer#readBigInt64BE` / `writeBigInt64BE` when available and fall back to a `readInt32BE` / `writeUInt32BE` + BigInt composition otherwise (needed for Node 10.x and older Buffer polyfills, since the native methods landed in Node 12). The fallback path is exposed for direct testing so it's exercised even on runtimes that have the natives."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    }
+  ]
+}

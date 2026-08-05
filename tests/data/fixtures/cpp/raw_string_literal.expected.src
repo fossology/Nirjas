@@ -1,0 +1,5 @@
+#include <string>
+
+const std::string raw = R"(// not a comment inside a raw string)";
+const std::string plain = "/* not a comment */";
+int main() { return 0; } 
