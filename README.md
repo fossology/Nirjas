@@ -29,6 +29,7 @@ For more details, read our [paper](https://arxiv.org/abs/2409.14609)
 ## Requirements
 
 - Python 3.10+
+- Poetry 2.0+ (for development/build workflows)
 
 Installing Python on Linux machines:
 
@@ -126,13 +127,17 @@ git clone https://github.com/fossology/Nirjas.git
 cd Nirjas/
 ```
 
-- Install the package
+- Install dependencies and package with Poetry
+
+```sh
+poetry install
+```
+
+- Optional: install into current environment with pip
 
 ```sh
 pip3 install .
 ```
-
-> This will install Nirjas on your system.
 
 - Check if Nirjas is installed correctly or get help, Run:
 
@@ -201,6 +206,13 @@ python3 testScript.py
 ```
 
 `testScript.py` downloads all test files into `nirjas/languages/tests/TestFiles` and runs the test suite.
+
+## Linting and Type Checking
+
+```sh
+poetry run ruff check .
+poetry run pyright
+```
 
 ## Documentation
 

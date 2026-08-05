@@ -124,6 +124,8 @@ def assert_scan_output_contract(
 
     sloc = metadata.get("sloc")
     testcase.assertIsInstance(sloc, int)
+    if not isinstance(sloc, int):
+        raise AssertionError("sloc must be an integer")
 
     # Every line is blank, comment, or code and never more than one of those,
     # which is the convention `cloc` uses. So the buckets have to add back up.
