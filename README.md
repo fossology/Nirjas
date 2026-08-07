@@ -196,6 +196,62 @@ or for default file generation (default file: source.txt)
 nirjas -i <target file>
 ```
 
+## License Gate (ML)
+
+Nirjas ships an optional **recall-first license gate** — a lightweight binary
+classifier that answers *"is this text actual license text worth routing to
+[Atarashi](https://github.com/fossology/atarashi)?"*. It is meant as a cheap
+pre-filter: cull the obvious non-license comments Nirjas already extracts so the
+expensive license scanner only runs on candidates that matter.
+
+### Approach
+
+- **Model:** a [model2vec](https://github.com/MinishLab/model2vec) static
+  embedding (`minishlab/potion-base-32M`) with a scikit-learn logistic head.
+  Inference is **torch-free** — static embeddings mean no deep-learning runtime,
+  so the gate loads in milliseconds and runs on CPU.
+- **Recall-first, not argmax.** The decision uses a tuned threshold of **0.20**,
+  not the default 0.5. Missing a license is the costly error; a false positive
+  just wastes one Atarashi call. So the operating point is chosen to catch
+  (almost) every license at the price of a small false-positive rate.
+- **Quality gate on release.** Training is deterministic (`random_seed=0`) and a
+  build only publishes if it clears `license_recall ≥ 0.99` and `FPR ≤ 0.05` on
+  the held-out test split.
+
+Validated metrics (`rycerzes/nirjas-dataset`, splits 55,610 / 6,877 / 6,895):
+
+| Evaluation           | License recall | False-positive rate |
+| -------------------- | -------------- | ------------------- |
+| Held-out test split  | 0.9952         | 0.0227              |
+| Real-corpus sample   | 1.0000         | 0.0133              |
+
+Full methodology, dataset construction, and benchmarks are in the
+[Nirjas benchmark report](https://github.com/fossology/gsoc/blob/main/docs/2026/enhancing-atarashi/updates/nirjas-benchmark-report.md).
+
+### Usage
+
+```sh
+pip install 'nirjas[gate]'
+```
+
+```python
+from nirjas.gate import load_gate, classify
+
+pipe, threshold = load_gate()                 # downloads rycerzes/nirjas-gate from HF Hub (cached)
+classify(pipe, ["// SPDX-License-Identifier: MIT"], threshold)  # -> [True]
+```
+
+### Retraining
+
+The model is published to the Hugging Face Hub; retraining is only needed to
+reproduce or update it. Install the training stack and run the script (CI
+publishes via `workflow_dispatch`):
+
+```sh
+poetry install --with train
+poetry run python scripts/train_and_release.py --output-dir trained_gate
+```
+
 ## Tests
 
 To run tests for Nirjas, download the Tree-Sitter parsers and run pytest:

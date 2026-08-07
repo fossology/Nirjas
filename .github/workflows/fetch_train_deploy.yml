@@ -1,0 +1,51 @@
+# SPDX-License-Identifier: LGPL-2.1
+name: Train and Release Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      dataset_repo:
+        description: "HF Hub dataset repo id"
+        required: false
+        default: "rycerzes/nirjas-dataset"
+      repo_id:
+        description: "HF Hub model repo id to push to"
+        required: false
+        default: "rycerzes/nirjas-gate"
+      min_recall:
+        description: "Quality gate: minimum license recall"
+        required: false
+        default: "0.99"
+      max_fpr:
+        description: "Quality gate: maximum false-positive rate"
+        required: false
+        default: "0.05"
+
+jobs:
+  train-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "poetry"
+
+      - name: Install dependencies (with train group)
+        run: poetry install --with train
+
+      - name: Train, gate, and push to HF Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          poetry run python scripts/train_and_release.py \
+            --dataset-repo "${{ inputs.dataset_repo }}" \
+            --repo-id "${{ inputs.repo_id }}" \
+            --min-recall "${{ inputs.min_recall }}" \
+            --max-fpr "${{ inputs.max_fpr }}"

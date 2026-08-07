@@ -137,3 +137,6 @@ dmypy.json
 
 # VSCode
 .vscode
+
+# Trained gate artifacts
+trained_gate/
