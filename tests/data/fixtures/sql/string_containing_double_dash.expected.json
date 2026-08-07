@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "string_containing_double_dash.sql",
+    "lang": "SQL",
+    "total_lines": 5,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 3
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [
+    {
+      "start_line": 4,
+      "end_line": 5,
+      "comment": " a genuine line comment trailing comment after code"
+    }
+  ],
+  "multi_line_comment": []
+}

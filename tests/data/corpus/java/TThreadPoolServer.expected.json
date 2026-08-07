@@ -1,0 +1,72 @@
+{
+  "metadata": {
+    "filename": "TThreadPoolServer.java",
+    "lang": "Java",
+    "total_lines": 316,
+    "total_lines_of_comments": 42,
+    "blank_lines": 41,
+    "sloc": 233
+  },
+  "single_line_comment": [
+    {
+      "line_number": 86,
+      "comment": "Executor service for handling client connections"
+    },
+    {
+      "line_number": 136,
+      "comment": "Run the preServe event"
+    },
+    {
+      "line_number": 300,
+      "comment": "don't log these"
+    },
+    {
+      "line_number": 309,
+      "comment": "Log the exception at error level and continue"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 184,
+      "end_line": 187,
+      "comment": " Loop until awaitTermination finally does return without a interrupted exception. If we don't do this, then we'll shut down prematurely. We want to let the executorService clear it's task queue, closing client sockets appropriately."
+    },
+    {
+      "start_line": 260,
+      "end_line": 263,
+      "comment": " This process cannot be interrupted by Interrupting the Thread. This will return once a message has been processed or the socket timeout has elapsed, at which point it will return and check the interrupt state of the thread."
+    },
+    {
+      "start_line": 285,
+      "end_line": 286,
+      "comment": " We'll usually receive RuntimeException types here Need to unwrap to ascertain real causing exception before we choose to ignore"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    },
+    {
+      "start_line": 42,
+      "end_line": 45,
+      "comment": "* * Server which uses Java's built in ThreadPool management to spawn off a worker pool that deals * with client connections in blocking way."
+    },
+    {
+      "start_line": 210,
+      "end_line": 210,
+      "comment": "* Client that this services."
+    },
+    {
+      "start_line": 213,
+      "end_line": 217,
+      "comment": "* * Default constructor. * * @param client Transport to process"
+    },
+    {
+      "start_line": 222,
+      "end_line": 222,
+      "comment": "* Loops on processing a client forever"
+    }
+  ]
+}

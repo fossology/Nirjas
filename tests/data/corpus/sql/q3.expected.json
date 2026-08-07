@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "filename": "q3.sql",
+    "lang": "SQL",
+    "total_lines": 228,
+    "total_lines_of_comments": 3,
+    "blank_lines": 0,
+    "sloc": 225
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "start query 3 in stream 0 using template query3.tpl"
+    },
+    {
+      "line_number": 16,
+      "comment": "partition key filters"
+    },
+    {
+      "line_number": 228,
+      "comment": "end query 3 in stream 0 using template query3.tpl"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

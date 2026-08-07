@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "comment_in_attribute_and_script.html",
+    "lang": "HTML",
+    "total_lines": 11,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 9
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 8,
+      "end_line": 8,
+      "comment": "a genuine comment"
+    },
+    {
+      "start_line": 9,
+      "end_line": 9,
+      "comment": "trailing comment after code"
+    }
+  ]
+}

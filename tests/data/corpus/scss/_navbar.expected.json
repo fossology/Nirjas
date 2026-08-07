@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "_navbar.scss",
+    "lang": "Scss",
+    "total_lines": 289,
+    "total_lines_of_comments": 5,
+    "blank_lines": 42,
+    "sloc": 242
+  },
+  "single_line_comment": [
+    {
+      "line_number": 7,
+      "comment": "scss-docs-start navbar-css-vars"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 4,
+      "comment": " Navbar  Provide a static navbar from which we expand to create full-width, fixed, and other navbar variations."
+    }
+  ],
+  "multi_line_comment": []
+}

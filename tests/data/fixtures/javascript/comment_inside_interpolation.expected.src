@@ -1,0 +1,4 @@
+const value = `a ${ 1} b`;
+const plain = "// not a comment";
+
+function main() { return value; } 

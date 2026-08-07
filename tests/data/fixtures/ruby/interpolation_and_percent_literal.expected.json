@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "interpolation_and_percent_literal.rb",
+    "lang": "Ruby",
+    "total_lines": 9,
+    "total_lines_of_comments": 2,
+    "blank_lines": 2,
+    "sloc": 5
+  },
+  "single_line_comment": [
+    {
+      "line_number": 9,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 5,
+      "end_line": 6,
+      "comment": "A block comment delimited by =begin and =end."
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "filename": "ghostscript.m",
+    "lang": "MATLAB",
+    "total_lines": 208,
+    "total_lines_of_comments": 65,
+    "blank_lines": 6,
+    "sloc": 137
+  },
+  "single_line_comment": [
+    {
+      "line_number": 49,
+      "comment": "Call ghostscript"
+    },
+    {
+      "line_number": 62,
+      "comment": "issue #27"
+    },
+    {
+      "line_number": 83,
+      "comment": "Check the path works"
+    },
+    {
+      "line_number": 87,
+      "comment": "Check whether the binary is on the path"
+    },
+    {
+      "line_number": 99,
+      "comment": "Search the obvious places"
+    },
+    {
+      "line_number": 104,
+      "comment": "Possible location on 64-bit systems"
+    },
+    {
+      "line_number": 109,
+      "comment": "If there are multiple versions, use the newest"
+    },
+    {
+      "line_number": 134,
+      "comment": "Ask the user to enter the path"
+    },
+    {
+      "line_number": 145,
+      "comment": "User hit cancel or closed window"
+    },
+    {
+      "line_number": 148,
+      "comment": "#ok<AGROW>"
+    },
+    {
+      "line_number": 170,
+      "comment": "Check the path is valid"
+    },
+    {
+      "line_number": 175,
+      "comment": "Update the current default path to the path found"
+    },
+    {
+      "line_number": 201,
+      "comment": "Avoids an error on Linux with GS 9.07"
+    },
+    {
+      "line_number": 204,
+      "comment": "Avoids an error on Mac with GS 9.07"
+    },
+    {
+      "line_number": 206,
+      "comment": "Construct the command string"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 52,
+      "end_line": 54,
+      "comment": " Display possible workarounds for Ghostscript croaks issue #12 issue #20"
+    },
+    {
+      "start_line": 177,
+      "end_line": 178,
+      "comment": " filename = fullfile(fileparts(which('user_string.m')), '.ignore', 'ghostscript.txt'); #ok<ASGLU>"
+    },
+    {
+      "start_line": 189,
+      "end_line": 190,
+      "comment": " Check whether the path is valid #ok<ASGLU>"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 2,
+      "end_line": 22,
+      "comment": "%GHOSTSCRIPT  Calls a local GhostScript executable with the input command % % Example: %   [status result] = ghostscript(cmd) % % Attempts to locate a ghostscript executable, finally asking the user to % specify the directory ghostcript was installed into. The resulting path % is stored for future reference. % % Once found, the executable is called with the input command string. % % This function requires a Ghostscript installation on your system. % You can download Ghostscript from http://ghostscript.com (Windows/Linux) % or http://pages.uoregon.edu/koch (MacOS). % % IN: %   cmd - Command string to be passed into ghostscript. % % OUT: %   status - 0 iff command ran without problem. %   result - Output from ghostscript."
+    },
+    {
+      "start_line": 24,
+      "end_line": 46,
+      "comment": "% Copyright: Oliver Woodford, 2009-2015, Yair Altman 2015- %{ % Thanks to Jonas Dorn for the fix for the title of the uigetdir window on Mac OS. % Thanks to Nathan Childress for the fix to default location on 64-bit Windows systems. % 27/04/11 - Find 64-bit Ghostscript on Windows. Thanks to Paul Durack and %            Shaun Kline for pointing out the issue % 04/05/11 - Thanks to David Chorlian for pointing out an alternative %            location for gs on linux. % 12/12/12 - Add extra executable name on Windows. Thanks to Ratish %            Punnoose for highlighting the issue. % 28/06/13 - Fix error using GS 9.07 in Linux. Many thanks to Jannick %            Steinbring for proposing the fix. % 24/10/13 - Fix error using GS 9.07 in Linux. Many thanks to Johannes %            for the fix. % 23/01/14 - Add full path to ghostscript.txt in warning. Thanks to Koen %            Vermeer for raising the issue. % 27/02/15 - If Ghostscript croaks, display suggested workarounds % 30/03/15 - Improved performance by caching status of GS path check, if ok % 14/05/15 - Clarified warning message in case GS path could not be saved % 29/05/15 - Avoid cryptic error in case the ghostscipt path cannot be saved (issue #74) % 10/11/15 - Custom GS installation webpage for MacOS. Thanks to Andy Hueni via FEX % 15/01/20 - Various message cleanups/fixes in case of errors %}"
+    },
+    {
+      "start_line": 64,
+      "end_line": 65,
+      "comment": "% issue #20 % TODO: in Unix/Mac, find a way to automatically determine whether to use \"export\" (bash) or \"setenv\" (csh/tcsh)"
+    },
+    {
+      "start_line": 80,
+      "end_line": 81,
+      "comment": "% Return a valid path % Start with the currently set path"
+    },
+    {
+      "start_line": 136,
+      "end_line": 138,
+      "comment": "% Is a Mac % Give separate warning as the uigetdir dialogue box doesn't have a % title on MacOS"
+    },
+    {
+      "start_line": 197,
+      "end_line": 198,
+      "comment": "% Initialize any required system calls before calling ghostscript % TODO: in Unix/Mac, find a way to automatically determine whether to use \"export\" (bash) or \"setenv\" (csh/tcsh)"
+    }
+  ]
+}

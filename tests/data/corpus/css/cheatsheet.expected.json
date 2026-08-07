@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "filename": "cheatsheet.css",
+    "lang": "CSS",
+    "total_lines": 163,
+    "total_lines_of_comments": 18,
+    "blank_lines": 23,
+    "sloc": 122
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 5,
+      "end_line": 8,
+      "comment": "* * Bootstrap \"Journal code\" icon * @link https://icons.getbootstrap.com/icons/journal-code/"
+    },
+    {
+      "start_line": 19,
+      "end_line": 19,
+      "comment": "stylelint-disable-next-line selector-max-universal"
+    },
+    {
+      "start_line": 24,
+      "end_line": 24,
+      "comment": "Table of contents"
+    },
+    {
+      "start_line": 65,
+      "end_line": 67,
+      "comment": "rtl:raw: transform: rotate(180deg) translateX(-2px);"
+    },
+    {
+      "start_line": 72,
+      "end_line": 72,
+      "comment": "rtl:ignore"
+    },
+    {
+      "start_line": 76,
+      "end_line": 76,
+      "comment": "Examples"
+    },
+    {
+      "start_line": 93,
+      "end_line": 93,
+      "comment": "Layout"
+    },
+    {
+      "start_line": 105,
+      "end_line": 105,
+      "comment": "rtl:begin:ignore"
+    },
+    {
+      "start_line": 108,
+      "end_line": 108,
+      "comment": "rtl:end:ignore"
+    },
+    {
+      "start_line": 118,
+      "end_line": 120,
+      "comment": "* * 1. Too bad only Firefox supports subgrids ATM"
+    },
+    {
+      "start_line": 124,
+      "end_line": 124,
+      "comment": "1"
+    },
+    {
+      "start_line": 128,
+      "end_line": 128,
+      "comment": "1"
+    },
+    {
+      "start_line": 144,
+      "end_line": 144,
+      "comment": "rtl:begin:ignore"
+    },
+    {
+      "start_line": 149,
+      "end_line": 149,
+      "comment": "rtl:end:ignore"
+    }
+  ]
+}

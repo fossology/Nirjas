@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "nested_block_comment.rs",
+    "lang": "Rust",
+    "total_lines": 2,
+    "total_lines_of_comments": 1,
+    "blank_lines": 0,
+    "sloc": 1
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 1,
+      "comment": "outer /* inner */ still outer"
+    }
+  ]
+}

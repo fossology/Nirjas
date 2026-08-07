@@ -1,0 +1,84 @@
+
+package scala
+package reflect
+package api
+
+import scala.language.implicitConversions
+
+trait FlagSets { self: Universe =>
+
+  type FlagSet
+
+  trait FlagOps extends Any {
+    def | (right: FlagSet): FlagSet
+  }
+
+  implicit def addFlagOps(left: FlagSet): FlagOps
+
+  val Flag: FlagValues
+
+
+  trait FlagValues {
+
+    val TRAIT: FlagSet
+
+    val INTERFACE: FlagSet
+
+    val MUTABLE: FlagSet
+
+    val MACRO: FlagSet
+
+    val DEFERRED: FlagSet
+
+    val ABSTRACT: FlagSet
+
+    val FINAL: FlagSet
+
+    val SEALED: FlagSet
+
+    val IMPLICIT: FlagSet
+
+    val LAZY: FlagSet
+
+    val OVERRIDE: FlagSet
+
+    val PRIVATE: FlagSet
+
+    val PROTECTED: FlagSet
+
+    val LOCAL: FlagSet
+
+    val CASE: FlagSet
+
+    val ABSOVERRIDE: FlagSet
+
+    val BYNAMEPARAM: FlagSet
+
+    val PARAM: FlagSet
+
+    val COVARIANT: FlagSet
+
+    val CONTRAVARIANT: FlagSet
+
+    val DEFAULTPARAM: FlagSet
+
+    val PRESUPER: FlagSet
+
+    val DEFAULTINIT: FlagSet
+
+    @deprecated("use `isJavaEnum` on the corresponding symbol instead", since = "2.11.8")
+    val ENUM: FlagSet
+
+    val PARAMACCESSOR: FlagSet
+
+    val CASEACCESSOR: FlagSet
+
+    val SYNTHETIC: FlagSet
+
+    val ARTIFACT: FlagSet
+
+    val STABLE: FlagSet
+  }
+
+  val NoFlags: FlagSet
+}

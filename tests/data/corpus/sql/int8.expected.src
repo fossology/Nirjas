@@ -1,0 +1,158 @@
+CREATE TABLE INT8_TBL(q1 bigint, q2 bigint) USING parquet;
+
+INSERT INTO INT8_TBL VALUES(bigint(trim('  123   ')),bigint(trim('  456')));
+INSERT INTO INT8_TBL VALUES(bigint(trim('123   ')),bigint('4567890123456789'));
+INSERT INTO INT8_TBL VALUES(bigint('4567890123456789'),bigint('123'));
+INSERT INTO INT8_TBL VALUES(+4567890123456789,bigint('4567890123456789'));
+INSERT INTO INT8_TBL VALUES(bigint('+4567890123456789'),bigint('-4567890123456789'));
+
+
+SELECT * FROM INT8_TBL;
+
+SELECT * FROM INT8_TBL WHERE q2 = 4567890123456789;
+SELECT * FROM INT8_TBL WHERE q2 <> 4567890123456789;
+SELECT * FROM INT8_TBL WHERE q2 < 4567890123456789;
+SELECT * FROM INT8_TBL WHERE q2 > 4567890123456789;
+SELECT * FROM INT8_TBL WHERE q2 <= 4567890123456789;
+SELECT * FROM INT8_TBL WHERE q2 >= 4567890123456789;
+
+SELECT * FROM INT8_TBL WHERE q2 = 456;
+SELECT * FROM INT8_TBL WHERE q2 <> 456;
+SELECT * FROM INT8_TBL WHERE q2 < 456;
+SELECT * FROM INT8_TBL WHERE q2 > 456;
+SELECT * FROM INT8_TBL WHERE q2 <= 456;
+SELECT * FROM INT8_TBL WHERE q2 >= 456;
+
+SELECT * FROM INT8_TBL WHERE 123 = q1;
+SELECT * FROM INT8_TBL WHERE 123 <> q1;
+SELECT * FROM INT8_TBL WHERE 123 < q1;
+SELECT * FROM INT8_TBL WHERE 123 > q1;
+SELECT * FROM INT8_TBL WHERE 123 <= q1;
+SELECT * FROM INT8_TBL WHERE 123 >= q1;
+
+SELECT * FROM INT8_TBL WHERE q2 = smallint('456');
+SELECT * FROM INT8_TBL WHERE q2 <> smallint('456');
+SELECT * FROM INT8_TBL WHERE q2 < smallint('456');
+SELECT * FROM INT8_TBL WHERE q2 > smallint('456');
+SELECT * FROM INT8_TBL WHERE q2 <= smallint('456');
+SELECT * FROM INT8_TBL WHERE q2 >= smallint('456');
+
+SELECT * FROM INT8_TBL WHERE smallint('123') = q1;
+SELECT * FROM INT8_TBL WHERE smallint('123') <> q1;
+SELECT * FROM INT8_TBL WHERE smallint('123') < q1;
+SELECT * FROM INT8_TBL WHERE smallint('123') > q1;
+SELECT * FROM INT8_TBL WHERE smallint('123') <= q1;
+SELECT * FROM INT8_TBL WHERE smallint('123') >= q1;
+
+
+SELECT '' AS five, q1 AS plus, -q1 AS `minus` FROM INT8_TBL;
+
+SELECT '' AS five, q1, q2, q1 + q2 AS plus FROM INT8_TBL;
+SELECT '' AS five, q1, q2, q1 - q2 AS `minus` FROM INT8_TBL;
+SELECT '' AS three, q1, q2, q1 * q2 AS multiply FROM INT8_TBL;
+SELECT '' AS three, q1, q2, q1 * q2 AS multiply FROM INT8_TBL
+ WHERE q1 < 1000 or (q2 > 0 and q2 < 1000);
+SELECT '' AS five, q1, q2, q1 / q2 AS divide, q1 % q2 AS mod FROM INT8_TBL;
+
+SELECT '' AS five, q1, double(q1) FROM INT8_TBL;
+SELECT '' AS five, q2, double(q2) FROM INT8_TBL;
+
+SELECT 37 + q1 AS plus4 FROM INT8_TBL;
+SELECT 37 - q1 AS minus4 FROM INT8_TBL;
+SELECT '' AS five, 2 * q1 AS `twice int4` FROM INT8_TBL;
+SELECT '' AS five, q1 * 2 AS `twice int4` FROM INT8_TBL;
+
+SELECT q1 + int(42) AS `8plus4`, q1 - int(42) AS `8minus4`, q1 * int(42) AS `8mul4`, q1 / int(42) AS `8div4` FROM INT8_TBL;
+SELECT int(246) + q1 AS `4plus8`, int(246) - q1 AS `4minus8`, int(246) * q1 AS `4mul8`, int(246) / q1 AS `4div8` FROM INT8_TBL;
+
+SELECT q1 + smallint(42) AS `8plus2`, q1 - smallint(42) AS `8minus2`, q1 * smallint(42) AS `8mul2`, q1 / smallint(42) AS `8div2` FROM INT8_TBL;
+SELECT smallint(246) + q1 AS `2plus8`, smallint(246) - q1 AS `2minus8`, smallint(246) * q1 AS `2mul8`, smallint(246) / q1 AS `2div8` FROM INT8_TBL;
+
+SELECT q2, abs(q2) FROM INT8_TBL;
+SELECT min(q1), min(q2) FROM INT8_TBL;
+SELECT max(q1), max(q2) FROM INT8_TBL;
+
+SELECT '' AS to_char_1, to_char(q1, '9G999G999G999G999G999'), to_char(q2, '9,999,999,999,999,999')
+FROM INT8_TBL;
+
+
+SELECT '' AS to_char_3, to_char( (q1 * -1), '9999999999999999PR'), to_char( (q2 * -1), '9999999999999999.999PR')
+FROM INT8_TBL;
+
+SELECT '' AS to_char_4, to_char( (q1 * -1), '9999999999999999S'), to_char( (q2 * -1), 'S9999999999999999')
+FROM INT8_TBL;
+
+SELECT '' AS to_char_5,  to_char(q2, 'MI9999999999999999')     FROM INT8_TBL;
+SELECT '' AS to_char_9,  to_char(q2, '0999999999999999')       FROM INT8_TBL;
+SELECT '' AS to_char_10, to_char(q2, 'S0999999999999999')      FROM INT8_TBL;
+
+
+
+
+
+
+
+
+select bigint('9223372036854775800') / bigint('0');
+
+
+
+
+select bigint('-9223372036854775808') / smallint('0');
+
+select smallint('100') / bigint('0');
+
+SELECT CAST(q1 AS int) FROM int8_tbl WHERE q2 = 456;
+SELECT CAST(q1 AS int) FROM int8_tbl WHERE q2 <> 456;
+
+SELECT CAST(q1 AS smallint) FROM int8_tbl WHERE q2 = 456;
+SELECT CAST(q1 AS smallint) FROM int8_tbl WHERE q2 <> 456;
+
+SELECT CAST(smallint('42') AS bigint), CAST(smallint('-37') AS bigint);
+
+SELECT CAST(q1 AS float), CAST(q2 AS double) FROM INT8_TBL;
+SELECT CAST(float('36854775807.0') AS bigint);
+SELECT CAST(double('922337203685477580700.0') AS bigint);
+
+
+
+SELECT q1, q2, q1 & q2 AS `and`, q1 | q2 AS `or`, ~q1 AS `not` FROM INT8_TBL;
+
+
+
+SELECT * FROM range(bigint('+4567890123456789'), bigint('+4567890123456799'));
+SELECT * FROM range(bigint('+4567890123456789'), bigint('+4567890123456799'), 0);
+SELECT * FROM range(bigint('+4567890123456789'), bigint('+4567890123456799'), 2);
+
+SELECT string(shiftleft(bigint(-1), 63));
+SELECT string(int(shiftleft(bigint(-1), 63))+1);
+
+SELECT bigint((-9223372036854775808)) * bigint((-1));
+SELECT bigint((-9223372036854775808)) / bigint((-1));
+SELECT bigint((-9223372036854775808)) % bigint((-1));
+SELECT bigint((-9223372036854775808)) * int((-1));
+SELECT bigint((-9223372036854775808)) / int((-1));
+SELECT bigint((-9223372036854775808)) % int((-1));
+SELECT bigint((-9223372036854775808)) * smallint((-1));
+SELECT bigint((-9223372036854775808)) / smallint((-1));
+SELECT bigint((-9223372036854775808)) % smallint((-1));
+
+SELECT x, bigint(x) AS int8_value
+FROM (VALUES (double(-2.5)),
+             (double(-1.5)),
+             (double(-0.5)),
+             (double(0.0)),
+             (double(0.5)),
+             (double(1.5)),
+             (double(2.5))) t(x);
+
+SELECT x, bigint(x) AS int8_value
+FROM (VALUES cast(-2.5 as decimal(38, 18)),
+             cast(-1.5 as decimal(38, 18)),
+             cast(-0.5 as decimal(38, 18)),
+             cast(-0.0 as decimal(38, 18)),
+             cast(0.5 as decimal(38, 18)),
+             cast(1.5 as decimal(38, 18)),
+             cast(2.5 as decimal(38, 18))) t(x);
+
+DROP TABLE INT8_TBL;

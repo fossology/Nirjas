@@ -1,0 +1,197 @@
+
+using System;
+using System.Threading;
+using Thrift.Protocol;
+using Thrift.Transport;
+using Thrift.Processor;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+
+#pragma warning disable IDE0079 
+#pragma warning disable IDE0290 
+
+namespace Thrift.Server
+{
+
+    public class TSimpleAsyncServer : TServer
+    {
+        private volatile bool stop = false;
+
+        private CancellationToken ServerCancellationToken;
+
+        public TSimpleAsyncServer(ITProcessorFactory itProcessorFactory,
+            TServerTransport serverTransport,
+            TTransportFactory inputTransportFactory,
+            TTransportFactory outputTransportFactory,
+            TProtocolFactory inputProtocolFactory,
+            TProtocolFactory outputProtocolFactory,
+            ILogger logger)
+            : base(itProcessorFactory,
+                  serverTransport,
+                  inputTransportFactory,
+                  outputTransportFactory,
+                  inputProtocolFactory,
+                  outputProtocolFactory,
+                  logger)
+        {
+        }
+
+        public TSimpleAsyncServer(ITProcessorFactory itProcessorFactory,
+            TServerTransport serverTransport,
+            TTransportFactory inputTransportFactory,
+            TTransportFactory outputTransportFactory,
+            TProtocolFactory inputProtocolFactory,
+            TProtocolFactory outputProtocolFactory,
+            ILoggerFactory loggerFactory)
+            : this(itProcessorFactory,
+                  serverTransport,
+                  inputTransportFactory,
+                  outputTransportFactory,
+                  inputProtocolFactory,
+                  outputProtocolFactory,
+                  loggerFactory.CreateLogger<TSimpleAsyncServer>())
+        {
+        }
+
+        public TSimpleAsyncServer(ITAsyncProcessor processor,
+            TServerTransport serverTransport,
+            TProtocolFactory inputProtocolFactory,
+            TProtocolFactory outputProtocolFactory,
+            ILoggerFactory loggerFactory)
+            : this(new TSingletonProcessorFactory(processor),
+                  serverTransport,
+                  null, 
+                  null, 
+                  inputProtocolFactory,
+                  outputProtocolFactory,
+                  loggerFactory.CreateLogger(nameof(TSimpleAsyncServer)))
+        {
+        }
+
+        public override async Task ServeAsync(CancellationToken cancellationToken)
+        {
+            ServerCancellationToken = cancellationToken;
+            try
+            {
+                try
+                {
+                    ServerTransport.Listen();
+                }
+                catch (TTransportException ttx)
+                {
+                    LogError("Error, could not listen on ServerTransport: " + ttx);
+                    return;
+                }
+
+                if (ServerEventHandler != null)
+                    await ServerEventHandler.PreServeAsync(cancellationToken);
+
+                while (!(stop || ServerCancellationToken.IsCancellationRequested))
+                {
+                    try
+                    {
+                        using (TTransport client = await ServerTransport.AcceptAsync(cancellationToken))
+                        {
+                            await ExecuteAsync(client);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        stop = true;
+                    }
+                    catch (TTransportException ttx)
+                    {
+                        if (!stop || ttx.Type != TTransportException.ExceptionType.Interrupted)
+                        {
+                            LogError(ttx.ToString());
+                        }
+
+                    }
+                }
+
+                if (stop)
+                {
+                    try
+                    {
+                        ServerTransport.Close();
+                    }
+                    catch (TTransportException ttx)
+                    {
+                        LogError("TServerTransport failed on close: " + ttx.Message);
+                    }
+                    stop = false;
+                }
+
+            }
+            finally
+            {
+                ServerCancellationToken = default;
+            }
+        }
+
+        private async Task ExecuteAsync(TTransport client)
+        {
+            var cancellationToken = ServerCancellationToken;
+
+            var processor = ProcessorFactory.GetAsyncProcessor(client, this);
+
+            TTransport inputTransport = null;
+            TTransport outputTransport = null;
+            TProtocol inputProtocol = null;
+            TProtocol outputProtocol = null;
+            object connectionContext = null;
+            try
+            {
+                try
+                {
+                    inputTransport = InputTransportFactory.GetTransport(client);
+                    outputTransport = OutputTransportFactory.GetTransport(client);
+                    inputProtocol = InputProtocolFactory.GetProtocol(inputTransport);
+                    outputProtocol = OutputProtocolFactory.GetProtocol(outputTransport);
+
+                    if (ServerEventHandler != null)
+                        connectionContext = await ServerEventHandler.CreateContextAsync(inputProtocol, outputProtocol, cancellationToken);
+
+                    while (!(stop || cancellationToken.IsCancellationRequested))
+                    {
+                        if (!await inputTransport.PeekAsync(cancellationToken))
+                            break;
+
+                        if (ServerEventHandler != null)
+                            await ServerEventHandler.ProcessContextAsync(connectionContext, inputTransport, cancellationToken);
+
+                        if (!await processor.ProcessAsync(inputProtocol, outputProtocol, cancellationToken))
+                            break;
+                    }
+                }
+                catch (TTransportException)
+                {
+                }
+                catch (Exception x)
+                {
+                    LogError("Error: " + x);
+                }
+
+                if (ServerEventHandler != null)
+                    await ServerEventHandler.DeleteContextAsync(connectionContext, inputProtocol, outputProtocol, cancellationToken);
+
+            }
+            finally
+            {
+                inputTransport?.Close();
+                outputTransport?.Close();
+
+                inputProtocol?.Dispose();
+                outputProtocol?.Dispose();
+                inputTransport?.Dispose();
+                outputTransport?.Dispose();
+            }
+        }
+
+        public override void Stop()
+        {
+            stop = true;
+            ServerTransport?.Close();
+        }
+    }
+}

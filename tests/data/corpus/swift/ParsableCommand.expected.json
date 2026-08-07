@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "filename": "ParsableCommand.swift",
+    "lang": "Swift",
+    "total_lines": 277,
+    "total_lines_of_comments": 98,
+    "blank_lines": 35,
+    "sloc": 144
+  },
+  "single_line_comment": [
+    {
+      "line_number": 12,
+      "comment": "/ A type that can be executed as part of a nested tree of commands."
+    },
+    {
+      "line_number": 35,
+      "comment": "MARK: - Default implementations"
+    },
+    {
+      "line_number": 52,
+      "comment": "MARK: - API"
+    },
+    {
+      "line_number": 182,
+      "comment": "MARK: - Internal API"
+    },
+    {
+      "line_number": 250,
+      "comment": "MARK: Async Configuration Errors"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 10,
+      "comment": " ===----------------------------------------------------------------------===//  This source file is part of the Swift Argument Parser open source project  Copyright (c) 2020 Apple Inc. and the Swift project authors Licensed under Apache License v2.0 with Runtime Library Exception  See https://swift.org/LICENSE.txt for license information  ===----------------------------------------------------------------------===//"
+    },
+    {
+      "start_line": 14,
+      "end_line": 15,
+      "comment": " / Configuration for this command, including subcommands and custom help / text."
+    },
+    {
+      "start_line": 18,
+      "end_line": 22,
+      "comment": " / *For internal use only:* The name for the command on the command line. / / This is generated from the configuration, if given, or from the type / name if not. This is a customization point so that a WrappedParsable / can pass through the wrapped type's name."
+    },
+    {
+      "start_line": 25,
+      "end_line": 31,
+      "comment": " / The behavior or functionality of this command. / / Implement this method in your `ParsableCommand`-conforming type with the / functionality that this command represents. / / This method has a default implementation that prints the help screen for / this command."
+    },
+    {
+      "start_line": 55,
+      "end_line": 62,
+      "comment": " / Parses an instance of this type, or one of its subcommands, from / command-line arguments. / / - Parameter arguments: An array of arguments to use for parsing. If /   `arguments` is `nil`, this uses the program's command-line arguments. / - Returns: A new instance of this type, one of its subcommands, or a /   command type internal to the `ArgumentParser` library. / - Throws: If parsing fails."
+    },
+    {
+      "start_line": 71,
+      "end_line": 82,
+      "comment": " / Returns the text of the help screen for the given subcommand of this / command. / / - Parameters: /   - subcommand: The subcommand to generate the help screen for. /     `subcommand` must be declared in the subcommand tree of this /     command. /   - columns: The column width to use when wrapping long line in the /     help screen. If `columns` is `nil`, uses the current terminal /     width, or a default value of `80` if the terminal width is not /     available. / - Returns: The full help screen for this type."
+    },
+    {
+      "start_line": 92,
+      "end_line": 105,
+      "comment": " / Returns the text of the help screen for the given subcommand of this / command. / / - Parameters: /   - subcommand: The subcommand to generate the help screen for. /     `subcommand` must be declared in the subcommand tree of this /     command. /   - includeHidden: Include hidden help information in the generated /     message. /   - columns: The column width to use when wrapping long line in the /     help screen. If `columns` is `nil`, uses the current terminal /     width, or a default value of `80` if the terminal width is not /     available. / - Returns: The full help screen for this type."
+    },
+    {
+      "start_line": 118,
+      "end_line": 126,
+      "comment": " / Returns the usage text for the given subcommand of this command. / / - Parameters: /   - subcommand: The subcommand to generate the help screen for. /     `subcommand` must be declared in the subcommand tree of this /     command. /   - includeHidden: Include hidden help information in the generated /     message. / - Returns: The usage text for this type."
+    },
+    {
+      "start_line": 138,
+      "end_line": 147,
+      "comment": " / Executes this command, or one of its subcommands, with the given / arguments. / / This method parses an instance of this type, one of its subcommands, or / another built-in `ParsableCommand` type, from command-line arguments, / and then calls its `run()` method, exiting with a relevant error message / if necessary. / / - Parameter arguments: An array of arguments to use for parsing. If /   `arguments` is `nil`, this uses the program's command-line arguments."
+    },
+    {
+      "start_line": 167,
+      "end_line": 176,
+      "comment": " / Executes this command, or one of its subcommands, with the program's / command-line arguments. / / Instead of calling this method directly, you can add `@main` to the root / command for your command-line tool. / / This method parses an instance of this type, one of its subcommands, or / another built-in `ParsableCommand` type, from command-line arguments, / and then calls its `run()` method, exiting with a relevant error message / if necessary."
+    },
+    {
+      "start_line": 185,
+      "end_line": 186,
+      "comment": " / `true` if this command contains any array arguments that are declared / with `.unconditionalRemaining`."
+    },
+    {
+      "start_line": 199,
+      "end_line": 202,
+      "comment": " / `true` if this command's default subcommand contains any array arguments / that are declared with `.unconditionalRemaining`. / / This is `false` if there's no default subcommand."
+    }
+  ],
+  "multi_line_comment": []
+}

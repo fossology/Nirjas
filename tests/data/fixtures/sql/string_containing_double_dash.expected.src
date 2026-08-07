@@ -1,0 +1,4 @@
+SELECT '-- not a comment' AS first_column;
+SELECT 'text /* not a comment */' AS second_column;
+
+SELECT 1; 
