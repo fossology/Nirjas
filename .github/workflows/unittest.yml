@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
-          cache-dependency-path: 'setup.py'
+          cache-dependency-path: 'pyproject.toml'
 
       - name: Cache Tree-Sitter parser bundles
         uses: actions/cache@v5
@@ -28,7 +28,7 @@ jobs:
           path: ~/.cache/tree-sitter-language-pack
           key: >-
             ${{ runner.os }}-ts-pack-${{ matrix.python-version }}-
-            ${{ hashFiles('language-pack.toml', 'setup.py') }}
+            ${{ hashFiles('language-pack.toml', 'pyproject.toml') }}
 
       - name: Install Nirjas and dependencies
         run: |

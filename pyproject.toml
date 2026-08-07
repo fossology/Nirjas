@@ -1,0 +1,82 @@
+[project]
+name = "Nirjas"
+version = "1.0.1"
+description = "A Python library to extract comments and source code out of your file(s)"
+authors = [
+    {name = "Ayush Bhardwaj", email = "classicayush@gmail.com"},
+    {name = "Kaushlendra Pratap", email = "kaushlendrapratap.9837@gmail.com"},
+]
+license = {text = "LGPL-2.1-or-later"}
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = [
+    "Nirjas",
+    "Code Comment",
+    "Comment Extractor",
+    "Code Comment Extractor",
+    "Source Code Extractor",
+    "Source Extractor",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "Programming Language :: Python :: 3 :: Only",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Legal Industry",
+    "Topic :: Utilities",
+    "Topic :: Software Development",
+    "Topic :: Text Processing",
+]
+dependencies = [
+    "tree-sitter-language-pack>=1.8.1,<2.0.0",
+    # tree-sitter 0.26 broke ABI with the language-pack's bundled parsers
+    # (segfaults on node access); cap until the pack ships 0.26 parsers.
+    "tree-sitter>=0.23,<0.26",
+]
+
+[project.urls]
+homepage = "https://github.com/fossology/nirjas"
+repository = "https://github.com/fossology/nirjas"
+
+[project.scripts]
+nirjas = "nirjas.main:run_and_print"
+
+[project.optional-dependencies]
+dev = [
+    "pyright>=1.1.409,<2.0.0",
+    "ruff>=0.15.15,<1.0.0",
+]
+
+[build-system]
+requires = ["poetry-core>=2.4.1,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+include = [
+    { path = "language-pack.toml", format = ["sdist", "wheel"] },
+    { path = "scripts/download_parsers.py", format = ["sdist", "wheel"] },
+]
+
+[tool.ruff]
+target-version = "py310"
+exclude = [
+    "nirjas/languages/tests/TestFiles",
+]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+venvPath = "."
+venv = ".venv"
+include = ["nirjas", "scripts"]
+exclude = [
+    "nirjas/languages/tests/TestFiles",
+    "build",
+    "dist",
+    "Nirjas.egg-info",
+    ".venv", "**/node_modules", "**/__pycache__", "**/.*",
+]
+typeCheckingMode = "standard"
