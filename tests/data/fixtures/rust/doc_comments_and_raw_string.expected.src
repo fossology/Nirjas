@@ -1,0 +1,3 @@
+const RAW: &str = r#"// not a comment inside a raw string"#;
+
+fn main() { let _ = RAW; } 

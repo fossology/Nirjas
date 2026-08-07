@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "filename": "RecursionDepthTest.kt",
+    "lang": "Kotlin",
+    "total_lines": 172,
+    "total_lines_of_comments": 43,
+    "blank_lines": 23,
+    "sloc": 106
+  },
+  "single_line_comment": [
+    {
+      "line_number": 57,
+      "comment": "Build a CoRec/CoRec2 chain that is exactly 'depth' structs deep."
+    },
+    {
+      "line_number": 70,
+      "comment": "Build a RecError chain that is exactly 'depth' exceptions deep."
+    },
+    {
+      "line_number": 74,
+      "comment": "Serialize via the generated write() over a protocol with the given limit."
+    },
+    {
+      "line_number": 81,
+      "comment": "Deserialize via the generated read() over a protocol with the given limit."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 64,
+      "end_line": 65,
+      "comment": " Build a RecUnion chain that is exactly 'depth' unions deep; the innermost union holds the non-recursive 'leaf' so the value is finite and writable."
+    },
+    {
+      "start_line": 108,
+      "end_line": 109,
+      "comment": " Produce a valid over-limit payload with a higher write limit, then read it back with the real limit -- mimicking a message arriving from the network."
+    },
+    {
+      "start_line": 117,
+      "end_line": 118,
+      "comment": " Many siblings (>> limit) must still round-trip: this only holds if the counter is decremented for each sibling back to depth 1."
+    },
+    {
+      "start_line": 127,
+      "end_line": 128,
+      "comment": " CoRec -> CoRec2 -> null close the loop: CoRec2.other -> CoRec"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements.  See the NOTICE file * distributed with this work for additional information * regarding copyright ownership.  The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License.  You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied.  See the License for the * specific language governing permissions and limitations * under the License."
+    },
+    {
+      "start_line": 35,
+      "end_line": 49,
+      "comment": "* * Exercises the recursion-depth limit through the *generated* struct read/write path (TBase.read / * TBase.write) -- the real code path that deeply nested input exercises -- rather than calling * TProtocol.incrementRecursionDepth / decrementRecursionDepth in isolation. * * The recursive types CoRec / CoRec2 / RecTree / RecUnion / RecError are generated from * src/test/resources/RecursionDepthTest.thrift (mirroring test/Recursive.thrift): CoRec <-> CoRec2 * form a mutually recursive chain, RecTree is a wide tree, and RecUnion / RecError are * self-recursive union and exception types. * * Struct and exception serialization is routed through TProtocol's readStruct {} / writeStruct {} * helpers, which is where the bound lives; recursive unions are read/written by TUnion, which * bounds them the same way. The limit is taken from TConfiguration.getRecursionLimit(), so each * test uses a small custom limit for clarity."
+    }
+  ]
+}

@@ -6,7 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-TestFiles/
 
 # Distribution / packaging
 .Python
@@ -138,3 +137,6 @@ dmypy.json
 
 # VSCode
 .vscode
+
+# Trained gate artifacts
+trained_gate/

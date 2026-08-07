@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "filename": "buildfuzzers.sh",
+    "lang": "Shell",
+    "total_lines": 172,
+    "total_lines_of_comments": 41,
+    "blank_lines": 21,
+    "sloc": 110
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "!/bin/bash"
+    },
+    {
+      "line_number": 50,
+      "comment": "Check for SHARPFUZZ_DIR environment variable"
+    },
+    {
+      "line_number": 58,
+      "comment": "Verify libfuzzer-dotnet exists"
+    },
+    {
+      "line_number": 79,
+      "comment": "Find the local Thrift compiler"
+    },
+    {
+      "line_number": 83,
+      "comment": "Paths — resolved to absolute so they survive the cd below"
+    },
+    {
+      "line_number": 89,
+      "comment": "Step 1: Generate C# code from FuzzTest.thrift"
+    },
+    {
+      "line_number": 95,
+      "comment": "Clean and create the generated directory"
+    },
+    {
+      "line_number": 103,
+      "comment": "Step 2: Build all fuzzer projects"
+    },
+    {
+      "line_number": 106,
+      "comment": "Build all fuzzer combinations using the consolidated project"
+    },
+    {
+      "line_number": 111,
+      "comment": "Construct display name"
+    },
+    {
+      "line_number": 131,
+      "comment": "Step 3: Instrument the assemblies"
+    },
+    {
+      "line_number": 139,
+      "comment": "Exclusions for instrumentation"
+    },
+    {
+      "line_number": 142,
+      "comment": "Find and instrument fuzzing targets"
+    },
+    {
+      "line_number": 156,
+      "comment": "Skip the fuzzer assemblies themselves"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 3,
+      "end_line": 20,
+      "comment": "  Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. "
+    },
+    {
+      "start_line": 24,
+      "end_line": 28,
+      "comment": " Parse arguments. --no-instrument performs code generation and builds the 12 fuzzer assemblies but skips SharpFuzz IL rewriting. Intended for `make check`, where we want to catch source changes that break the fuzzer build without requiring the dev-only SharpFuzz.CommandLine global tool or the libfuzzer-dotnet native driver."
+    },
+    {
+      "start_line": 43,
+      "end_line": 46,
+      "comment": " Ensure the SharpFuzz.CommandLine global tool (runtimeconfig-pinned to net9.0 in package 2.2.0) can roll forward onto the net10 runtime used by this repo. Remove once SharpFuzz 2.3.0 (upstream PR #72) ships with an updated runtimeconfig."
+    },
+    {
+      "start_line": 67,
+      "end_line": 68,
+      "comment": " Verify the sharpfuzz instrumentation CLI is on PATH before we spend time building 12 assemblies that would otherwise fail to be instrumented."
+    }
+  ],
+  "multi_line_comment": []
+}

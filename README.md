@@ -196,16 +196,102 @@ or for default file generation (default file: source.txt)
 nirjas -i <target file>
 ```
 
+## License Gate (ML)
+
+Nirjas ships an optional **recall-first license gate** — a lightweight binary
+classifier that answers *"is this text actual license text worth routing to
+[Atarashi](https://github.com/fossology/atarashi)?"*. It is meant as a cheap
+pre-filter: cull the obvious non-license comments Nirjas already extracts so the
+expensive license scanner only runs on candidates that matter.
+
+### Approach
+
+- **Model:** a [model2vec](https://github.com/MinishLab/model2vec) static
+  embedding (`minishlab/potion-base-32M`) with a scikit-learn logistic head.
+  Inference is **torch-free** — static embeddings mean no deep-learning runtime,
+  so the gate loads in milliseconds and runs on CPU.
+- **Recall-first, not argmax.** The decision uses a tuned threshold of **0.20**,
+  not the default 0.5. Missing a license is the costly error; a false positive
+  just wastes one Atarashi call. So the operating point is chosen to catch
+  (almost) every license at the price of a small false-positive rate.
+- **Quality gate on release.** Training is deterministic (`random_seed=0`) and a
+  build only publishes if it clears `license_recall ≥ 0.99` and `FPR ≤ 0.05` on
+  the held-out test split.
+
+Validated metrics (`rycerzes/nirjas-dataset`, splits 55,610 / 6,877 / 6,895):
+
+| Evaluation           | License recall | False-positive rate |
+| -------------------- | -------------- | ------------------- |
+| Held-out test split  | 0.9952         | 0.0227              |
+| Real-corpus sample   | 1.0000         | 0.0133              |
+
+Full methodology, dataset construction, and benchmarks are in the
+[Nirjas benchmark report](https://github.com/fossology/gsoc/blob/main/docs/2026/enhancing-atarashi/updates/nirjas-benchmark-report.md).
+
+### Usage
+
+```sh
+pip install 'nirjas[gate]'
+```
+
+```python
+from nirjas.gate import load_gate, classify
+
+pipe, threshold = load_gate()                 # downloads rycerzes/nirjas-gate from HF Hub (cached)
+classify(pipe, ["// SPDX-License-Identifier: MIT"], threshold)  # -> [True]
+```
+
+### Retraining
+
+The model is published to the Hugging Face Hub; retraining is only needed to
+reproduce or update it. Install the training stack and run the script (CI
+publishes via `workflow_dispatch`):
+
+```sh
+poetry install --with train
+poetry run python scripts/train_and_release.py --output-dir trained_gate
+```
+
 ## Tests
 
-To run tests for Nirjas, download Tree-Sitter parsers and execute the test script:
+To run tests for Nirjas, download the Tree-Sitter parsers and run pytest:
 
 ```sh
 python3 scripts/download_parsers.py
-python3 testScript.py
+pytest
 ```
 
-`testScript.py` downloads all test files into `nirjas/languages/tests/TestFiles` and runs the test suite.
+The suite is offline: every test input lives in `tests/data`, so nothing is
+downloaded at test time.
+
+It has two tiers:
+
+- **`tests/data/fixtures`** — small hand-written files we own, one per language
+  aimed at that language's hardest case (a `-->` operator versus a `--` comment
+  in Haskell, `'` as transpose versus a quote in MATLAB, `${x##*/}` expansion in
+  shell, a regex literal holding `//` in JavaScript), plus cross-cutting edge
+  cases: CRLF, a BOM, no trailing newline, an unterminated block, nesting.
+- **`tests/data/corpus`** — three real-world files per language, vendored
+  verbatim from permissively licensed upstreams at pinned commits. Real code
+  carries licence headers, doc-comment conventions and hundreds of comments that
+  no hand-written fixture thinks to include. Every vendored file has an `.ABOUT`
+  sidecar recording origin, pinned commit and licence. Run just these with
+  `pytest -m corpus`.
+
+Both tiers assert the same way: a `.expected.json` for extractor output and a
+`.expected.src` for the stripped source, with the invariant checks running
+alongside. Nobody reads a 600-line golden top to bottom, and nobody needs to —
+you read the *diff* when behaviour changes.
+
+When a change *should* alter output, review the diff and re-record the goldens:
+
+```sh
+NIRJAS_REGEN_FIXTURES=1 pytest
+```
+
+Regeneration rewrites goldens from current behaviour, so always read the
+resulting diff before committing it. The invariant checks still run in this
+mode, which is what stops a golden from enshrining a broken result.
 
 ## Linting and Type Checking
 

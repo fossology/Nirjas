@@ -1,0 +1,131 @@
+#!/bin/bash
+
+
+set -e
+
+INSTRUMENT=1
+for arg in "$@"; do
+    case "$arg" in
+        --no-instrument)
+            INSTRUMENT=0
+            ;;
+        *)
+            echo "Unknown argument: $arg"
+            echo "Usage: $0 [--no-instrument]"
+            exit 1
+            ;;
+    esac
+done
+
+export DOTNET_ROLL_FORWARD=Major
+
+if [ "$INSTRUMENT" = "1" ]; then
+    if [ -z "$SHARPFUZZ_DIR" ]; then
+        echo "Error: SHARPFUZZ_DIR environment variable is not set."
+        echo "Please set SHARPFUZZ_DIR to the location of your SharpFuzz installation."
+        echo "See README for installation instructions."
+        exit 1
+    fi
+
+    LIBFUZZER="$SHARPFUZZ_DIR/libfuzzer-dotnet"
+    if [ ! -f "$LIBFUZZER" ]; then
+        echo "Error: libfuzzer-dotnet not found at $LIBFUZZER"
+        echo "Please ensure SharpFuzz is properly installed in $SHARPFUZZ_DIR"
+        echo "See README for installation instructions."
+        exit 1
+    fi
+
+    if ! command -v sharpfuzz >/dev/null 2>&1; then
+        echo "Error: 'sharpfuzz' CLI not found on PATH."
+        echo "Install it with:"
+        echo "  dotnet tool install --global SharpFuzz.CommandLine"
+        echo "  export PATH=\"\$PATH:\$HOME/.dotnet/tools\""
+        echo "See README for full installation instructions."
+        exit 1
+    fi
+fi
+
+THRIFT="$(dirname "$0")/../../compiler/cpp/thrift"
+THRIFT=$(realpath "$THRIFT")
+
+THRIFT_FILE=$(realpath "$(dirname "$0")/../../test/FuzzTest.thrift")
+GEN_DIR=$(realpath -m "$(dirname "$0")/Tests/Thrift.FuzzTests/gen-netstd")
+FUZZERS_DIR=$(realpath "$(dirname "$0")/Tests/Thrift.FuzzTests")
+OUTPUT_DIR="$FUZZERS_DIR/bin/Debug/net10.0"
+
+if [ ! -x "$THRIFT" ]; then
+  echo "Error: Thrift compiler not found at $THRIFT"
+  exit 1
+fi
+
+rm -rf "$GEN_DIR"
+mkdir -p "$GEN_DIR"
+
+echo "[1/13] Generating C# code from $THRIFT_FILE ..."
+"$THRIFT" --gen netstd:net10 -out "$GEN_DIR" "$THRIFT_FILE"
+echo "C# code generated in $GEN_DIR."
+
+cd "$(dirname "$0")"
+
+BUILD_COUNT=2
+for protocol in Binary Compact Json; do
+  for fuzzer_type_raw in Parse Roundtrip; do
+    for engine in AFL Libfuzzer; do
+      if [ "$fuzzer_type_raw" = "Parse" ]; then
+        display_name="$protocol Protocol $engine"
+        fuzzer_type=""
+      else
+        display_name="$protocol Protocol round-trip $engine"
+        fuzzer_type="Roundtrip"
+      fi
+      
+      echo "[$BUILD_COUNT/13] Building $display_name ..."
+      dotnet build "$FUZZERS_DIR/Thrift.FuzzTests.csproj" \
+        -p:Protocol=$protocol \
+        -p:FuzzerType=$fuzzer_type_raw \
+        -p:Engine=$engine
+      
+      BUILD_COUNT=$((BUILD_COUNT + 1))
+    done
+  done
+done
+
+if [ "$INSTRUMENT" = "0" ]; then
+    echo "Build complete (instrumentation skipped)."
+    exit 0
+fi
+
+echo "Instrumenting assemblies for fuzzing ..."
+
+EXCLUSIONS=("dnlib.dll" "SharpFuzz.dll" "SharpFuzz.Common.dll")
+
+while IFS= read -r -d '' dll; do
+    dll_name=$(basename "$dll")
+    skip=false
+    for excl in "${EXCLUSIONS[@]}"; do
+        if [[ "$dll_name" == "$excl" ]]; then
+            skip=true
+            break
+        fi
+    done
+    if [[ "$dll_name" == System.*.dll ]]; then
+        skip=true
+    fi
+    if [[ "$dll_name" == Thrift.FuzzTests.*.dll ]]; then
+        skip=true  
+    fi
+    if [ "$skip" = true ]; then
+        echo "Skipping $dll_name"
+        continue
+    fi
+    if [ "$skip" = false ]; then
+        echo "Instrumenting $dll_name"
+        sharpfuzz "$dll"
+        if [ $? -ne 0 ]; then
+            echo "An error occurred while instrumenting $dll"
+            exit 1
+        fi
+    fi
+done < <(find "$OUTPUT_DIR" -maxdepth 1 -type f -name "*.dll" -print0)
+
+echo "Build and instrumentation complete."

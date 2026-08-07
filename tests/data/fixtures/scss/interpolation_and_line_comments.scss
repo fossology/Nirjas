@@ -1,0 +1,8 @@
+$label: "not a comment";
+
+.interpolated {
+    content: "// #{$label}";
+}
+
+// a genuine line comment
+.last { color: red; } // trailing comment after code

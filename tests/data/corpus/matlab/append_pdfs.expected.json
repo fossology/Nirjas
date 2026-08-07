@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "filename": "append_pdfs.m",
+    "lang": "MATLAB",
+    "total_lines": 197,
+    "total_lines_of_comments": 63,
+    "blank_lines": 25,
+    "sloc": 109
+  },
+  "single_line_comment": [
+    {
+      "line_number": 24,
+      "comment": "Copyright: Oliver Woodford, 2011-2014, Yair Altman 2015-"
+    },
+    {
+      "line_number": 49,
+      "comment": "sanity check"
+    },
+    {
+      "line_number": 51,
+      "comment": "Convert strings => chars; strtrim extra spaces"
+    },
+    {
+      "line_number": 54,
+      "comment": "Convert cell array into individual strings (issue #299)"
+    },
+    {
+      "line_number": 56,
+      "comment": "#ok<CCAT>"
+    },
+    {
+      "line_number": 59,
+      "comment": "Handle special cases of input args"
+    },
+    {
+      "line_number": 65,
+      "comment": "Ensure that ghostscript() exists on the Matlab path"
+    },
+    {
+      "line_number": 77,
+      "comment": "Ensure that the temp dir is writable (Javier Paredes 26/2/15)"
+    },
+    {
+      "line_number": 97,
+      "comment": "Ensure that all input files exist"
+    },
+    {
+      "line_number": 101,
+      "comment": "~exist(filename,'file')"
+    },
+    {
+      "line_number": 103,
+      "comment": "exist(filename2,'file')"
+    },
+    {
+      "line_number": 111,
+      "comment": "Create the command file"
+    },
+    {
+      "line_number": 120,
+      "comment": "Call ghostscript"
+    },
+    {
+      "line_number": 123,
+      "comment": "Check for ghostscript execution errors"
+    },
+    {
+      "line_number": 130,
+      "comment": "Rerun ghostscript with the normalized folder names"
+    },
+    {
+      "line_number": 138,
+      "comment": "Check for ghostscript execution errors"
+    },
+    {
+      "line_number": 141,
+      "comment": "Avoid an \"invalid escape-char\" warning"
+    },
+    {
+      "line_number": 145,
+      "comment": "Rename the file if needed"
+    },
+    {
+      "line_number": 151,
+      "comment": "Cleanup function"
+    },
+    {
+      "line_number": 153,
+      "comment": "Delete the command file"
+    },
+    {
+      "line_number": 157,
+      "comment": "Prepare a text file with ghostscript directives"
+    },
+    {
+      "line_number": 173,
+      "comment": "Convert long/non-ASCII folder names into their short ASCII equivalents"
+    },
+    {
+      "line_number": 183,
+      "comment": "recursive until entire fpath is processed"
+    },
+    {
+      "line_number": 187,
+      "comment": "Convert a possible string => char"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 70,
+      "end_line": 72,
+      "comment": " Are we appending or creating a new file? exist(varargin{1}, 'file') == 2; only 1 input file - copy it directly to output"
+    },
+    {
+      "start_line": 86,
+      "end_line": 87,
+      "comment": " Temp dir is not writable, so use the output folder #ok<ASGLU>"
+    },
+    {
+      "start_line": 164,
+      "end_line": 166,
+      "comment": " remove empty strings (issues #367,#378) remove unnecessary quotes trim extra spaces"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 2,
+      "end_line": 22,
+      "comment": "%APPEND_PDFS Appends/concatenates multiple PDF files % % Usage example: %   append_pdfs(outputFilename, inputFilename1, inputFilename2, ...) %   append_pdfs(outputFilename, inputFilenames_list{:}) %   append_pdfs(outputFilename, inputFilenames_cell_or_string_array) %   append_pdfs output.pdf input1.pdf input2.pdf % % This function appends multiple PDF files to an existing PDF file, or % concatenates them into a PDF file if the output file doesn't yet exist. % % This function requires that you have ghostscript installed on your % system. Ghostscript can be downloaded from: http://www.ghostscript.com % % Inputs: %    output - output file name (including the .pdf extension). %             If it exists it is appended to; if not, it is created. %    input1 - input file name(s) (including the .pdf extension). %             All input files are appended in order. %    input_list - cell array list of input file name strings. All input %                 files are appended in order."
+    },
+    {
+      "start_line": 26,
+      "end_line": 47,
+      "comment": "% Thanks to Reinhard Knoll for pointing out that appending multiple pdfs in % one go is much faster than appending them one at a time. % Thanks to Michael Teo for reporting the issue of a too long command line. % Issue resolved on 5/5/2011, by passing gs a command file. % Thanks to Martin Wittmann for pointing out quality issue when appending bitmaps % Issue resolved (to best of my ability) 1/6/2011, using the prepress setting % 26/02/15: If temp dir is not writable, use the output folder for temp %           files when appending (Javier Paredes); sanity check of inputs % 24/01/18: Fixed error in case of existing output file (append mode) % 24/01/18: Fixed issue #213: non-ASCII characters in folder names on Windows % 06/12/18: Avoid an \"invalid escape-char\" warning upon error % 22/03/20: Alert if ghostscript.m is not found on Matlab path % 29/03/20: Accept a cell-array of input files (issue #299); accept both \"strings\", 'chars' % 25/01/22: Improved handling of missing input files & folder with non-ASCII chars (issue #349) % 07/06/23: Fixed (hopefully) unterminated quote run-time error (issues #367, #378); fixed handling of pathnames with non-ASCII chars (issue #349); display ghostscript command upon run-time invocation error % 06/07/23: Another attempt to fix issue #378 (remove unnecessary quotes from ghostscript cmdfile) % 16/12/23: Fixed error when input file is on path but not in current folder; assume .pdf file extensions"
+    },
+    {
+      "start_line": 124,
+      "end_line": 125,
+      "comment": "%#ok<STREMP> % Fix issue #213: non-ASCII characters in folder names on Windows"
+    },
+    {
+      "start_line": 135,
+      "end_line": 136,
+      "comment": "% Delete the command file %delete(cmdfile);"
+    }
+  ]
+}

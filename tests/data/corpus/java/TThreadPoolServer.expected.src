@@ -1,0 +1,274 @@
+
+package org.apache.thrift.server;
+
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import org.apache.thrift.TException;
+import org.apache.thrift.TProcessor;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.SocketAddressProvider;
+import org.apache.thrift.transport.TServerTransport;
+import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class TThreadPoolServer extends TServer {
+  private static final Logger LOGGER = LoggerFactory.getLogger(TThreadPoolServer.class);
+
+  public static class Args extends AbstractServerArgs<Args> {
+    public int minWorkerThreads = 5;
+    public int maxWorkerThreads = Integer.MAX_VALUE;
+    public ExecutorService executorService;
+    public int stopTimeoutVal = 60;
+    public TimeUnit stopTimeoutUnit = TimeUnit.SECONDS;
+
+    public Args(TServerTransport transport) {
+      super(transport);
+    }
+
+    public Args minWorkerThreads(int n) {
+      minWorkerThreads = n;
+      return this;
+    }
+
+    public Args maxWorkerThreads(int n) {
+      maxWorkerThreads = n;
+      return this;
+    }
+
+    public Args stopTimeoutVal(int n) {
+      stopTimeoutVal = n;
+      return this;
+    }
+
+    public Args stopTimeoutUnit(TimeUnit tu) {
+      stopTimeoutUnit = tu;
+      return this;
+    }
+
+    public Args executorService(ExecutorService executorService) {
+      this.executorService = executorService;
+      return this;
+    }
+  }
+
+  private final ExecutorService executorService_;
+
+  private final TimeUnit stopTimeoutUnit;
+
+  private final long stopTimeoutVal;
+
+  public TThreadPoolServer(Args args) {
+    super(args);
+
+    stopTimeoutUnit = args.stopTimeoutUnit;
+    stopTimeoutVal = args.stopTimeoutVal;
+
+    executorService_ =
+        args.executorService != null ? args.executorService : createDefaultExecutorService(args);
+  }
+
+  private static ExecutorService createDefaultExecutorService(Args args) {
+    return new ThreadPoolExecutor(
+        args.minWorkerThreads,
+        args.maxWorkerThreads,
+        60L,
+        TimeUnit.SECONDS,
+        new SynchronousQueue<>(),
+        new ThreadFactory() {
+          final AtomicLong count = new AtomicLong();
+
+          @Override
+          public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            thread.setName(
+                String.format("TThreadPoolServer WorkerProcess-%d", count.getAndIncrement()));
+            return thread;
+          }
+        });
+  }
+
+  protected ExecutorService getExecutorService() {
+    return executorService_;
+  }
+
+  protected boolean preServe() {
+    try {
+      serverTransport_.listen();
+    } catch (TTransportException ttx) {
+      LOGGER.error("Error occurred during listening.", ttx);
+      return false;
+    }
+
+    if (eventHandler_ != null) {
+      eventHandler_.preServe();
+    }
+    stopped_ = false;
+    setServing(true);
+    return true;
+  }
+
+  @Override
+  public void serve() {
+    if (!preServe()) {
+      return;
+    }
+
+    execute();
+
+    executorService_.shutdownNow();
+
+    if (!waitForShutdown()) {
+      LOGGER.error("Shutdown is not done after " + stopTimeoutVal + stopTimeoutUnit);
+    }
+
+    setServing(false);
+  }
+
+  protected void execute() {
+    while (!stopped_) {
+      try {
+        TTransport client = serverTransport_.accept();
+        try {
+          executorService_.execute(new WorkerProcess(client));
+        } catch (RejectedExecutionException ree) {
+          if (!stopped_) {
+            LOGGER.warn(
+                "ThreadPool is saturated with incoming requests. Closing latest connection.");
+          }
+          client.close();
+        }
+      } catch (TTransportException ttx) {
+        if (!stopped_) {
+          LOGGER.warn("Transport error occurred during acceptance of message", ttx);
+        }
+      }
+    }
+  }
+
+  protected boolean waitForShutdown() {
+    long timeoutMS = stopTimeoutUnit.toMillis(stopTimeoutVal);
+    long now = System.currentTimeMillis();
+    while (timeoutMS >= 0) {
+      try {
+        return executorService_.awaitTermination(timeoutMS, TimeUnit.MILLISECONDS);
+      } catch (InterruptedException ix) {
+        long newnow = System.currentTimeMillis();
+        timeoutMS -= (newnow - now);
+        now = newnow;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public void stop() {
+    stopped_ = true;
+    serverTransport_.interrupt();
+  }
+
+  private class WorkerProcess implements Runnable {
+
+    private final TTransport client_;
+
+    private WorkerProcess(TTransport client) {
+      client_ = client;
+    }
+
+    @Override
+    public void run() {
+      TProcessor processor = null;
+      TTransport inputTransport = null;
+      TTransport outputTransport = null;
+      TProtocol inputProtocol = null;
+      TProtocol outputProtocol = null;
+
+      Optional<TServerEventHandler> eventHandler = Optional.empty();
+      ServerContext connectionContext = null;
+
+      try {
+        processor = processorFactory_.getProcessor(client_);
+        inputTransport = inputTransportFactory_.getTransport(client_);
+        outputTransport = outputTransportFactory_.getTransport(client_);
+        inputProtocol = inputProtocolFactory_.getProtocol(inputTransport);
+        outputProtocol = outputProtocolFactory_.getProtocol(outputTransport);
+
+        eventHandler = Optional.ofNullable(getEventHandler());
+
+        if (eventHandler.isPresent()) {
+          connectionContext = eventHandler_.createContext(inputProtocol, outputProtocol);
+          SocketAddress remoteAddress =
+              client_ instanceof SocketAddressProvider
+                  ? ((SocketAddressProvider) client_).getRemoteSocketAddress()
+                  : null;
+          connectionContext.setRemoteAddress(remoteAddress);
+        }
+
+        while (true) {
+          if (Thread.currentThread().isInterrupted()) {
+            LOGGER.debug("WorkerProcess requested to shutdown");
+            break;
+          }
+          if (eventHandler.isPresent()) {
+            eventHandler.get().processContext(connectionContext, inputTransport, outputTransport);
+          }
+          processor.process(inputProtocol, outputProtocol);
+        }
+      } catch (Exception x) {
+        logException(x);
+      } finally {
+        if (eventHandler.isPresent()) {
+          eventHandler.get().deleteContext(connectionContext, inputProtocol, outputProtocol);
+        }
+        if (inputTransport != null) {
+          inputTransport.close();
+        }
+        if (outputTransport != null) {
+          outputTransport.close();
+        }
+        if (client_.isOpen()) {
+          client_.close();
+        }
+      }
+    }
+
+    private void logException(Exception x) {
+      LOGGER.debug("Error processing request", x);
+      TTransportException tTransportException = null;
+
+      if (x instanceof TTransportException) {
+        tTransportException = (TTransportException) x;
+      } else if (x.getCause() instanceof TTransportException) {
+        tTransportException = (TTransportException) x.getCause();
+      }
+
+      if (tTransportException != null) {
+        switch (tTransportException.getType()) {
+          case TTransportException.END_OF_FILE:
+          case TTransportException.TIMED_OUT:
+            return; 
+        }
+        if (tTransportException.getCause() instanceof SocketException) {
+          LOGGER.warn(
+              "SocketException occurred during processing of message.",
+              tTransportException.getCause());
+          return;
+        }
+      }
+      LOGGER.error(
+          (x instanceof TException ? "Thrift " : "")
+              + "Error occurred during processing of message.",
+          x);
+    }
+  }
+}

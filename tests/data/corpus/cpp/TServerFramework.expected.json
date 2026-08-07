@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "filename": "TServerFramework.cpp",
+    "lang": "C++",
+    "total_lines": 246,
+    "total_lines_of_comments": 33,
+    "blank_lines": 29,
+    "sloc": 184
+  },
+  "single_line_comment": [
+    {
+      "line_number": 116,
+      "comment": "Start the server listening"
+    },
+    {
+      "line_number": 125,
+      "comment": "Fetch client from server"
+    },
+    {
+      "line_number": 172,
+      "comment": "Accept timeout and client disconnect - continue processing."
+    },
+    {
+      "line_number": 176,
+      "comment": "Server was interrupted.  This only happens when stopping."
+    },
+    {
+      "line_number": 246,
+      "comment": "apache::thrift::server"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 119,
+      "end_line": 120,
+      "comment": " Run the preServe event to indicate server is now listening and that it is safe to connect."
+    },
+    {
+      "start_line": 128,
+      "end_line": 129,
+      "comment": " Dereference any resources from any previous client creation such that a blocking accept does not hold them indefinitely."
+    },
+    {
+      "start_line": 136,
+      "end_line": 138,
+      "comment": " If we have reached the limit on the number of concurrent clients allowed, wait for one or more clients to drain before accepting another."
+    },
+    {
+      "start_line": 179,
+      "end_line": 180,
+      "comment": " All other transport exceptions are logged. State of connection is unknown.  Done."
+    },
+    {
+      "start_line": 218,
+      "end_line": 219,
+      "comment": " Order is important because serve() releases serverTransport_ when it is interrupted, which closes the socket that interruptChildren uses."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    }
+  ]
+}

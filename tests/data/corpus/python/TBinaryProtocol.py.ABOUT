@@ -1,0 +1,10 @@
+name: apache/thrift TBinaryProtocol.py
+about_resource: TBinaryProtocol.py
+homepage_url: https://github.com/apache/thrift
+download_url: https://github.com/apache/thrift/blob/a9663bc6661a5dd1d99d629e1f269c1907592a1a/lib/py/src/protocol/TBinaryProtocol.py
+license_expression: apache-2.0
+copyright: Copyright (C) The Apache Software Foundation
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.

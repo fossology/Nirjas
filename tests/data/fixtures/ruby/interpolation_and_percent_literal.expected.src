@@ -1,0 +1,7 @@
+name = "world"
+greeting = "hello #{name} # not a comment"
+words = %w[alpha beta]
+
+=end
+
+puts greeting 

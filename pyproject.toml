@@ -44,8 +44,30 @@ nirjas = "nirjas.main:run_and_print"
 [project.optional-dependencies]
 dev = [
     "pyright>=1.1.409,<2.0.0",
+    "pytest>=8.4.2,<9.0.0",
     "ruff>=0.15.15,<1.0.0",
 ]
+gate = [
+    "model2vec[inference]>=0.8.2",
+    "huggingface-hub>=0.20",
+    # Pin the SAME sklearn minor used to train/pickle the skops head. nirjas
+    # supports Python 3.10, whose newest sklearn is 1.7.x (>=1.8 needs 3.11+),
+    # so the gate is trained + served on 1.7.x. A mismatched minor raises
+    # InconsistentVersionWarning and risks invalid results when unpickling.
+    "scikit-learn>=1.7,<1.8",
+]
+
+[tool.poetry.group.train]
+optional = true
+
+[tool.poetry.group.train.dependencies]
+model2vec = {version = ">=0.8.2", extras = ["train"]}
+datasets = ">=4.5.0"
+# Serialize the skops head under the same sklearn minor the gate extra serves
+# (1.7.x — the newest that supports nirjas's Python 3.10 floor). Training under
+# a newer minor produces a pickle that 3.10 consumers cannot load cleanly.
+scikit-learn = ">=1.7,<1.8"
+huggingface-hub = ">=0.20"
 
 [build-system]
 requires = ["poetry-core>=2.4.1,<3.0.0"]
@@ -57,10 +79,17 @@ include = [
     { path = "scripts/download_parsers.py", format = ["sdist", "wheel"] },
 ]
 
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+
 [tool.ruff]
 target-version = "py310"
+# Fixtures and vendored corpus files are test *data*: deliberately odd, and in
+# other languages. Linting them is meaningless.
 exclude = [
-    "nirjas/languages/tests/TestFiles",
+    "tests/data",
 ]
 
 [tool.ruff.lint]
@@ -71,12 +100,18 @@ ignore = ["E501"]
 pythonVersion = "3.10"
 venvPath = "."
 venv = ".venv"
-include = ["nirjas", "scripts"]
+include = ["nirjas", "scripts", "tests"]
+# `helpers` is imported as a top-level package because pytest puts `tests/` on
+# sys.path (there is no tests/__init__.py).
+extraPaths = ["tests"]
 exclude = [
-    "nirjas/languages/tests/TestFiles",
+    "tests/data",
     "build",
     "dist",
     "Nirjas.egg-info",
+    # Dev/CI-only training script: needs the heavy `train` extra (torch) that
+    # the lint job does not install. Covered by ruff + its unit tests instead.
+    "scripts/train_and_release.py",
     ".venv", "**/node_modules", "**/__pycache__", "**/.*",
 ]
 typeCheckingMode = "standard"

@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "filename": "_colors.scss",
+    "lang": "Scss",
+    "total_lines": 172,
+    "total_lines_of_comments": 6,
+    "blank_lines": 17,
+    "sloc": 149
+  },
+  "single_line_comment": [
+    {
+      "line_number": 43,
+      "comment": "stylelint-disable declaration-block-single-line-max-declarations"
+    },
+    {
+      "line_number": 158,
+      "comment": "Astro HTML parser adds extra <p> tags to the content"
+    },
+    {
+      "line_number": 168,
+      "comment": "Astro HTML parser adds extra <p> tags to the content"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 3,
+      "comment": "  Docs color palette classes "
+    }
+  ],
+  "multi_line_comment": []
+}

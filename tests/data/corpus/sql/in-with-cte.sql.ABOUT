@@ -1,0 +1,10 @@
+name: apache/spark in-with-cte.sql
+about_resource: in-with-cte.sql
+homepage_url: https://github.com/apache/spark
+download_url: https://github.com/apache/spark/blob/190ea9b3f0acc4f9ae2ba3db51607c87f9c31b85/sql/core/src/test/resources/sql-tests/inputs/subquery/in-subquery/in-with-cte.sql
+license_expression: apache-2.0
+copyright: Copyright (C) The Apache Software Foundation
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.

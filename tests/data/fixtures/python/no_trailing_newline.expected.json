@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "filename": "no_trailing_newline.py",
+    "lang": "Python",
+    "total_lines": 2,
+    "total_lines_of_comments": 1,
+    "blank_lines": 0,
+    "sloc": 1
+  },
+  "single_line_comment": [
+    {
+      "line_number": 2,
+      "comment": "comment with no trailing newline"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

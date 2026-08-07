@@ -25,3 +25,9 @@
 *.toml text eol=lf
 *.md text eol=lf
 *.json text eol=lf
+
+# Test data is the bytes under test. Normalizing it would silently rewrite the
+# CRLF, BOM and trailing-newline cases into whatever the checkout platform
+# prefers, which is exactly what those fixtures exist to pin down. Last match
+# wins, so this must stay below the rules above.
+tests/data/** -text

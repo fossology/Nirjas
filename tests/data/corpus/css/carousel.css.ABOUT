@@ -1,0 +1,10 @@
+name: twbs/bootstrap carousel.css
+about_resource: carousel.css
+homepage_url: https://github.com/twbs/bootstrap
+download_url: https://github.com/twbs/bootstrap/blob/6177d5f8497f2c08f9874f5221fd17ce5acd2ad7/site/src/assets/examples/carousel/carousel.css
+license_expression: mit
+copyright: Copyright (C) The Bootstrap Authors
+
+notes: Real-world Nirjas test corpus file, vendored verbatim at the pinned
+ commit above and never edited to fit a result. Not distributed: tests/ is
+ excluded from the sdist and wheel.
