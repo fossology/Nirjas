@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "filename": "int8.sql",
+    "lang": "SQL",
+    "total_lines": 240,
+    "total_lines_of_comments": 82,
+    "blank_lines": 49,
+    "sloc": 109
+  },
+  "single_line_comment": [
+    {
+      "line_number": 31,
+      "comment": "int8/int8 cmp"
+    },
+    {
+      "line_number": 39,
+      "comment": "int8/int4 cmp"
+    },
+    {
+      "line_number": 47,
+      "comment": "int4/int8 cmp"
+    },
+    {
+      "line_number": 55,
+      "comment": "int8/int2 cmp"
+    },
+    {
+      "line_number": 63,
+      "comment": "int2/int8 cmp"
+    },
+    {
+      "line_number": 72,
+      "comment": "[SPARK-28349] We do not need to follow PostgreSQL to support reserved words in column alias"
+    },
+    {
+      "line_number": 90,
+      "comment": "int8 op int4"
+    },
+    {
+      "line_number": 92,
+      "comment": "int4 op int8"
+    },
+    {
+      "line_number": 95,
+      "comment": "int8 op int2"
+    },
+    {
+      "line_number": 97,
+      "comment": "int2 op int8"
+    },
+    {
+      "line_number": 140,
+      "comment": "select bigint('9223372036854775808');"
+    },
+    {
+      "line_number": 151,
+      "comment": "select bigint('9223372036854775800') * bigint('9223372036854775800');"
+    },
+    {
+      "line_number": 154,
+      "comment": "select bigint('9223372036854775800') % bigint('0');"
+    },
+    {
+      "line_number": 156,
+      "comment": "select abs(bigint('-9223372036854775808'));"
+    },
+    {
+      "line_number": 192,
+      "comment": "SELECT q1, q2, q1 & q2 AS `and`, q1 | q2 AS `or`, q1 # q2 AS `xor`, ~q1 AS `not` FROM INT8_TBL;"
+    },
+    {
+      "line_number": 194,
+      "comment": "SELECT q1, q1 << 2 AS `shl`, q1 >> 3 AS `shr` FROM INT8_TBL;"
+    },
+    {
+      "line_number": 197,
+      "comment": "generate_series"
+    },
+    {
+      "line_number": 203,
+      "comment": "corner case"
+    },
+    {
+      "line_number": 230,
+      "comment": "check rounding when casting from numeric"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 8,
+      "comment": "  Portions Copyright (c) 1996-2019, PostgreSQL Global Development Group   INT8 Test int8 64-bit integers. https://github.com/postgres/postgres/blob/REL_12_BETA2/src/test/regress/sql/int8.sql "
+    },
+    {
+      "start_line": 11,
+      "end_line": 12,
+      "comment": " PostgreSQL implicitly casts string literals to data with integral types, but Spark does not support that kind of implicit casts."
+    },
+    {
+      "start_line": 19,
+      "end_line": 27,
+      "comment": " [SPARK-27923] Spark SQL insert there bad inputs to NULL bad inputs INSERT INTO INT8_TBL(q1) VALUES ('      '); INSERT INTO INT8_TBL(q1) VALUES ('xxx'); INSERT INTO INT8_TBL(q1) VALUES ('3908203590239580293850293850329485'); INSERT INTO INT8_TBL(q1) VALUES ('-1204982019841029840928340329840934'); INSERT INTO INT8_TBL(q1) VALUES ('- 123'); INSERT INTO INT8_TBL(q1) VALUES ('  345     5'); INSERT INTO INT8_TBL(q1) VALUES ('');"
+    },
+    {
+      "start_line": 104,
+      "end_line": 105,
+      "comment": " TO_CHAR() some queries are commented out as the format string is not supported by Spark"
+    },
+    {
+      "start_line": 109,
+      "end_line": 110,
+      "comment": " SELECT '' AS to_char_2, to_char(q1, '9G999G999G999G999G999D999G999'), to_char(q2, '9,999,999,999,999,999.999,999') FROM INT8_TBL;"
+    },
+    {
+      "start_line": 119,
+      "end_line": 121,
+      "comment": " SELECT '' AS to_char_6,  to_char(q2, 'FMS9999999999999999')    FROM INT8_TBL; SELECT '' AS to_char_7,  to_char(q2, 'FM9999999999999999THPR') FROM INT8_TBL; SELECT '' AS to_char_8,  to_char(q2, 'SG9999999999999999th')   FROM INT8_TBL;"
+    },
+    {
+      "start_line": 124,
+      "end_line": 130,
+      "comment": " SELECT '' AS to_char_11, to_char(q2, 'FM0999999999999999')     FROM INT8_TBL; SELECT '' AS to_char_12, to_char(q2, 'FM9999999999999999.000') FROM INT8_TBL; SELECT '' AS to_char_13, to_char(q2, 'L9999999999999999.000')  FROM INT8_TBL; SELECT '' AS to_char_14, to_char(q2, 'FM9999999999999999.999') FROM INT8_TBL; SELECT '' AS to_char_15, to_char(q2, 'S 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 . 9 9 9') FROM INT8_TBL; SELECT '' AS to_char_16, to_char(q2, E'99999 \"text\" 9999 \"9999\" 999 \"\\\\\"text between quote marks\\\\\"\" 9999') FROM INT8_TBL; SELECT '' AS to_char_17, to_char(q2, '999999SG9999999999')     FROM INT8_TBL;"
+    },
+    {
+      "start_line": 132,
+      "end_line": 133,
+      "comment": " [SPARK-26218] Throw exception on overflow for integers check min/max values and overflow behavior"
+    },
+    {
+      "start_line": 135,
+      "end_line": 138,
+      "comment": " select bigint('-9223372036854775808'); select bigint('-9223372036854775809'); select bigint('9223372036854775807'); select bigint('9223372036854775808');"
+    },
+    {
+      "start_line": 142,
+      "end_line": 143,
+      "comment": " select -(bigint('-9223372036854775807')); select -(bigint('-9223372036854775808'));"
+    },
+    {
+      "start_line": 145,
+      "end_line": 146,
+      "comment": " select bigint('9223372036854775800') + bigint('9223372036854775800'); select bigint('-9223372036854775800') + bigint('-9223372036854775800');"
+    },
+    {
+      "start_line": 148,
+      "end_line": 149,
+      "comment": " select bigint('9223372036854775800') - bigint('-9223372036854775800'); select bigint('-9223372036854775800') - bigint('9223372036854775800');"
+    },
+    {
+      "start_line": 158,
+      "end_line": 160,
+      "comment": " select bigint('9223372036854775800') + int('100'); select bigint('-9223372036854775800') - int('100'); select bigint('9223372036854775800') * int('100');"
+    },
+    {
+      "start_line": 162,
+      "end_line": 164,
+      "comment": " select int('100') + bigint('9223372036854775800'); select int('-100') - bigint('9223372036854775800'); select int('100') * bigint('9223372036854775800');"
+    },
+    {
+      "start_line": 166,
+      "end_line": 168,
+      "comment": " select bigint('9223372036854775800') + smallint('100'); select bigint('-9223372036854775800') - smallint('100'); select bigint('9223372036854775800') * smallint('100');"
+    },
+    {
+      "start_line": 171,
+      "end_line": 173,
+      "comment": " select smallint('100') + bigint('9223372036854775800'); select smallint('-100') - bigint('9223372036854775800'); select smallint('100') * bigint('9223372036854775800');"
+    },
+    {
+      "start_line": 189,
+      "end_line": 190,
+      "comment": " [SPARK-28027] Missing some mathematical operators bit operations"
+    },
+    {
+      "start_line": 207,
+      "end_line": 208,
+      "comment": " [SPARK-26218] Throw exception on overflow for integers check sane handling of INT64_MIN overflow cases"
+    },
+    {
+      "start_line": 219,
+      "end_line": 220,
+      "comment": " [SPARK-28028] Cast numeric to integral type need round check rounding when casting from float"
+    }
+  ],
+  "multi_line_comment": []
+}

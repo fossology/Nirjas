@@ -1,0 +1,164 @@
+{
+  "notes": [
+    "Provenance for the real-world test corpus under tests/data/corpus.",
+    "Every file here was vendored verbatim from the pinned commit below and",
+    "never edited to fit a result. Nirjas is a licence-compliance tool, so",
+    "third-party files in its tree carry attribution.",
+    "download_url for a file is homepage_url + '/blob/' + commit + '/' + its",
+    "upstream path. Pinning the commit once per upstream keeps a bump to a",
+    "one-line diff.",
+    "None of this is distributed: tests/ is excluded from the sdist and wheel."
+  ],
+  "upstreams": {
+    "JuliaLang/julia": {
+      "homepage_url": "https://github.com/JuliaLang/julia",
+      "commit": "c6cd168cb957c755c0e8b8d86d4847b1823bb32a",
+      "license_expression": "mit",
+      "copyright": "Copyright (C) JuliaLang contributors",
+      "files": {
+        "julia/boundscheck_exec.jl": "test/boundscheck_exec.jl",
+        "julia/destructuring_ir.jl": "JuliaLowering/test/destructuring_ir.jl",
+        "julia/utils.jl": "base/ryu/utils.jl"
+      }
+    },
+    "Rdatatable/data.table": {
+      "homepage_url": "https://github.com/Rdatatable/data.table",
+      "commit": "0ef8d1f60ce470d463e71ac06b2d76dd18d18236",
+      "license_expression": "mpl-2.0",
+      "copyright": "Copyright (C) the data.table authors",
+      "files": {
+        "r/cc.R": ".dev/cc.R",
+        "r/ci.R": ".ci/ci.R",
+        "r/groupingsets.R": "R/groupingsets.R"
+      }
+    },
+    "altmany/export_fig": {
+      "homepage_url": "https://github.com/altmany/export_fig",
+      "commit": "a46bb12830e4abf8590260c72b5c83efd7f90f9b",
+      "license_expression": "bsd-3-clause",
+      "copyright": "Copyright (C) Oliver J. Woodford and Yair M. Altman",
+      "files": {
+        "matlab/append_pdfs.m": "append_pdfs.m",
+        "matlab/ghostscript.m": "ghostscript.m",
+        "matlab/pdftops.m": "pdftops.m"
+      }
+    },
+    "apache/spark": {
+      "homepage_url": "https://github.com/apache/spark",
+      "commit": "190ea9b3f0acc4f9ae2ba3db51607c87f9c31b85",
+      "license_expression": "apache-2.0",
+      "copyright": "Copyright (C) The Apache Software Foundation",
+      "files": {
+        "sql/in-with-cte.sql": "sql/core/src/test/resources/sql-tests/inputs/subquery/in-subquery/in-with-cte.sql",
+        "sql/int8.sql": "sql/core/src/test/resources/sql-tests/inputs/postgreSQL/int8.sql",
+        "sql/q3.sql": "sql/core/src/test/resources/tpcds-modifiedQueries/q3.sql"
+      }
+    },
+    "apache/thrift": {
+      "homepage_url": "https://github.com/apache/thrift",
+      "commit": "a9663bc6661a5dd1d99d629e1f269c1907592a1a",
+      "license_expression": "apache-2.0",
+      "copyright": "Copyright (C) The Apache Software Foundation",
+      "files": {
+        "c/testthriftcompactreadcheck.c": "lib/c_glib/test/testthriftcompactreadcheck.c",
+        "c/thrift_native.c": "lib/rb/ext/thrift_native.c",
+        "c/thrift_server_transport.c": "lib/c_glib/src/thrift/c_glib/transport/thrift_server_transport.c",
+        "c_sharp/TCollectionsTests.cs": "lib/netstd/Tests/Thrift.Tests/Collections/TCollectionsTests.cs",
+        "c_sharp/TSimpleAsyncServer.cs": "lib/netstd/Thrift/Server/TSimpleAsyncServer.cs",
+        "c_sharp/TSocketTransport.cs": "lib/netstd/Thrift/Transport/Client/TSocketTransport.cs",
+        "cpp/SecurityFromBufferTest.cpp": "lib/cpp/test/SecurityFromBufferTest.cpp",
+        "cpp/TServerFramework.cpp": "lib/cpp/src/thrift/server/TServerFramework.cpp",
+        "cpp/t_mmd_generator.cc": "compiler/cpp/src/thrift/generate/t_mmd_generator.cc",
+        "dart/client.dart": "tutorial/dart/client/web/client.dart",
+        "dart/t_protocol_recursion_depth_test.dart": "test/dart/recursion_depth_test/test/t_protocol_recursion_depth_test.dart",
+        "dart/t_socket_transport_test.dart": "lib/dart/test/transport/t_socket_transport_test.dart",
+        "go/fuzz.go": "lib/go/test/fuzz/fuzz.go",
+        "go/multiplexed_protocol.go": "lib/go/thrift/multiplexed_protocol.go",
+        "go/optional_fields_test.go": "lib/go/test/tests/optional_fields_test.go",
+        "java/TThreadPoolServer.java": "lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java",
+        "java/Thrift.java": "contrib/thrift-maven-plugin/src/main/java/org/apache/thrift/maven/Thrift.java",
+        "java/ValidateTest.java": "lib/java/src/test/java/org/apache/thrift/partial/ValidateTest.java",
+        "javascript/bigint_helpers.test.js": "lib/nodejs/test/bigint_helpers.test.js",
+        "javascript/deep-constructor.test.js": "lib/js/test/deep-constructor.test.js",
+        "javascript/http_connection.js": "lib/nodejs/lib/thrift/http_connection.js",
+        "kotlin/RecursionDepthTest.kt": "lib/kotlin/src/test/kotlin/org/apache/thrift/RecursionDepthTest.kt",
+        "kotlin/TestHandler.kt": "lib/kotlin/cross-test-server/src/main/kotlin/org/apache/thrift/test/TestHandler.kt",
+        "kotlin/build.gradle.kts": "lib/kotlin/cross-test-client/build.gradle.kts",
+        "perl/PerlServer.pl": "tutorial/perl/PerlServer.pl",
+        "perl/TestServer.pl": "test/perl/TestServer.pl",
+        "perl/thrift_audit_test.pl": "test/audit/thrift_audit_test.pl",
+        "php/TForkingServerTest.php": "lib/php/test/Unit/Lib/Server/TForkingServerTest.php",
+        "php/TProtocol.php": "lib/php/lib/Protocol/TProtocol.php",
+        "php/TProtocolTest.php": "lib/php/test/Unit/Lib/Protocol/TProtocolTest.php",
+        "python/TBinaryProtocol.py": "lib/py/src/protocol/TBinaryProtocol.py",
+        "python/TSocket.py": "lib/py/src/transport/TSocket.py",
+        "python/test_immutable_exception.py": "lib/py/test/test_immutable_exception.py",
+        "ruby/benchmark.rb": "lib/rb/benchmark/benchmark.rb",
+        "ruby/nonblocking_server.rb": "lib/rb/lib/thrift/server/nonblocking_server.rb",
+        "ruby/socket_spec.rb": "lib/rb/spec/socket_spec.rb",
+        "rust/kitchen_sink_client.rs": "lib/rs/test/src/bin/kitchen_sink_client.rs",
+        "rust/lib.rs": "lib/rs/test_recursive/src/lib.rs",
+        "rust/tls.rs": "lib/rs/src/transport/tls.rs",
+        "shell/buildfuzzers.sh": "lib/netstd/buildfuzzers.sh",
+        "shell/testAll.sh": "lib/nodejs/test/testAll.sh",
+        "shell/update.sh": "docker/update.sh",
+        "text/ReadMe.txt": "contrib/transport-sample/client/ReadMe.txt",
+        "text/otp-base-license.txt": "doc/licenses/otp-base-license.txt",
+        "text/thrift-sasl-spec.txt": "doc/specs/thrift-sasl-spec.txt",
+        "typescript/test-int64.ts": "lib/ts/test/test-int64.ts",
+        "typescript/test_driver.ts": "lib/nodets/test/test_driver.ts",
+        "typescript/test_handler.ts": "lib/nodets/test/test_handler.ts"
+      }
+    },
+    "apple/swift-argument-parser": {
+      "homepage_url": "https://github.com/apple/swift-argument-parser",
+      "commit": "2f77f2fccb6e84fecff338c37b199e33e7dfd119",
+      "license_expression": "apache-2.0",
+      "copyright": "Copyright (C) Apple Inc. and the Swift project authors",
+      "files": {
+        "swift/ParsableCommand.swift": "Sources/ArgumentParser/Parsable Types/ParsableCommand.swift",
+        "swift/Platform.swift": "Sources/ArgumentParser/Utilities/Platform.swift",
+        "swift/RepeatingEndToEndTests+ParsingStrategy.swift": "Tests/ArgumentParserEndToEndTests/RepeatingEndToEndTests+ParsingStrategy.swift"
+      }
+    },
+    "haskell/text": {
+      "homepage_url": "https://github.com/haskell/text",
+      "commit": "c0b11ac91eb1d54325c7d34b1db9612a8e8f91ee",
+      "license_expression": "bsd-2-clause",
+      "copyright": "Copyright (C) Bryan O'Sullivan and contributors",
+      "files": {
+        "haskell/RealFloat.hs": "src/Data/Text/Lazy/Builder/RealFloat.hs",
+        "haskell/Regressions.hs": "tests/Tests/Regressions.hs",
+        "haskell/Utf8.hs": "src/Data/Text/Internal/Encoding/Utf8.hs"
+      }
+    },
+    "scala/scala": {
+      "homepage_url": "https://github.com/scala/scala",
+      "commit": "e2bf3551286f729b4f2bec78b36e3f890fccfd80",
+      "license_expression": "apache-2.0",
+      "copyright": "Copyright (C) LAMP/EPFL and Lightbend, Inc.",
+      "files": {
+        "scala/FlagSets.scala": "src/reflect/scala/reflect/api/FlagSets.scala",
+        "scala/Properties.scala": "src/library/scala/util/Properties.scala",
+        "scala/t8999.scala": "test/files/pos/t8999.scala"
+      }
+    },
+    "twbs/bootstrap": {
+      "homepage_url": "https://github.com/twbs/bootstrap",
+      "commit": "6177d5f8497f2c08f9874f5221fd17ce5acd2ad7",
+      "license_expression": "mit",
+      "copyright": "Copyright (C) The Bootstrap Authors",
+      "files": {
+        "css/carousel.css": "site/src/assets/examples/carousel/carousel.css",
+        "css/cheatsheet.css": "site/src/assets/examples/cheatsheet/cheatsheet.css",
+        "css/sidebars.css": "site/src/assets/examples/sidebars/sidebars.css",
+        "html/dropdown.html": "js/tests/visual/dropdown.html",
+        "html/index.html": "js/tests/integration/index.html",
+        "html/tooltip.html": "js/tests/visual/tooltip.html",
+        "scss/_colors.scss": "site/src/scss/_colors.scss",
+        "scss/_navbar.scss": "scss/_navbar.scss",
+        "scss/_utilities.test.scss": "scss/tests/mixins/_utilities.test.scss"
+      }
+    }
+  }
+}

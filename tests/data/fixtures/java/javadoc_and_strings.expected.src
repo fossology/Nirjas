@@ -1,0 +1,6 @@
+class Demo {
+    static final String LINE = "// not a comment";
+    static final String BLOCK = "/* not a comment */";
+
+    void run() { } 
+}

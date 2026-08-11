@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "t8999.scala",
+    "lang": "Scala",
+    "total_lines": 273,
+    "total_lines_of_comments": 2,
+    "blank_lines": 102,
+    "sloc": 169
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": " > using options -nowarn "
+    }
+  ],
+  "multi_line_comment": []
+}

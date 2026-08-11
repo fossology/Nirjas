@@ -1,0 +1,10 @@
+#!/bin/sh
+path="a/b/c"
+base="${path##*/}"        
+printf '%s\n' "# not a comment"
+
+cat <<'EOF'
+# not a comment inside a quoted heredoc
+EOF
+
+echo "$base" 

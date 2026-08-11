@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "filename": "pdftops.m",
+    "lang": "MATLAB",
+    "total_lines": 195,
+    "total_lines_of_comments": 62,
+    "blank_lines": 15,
+    "sloc": 118
+  },
+  "single_line_comment": [
+    {
+      "line_number": 23,
+      "comment": "Copyright: Oliver Woodford, 2009-2010"
+    },
+    {
+      "line_number": 38,
+      "comment": "If no command parameter specified, just check pdftops installation and bail out"
+    },
+    {
+      "line_number": 44,
+      "comment": "Call pdftops"
+    },
+    {
+      "line_number": 52,
+      "comment": "Check the path works"
+    },
+    {
+      "line_number": 56,
+      "comment": "Check whether the binary is on the path"
+    },
+    {
+      "line_number": 66,
+      "comment": "Search the obvious places"
+    },
+    {
+      "line_number": 79,
+      "comment": "Ask the user to enter the path"
+    },
+    {
+      "line_number": 81,
+      "comment": "='http://foolabs.com/xpdf';"
+    },
+    {
+      "line_number": 94,
+      "comment": "Provide an alternative possible explanation as per issue #137"
+    },
+    {
+      "line_number": 100,
+      "comment": "Provide an alternative possible explanation as per issue #311"
+    },
+    {
+      "line_number": 110,
+      "comment": "only display the popup dialog if not deployed"
+    },
+    {
+      "line_number": 117,
+      "comment": "prevent a Matlab hang: http://undocumentedmatlab.com/blog/solving-a-matlab-hang-problem"
+    },
+    {
+      "line_number": 128,
+      "comment": "User hit cancel or closed window"
+    },
+    {
+      "line_number": 131,
+      "comment": "#ok<AGROW>"
+    },
+    {
+      "line_number": 143,
+      "comment": "User hit Ignore/Cancel or closed window"
+    },
+    {
+      "line_number": 151,
+      "comment": "Check the path is valid"
+    },
+    {
+      "line_number": 156,
+      "comment": "Update the current default path to the path found"
+    },
+    {
+      "line_number": 166,
+      "comment": "Check the path is valid"
+    },
+    {
+      "line_number": 170,
+      "comment": "#ok<STREMP>"
+    },
+    {
+      "line_number": 174,
+      "comment": "#ok<RGXP1> % file exists but generates an error"
+    },
+    {
+      "line_number": 193,
+      "comment": "Construct the command string"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 40,
+      "end_line": 41,
+      "comment": " this will error if pdftops is not found silent bail-out if pdftops was successfully located"
+    },
+    {
+      "start_line": 158,
+      "end_line": 159,
+      "comment": " filename = fullfile(fileparts(which('user_string.m')), '.ignore', 'pdftops.txt'); #ok<ASGLU>"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 2,
+      "end_line": 21,
+      "comment": "%PDFTOPS  Calls a local pdftops executable with the input command % % Example: %   [status result] = pdftops(cmd) % % Attempts to locate a pdftops executable, finally asking the user to % specify the directory pdftops was installed into. The resulting path is % stored for future reference. % % Once found, the executable is called with the input command string. % % This function requires that you have pdftops (from the Xpdf package) % installed on your system. You can download this from: http://xpdfreader.com % % IN: %   cmd - Command string to be passed into pdftops (e.g. '-help'). % % OUT: %   status - 0 iff command ran without problem. %   result - Output from pdftops."
+    },
+    {
+      "start_line": 25,
+      "end_line": 36,
+      "comment": "% Thanks to Jonas Dorn for the fix for the title of the uigetdir window on Mac OS. % Thanks to Christoph Hertel for pointing out a bug in check_xpdf_path under linux. % 23/01/2014 - Add full path to pdftops.txt in warning. % 27/05/2015 - Fixed alert in case of missing pdftops; fixed code indentation % 02/05/2016 - Added possible error explanation suggested by Michael Pacer (issue #137) % 02/05/2016 - Search additional possible paths suggested by Jonas Stein (issue #147) % 03/05/2016 - Display the specific error message if pdftops fails for some reason (issue #148) % 22/09/2018 - Xpdf website changed to xpdfreader.com; improved popup logic % 03/02/2019 - Fixed one-off 'pdftops not found' error after install (Mac/Linux) (issue #266) % 15/01/2020 - Fixed reported path of pdftops.txt file in case of error; added warning ID % 23/07/2020 - Fixed issue #311 (confusion regarding Xpdf-tools download/installation); silent check of pdftops installation in case no input arg specified % 21/02/2023 - Don't display error dialog popup and fix messages in deployed apps"
+    },
+    {
+      "start_line": 49,
+      "end_line": 50,
+      "comment": "% Return a valid path % Start with the currently set path"
+    },
+    {
+      "start_line": 85,
+      "end_line": 88,
+      "comment": "%if strncmp(computer,'MAC',3) % Is a Mac %    % Give separate warning as the MacOS uigetdir dialogue box doesn't have a title %    uiwait(warndlg(errMsg1)) %end"
+    },
+    {
+      "start_line": 167,
+      "end_line": 169,
+      "comment": "%#ok<ASGLU> % system returns good = 1 even when the command runs % Look for something distinct in the help text"
+    },
+    {
+      "start_line": 172,
+      "end_line": 173,
+      "comment": "% Display the error message if the pdftops executable exists but fails for some reason % Note: on Mac/Linux, exist('pdftops','file') will always return 2 due to pdftops.m => check for '/','.' (issue #266)"
+    },
+    {
+      "start_line": 181,
+      "end_line": 182,
+      "comment": "% Initialize any required system calls before calling ghostscript % TODO: in Unix/Mac, find a way to determine whether to use \"export\" (bash) or \"setenv\" (csh/tcsh)"
+    },
+    {
+      "start_line": 185,
+      "end_line": 187,
+      "comment": "% Avoids an error on Linux with outdated MATLAB lib files % R20XXa/bin/glnxa64/libtiff.so.X % R20XXa/sys/os/glnxa64/libstdc++.so.X"
+    }
+  ]
+}

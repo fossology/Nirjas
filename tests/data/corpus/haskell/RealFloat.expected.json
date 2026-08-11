@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "filename": "RealFloat.hs",
+    "lang": "Haskell",
+    "total_lines": 257,
+    "total_lines_of_comments": 28,
+    "blank_lines": 20,
+    "sloc": 209
+  },
+  "single_line_comment": [
+    {
+      "line_number": 39,
+      "comment": "@9,999,999@, and scientific notation otherwise."
+    },
+    {
+      "line_number": 164,
+      "comment": "according to Burger and Dybvig"
+    },
+    {
+      "line_number": 205,
+      "comment": "WAS:            fromInt e * log (fromInteger b))"
+    },
+    {
+      "line_number": 236,
+      "comment": "Exponentiation with a cache for the most common numbers."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 154,
+      "end_line": 156,
+      "comment": " the real minimum exponent Haskell requires that f be adjusted so denormalized numbers will have an impossibly low exponent.  Adjust for this."
+    },
+    {
+      "start_line": 178,
+      "end_line": 195,
+      "comment": " logBase 10 2 is very slightly larger than 8651/28738 (about 5.3558e-10), so if log x >= 0, the approximation k1 is too small, hence we add one and need one fixup step less. If log x < 0, the approximation errs rather on the high side. That is usually more than compensated for by ignoring the fractional part of logBase 2 x, but when x is a power of 1/2 or slightly larger and the exponent is a multiple of the denominator of the rational approximation to logBase 10 2, k1 is larger than logBase 10 x. If k1 > 1 + logBase 10 x, we get a leading zero-digit we don't want. With the approximation 3/10, this happened for 0.5^1030, 0.5^1040, ..., 0.5^1070 and values close above. The approximation 8651/28738 guarantees k1 < 1 + logBase 10 x for IEEE-ish floating point types with exponent fields <= 17 bits and mantissae of several thousand bits, earlier convergents to logBase 10 2 would fail for long double. Using quot instead of div is a little faster and requires fewer fixup steps for negative lx."
+    },
+    {
+      "start_line": 200,
+      "end_line": 201,
+      "comment": " f :: Integer, log :: Float -> Float, ceiling :: Float -> Int"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 126,
+      "end_line": 128,
+      "comment": "-- Based on \"Printing Floating-Point Numbers Quickly and Accurately\" -- by R.G. Burger and R.K. Dybvig in PLDI 96. -- This version uses a much slower logarithm estimator. It should be improved."
+    }
+  ]
+}

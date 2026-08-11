@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "interpolation_and_nesting.dart",
+    "lang": "Dart",
+    "total_lines": 5,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 3
+  },
+  "single_line_comment": [
+    {
+      "line_number": 5,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 4,
+      "end_line": 4,
+      "comment": "outer /* nested block */ still outer"
+    }
+  ]
+}

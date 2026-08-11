@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "filename": "TProtocol.php",
+    "lang": "PHP",
+    "total_lines": 330,
+    "total_lines_of_comments": 40,
+    "blank_lines": 75,
+    "sloc": 215
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [
+    {
+      "start_line": 161,
+      "end_line": 162,
+      "comment": " Skipping descends through nested structs and containers the same way reading them does, so it draws on the same depth budget."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 3,
+      "end_line": 22,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License. * * @package thrift.protocol"
+    },
+    {
+      "start_line": 33,
+      "end_line": 35,
+      "comment": "* * Protocol base class module."
+    },
+    {
+      "start_line": 69,
+      "end_line": 71,
+      "comment": "* * @throws TException on write error"
+    },
+    {
+      "start_line": 74,
+      "end_line": 76,
+      "comment": "* * @throws TException on write error"
+    },
+    {
+      "start_line": 79,
+      "end_line": 81,
+      "comment": "* * @throws TException on write error"
+    },
+    {
+      "start_line": 156,
+      "end_line": 158,
+      "comment": "* * Parses past unrecognized data without causing corruption."
+    },
+    {
+      "start_line": 244,
+      "end_line": 246,
+      "comment": "* * Utility for skipping binary data without parsing it."
+    }
+  ]
+}

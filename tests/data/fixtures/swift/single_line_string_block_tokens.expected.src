@@ -1,0 +1,4 @@
+let single = "/* not a comment */"
+let alsoSingle = "// not a comment either"
+
+func main() { _ = single } 

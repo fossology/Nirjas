@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "filename": "Properties.scala",
+    "lang": "Scala",
+    "total_lines": 232,
+    "total_lines_of_comments": 71,
+    "blank_lines": 31,
+    "sloc": 130
+  },
+  "single_line_comment": [
+    {
+      "line_number": 69,
+      "comment": "for values based on propFilename, falling back to System properties"
+    },
+    {
+      "line_number": 194,
+      "comment": "accept 1.8, not 1.9 or 1."
+    },
+    {
+      "line_number": 227,
+      "comment": "provide a main method so version info can be obtained by running this"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 31,
+      "end_line": 32,
+      "comment": " specializes the remainder of the values props file comes from jar containing this"
+    },
+    {
+      "start_line": 134,
+      "end_line": 135,
+      "comment": " See https://mail.openjdk.java.net/pipermail/macosx-port-dev/2012-November/005148.html for the reason why we don't follow developer.apple.com/library/mac/#technotes/tn2002/tn2110."
+    },
+    {
+      "start_line": 159,
+      "end_line": 161,
+      "comment": " This is looking for javac, tools.jar, etc. Tries JDK_HOME first, then the more common but likely jre JAVA_HOME, and finally the system property based javaHome."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 11,
+      "comment": "* Scala (https://www.scala-lang.org) * * Copyright EPFL and Lightbend, Inc. dba Akka * * Licensed under Apache License 2.0 * (http://www.apache.org/licenses/LICENSE-2.0). * * See the NOTICE file distributed with this work for * additional information regarding copyright ownership."
+    },
+    {
+      "start_line": 20,
+      "end_line": 20,
+      "comment": "* Loads `library.properties` from the jar."
+    },
+    {
+      "start_line": 25,
+      "end_line": 26,
+      "comment": "* Scala manifest attributes."
+    },
+    {
+      "start_line": 34,
+      "end_line": 34,
+      "comment": "* The name of the properties file"
+    },
+    {
+      "start_line": 37,
+      "end_line": 37,
+      "comment": "* The loaded properties"
+    },
+    {
+      "start_line": 74,
+      "end_line": 75,
+      "comment": "* The version of the Scala runtime, if this is not a snapshot."
+    },
+    {
+      "start_line": 78,
+      "end_line": 79,
+      "comment": "* The version of the Scala runtime, if this is a snapshot."
+    },
+    {
+      "start_line": 82,
+      "end_line": 89,
+      "comment": "* The version of the Scala runtime, or the empty string if unknown. * *  Note that the version of the Scala library need not correlate with the version of the Scala compiler *  used to emit either the library or user code. * *  For example, Scala 3.0 and 3.1 use the Scala 2.13 library, which is reflected in this version string. *  For the Dotty version, see `dotty.tools.dotc.config.Properties.versionNumberString`."
+    },
+    {
+      "start_line": 92,
+      "end_line": 93,
+      "comment": "* A verbose alternative to [[versionNumberString]]."
+    },
+    {
+      "start_line": 97,
+      "end_line": 99,
+      "comment": "* This is the encoding to use reading in source files, overridden with -encoding. *  Note that it uses \"prop\" i.e. looks in the scala jar, not the system properties."
+    },
+    {
+      "start_line": 103,
+      "end_line": 105,
+      "comment": "* This is the default text encoding, overridden (unreliably) with *  `JAVA_OPTS=\"-Dfile.encoding=Foo\"`"
+    },
+    {
+      "start_line": 108,
+      "end_line": 109,
+      "comment": "* The default end of line character."
+    },
+    {
+      "start_line": 112,
+      "end_line": 112,
+      "comment": "Various well-known properties."
+    },
+    {
+      "start_line": 131,
+      "end_line": 131,
+      "comment": "Some derived values."
+    },
+    {
+      "start_line": 132,
+      "end_line": 132,
+      "comment": "* Returns `true` iff the underlying operating system is a version of Microsoft Windows."
+    },
+    {
+      "start_line": 136,
+      "end_line": 136,
+      "comment": "* Returns `true` iff the underlying operating system is a version of Apple Mac OSX."
+    },
+    {
+      "start_line": 138,
+      "end_line": 138,
+      "comment": "* Returns `true` iff the underlying operating system is a Linux distribution."
+    },
+    {
+      "start_line": 141,
+      "end_line": 141,
+      "comment": "Some runtime values."
+    },
+    {
+      "start_line": 149,
+      "end_line": 149,
+      "comment": "* `System.console.isTerminal`, or just check for `null` console on JDK < 22"
+    },
+    {
+      "start_line": 170,
+      "end_line": 185,
+      "comment": "* Compares the given specification version to the specification version of the platform. * *  @param version a specification version number (legacy forms acceptable) *  @return `true` if the specification version of the current runtime *    is equal to or higher than the version denoted by the given string. *  @throws NumberFormatException if the given string is not a version string * *  @example {{{ *  // In this example, the runtime's Java specification is assumed to be at version 8. *  isJavaAtLeast(\"1.8\")            // true *  isJavaAtLeast(\"8\")              // true *  isJavaAtLeast(\"9\")              // false *  isJavaAtLeast(\"9.1\")            // false *  isJavaAtLeast(\"1.9\")            // throws *  }}}"
+    },
+    {
+      "start_line": 222,
+      "end_line": 224,
+      "comment": "* Compares the given specification version to the major version of the platform. *  @param version a specification major version number"
+    }
+  ]
+}

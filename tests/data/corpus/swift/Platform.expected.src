@@ -1,0 +1,253 @@
+
+extension CommandLine {
+  static let _staticArguments: [String] = Self.arguments
+}
+
+#if canImport(Glibc)
+@preconcurrency import Glibc
+#elseif canImport(Musl)
+@preconcurrency import Musl
+#elseif canImport(Darwin)
+import Darwin
+#elseif canImport(CRT)
+@preconcurrency import CRT
+#elseif canImport(WASILibc)
+@preconcurrency import WASILibc
+#elseif canImport(Android)
+@preconcurrency import Android
+#endif
+
+enum Platform {}
+
+
+extension Platform {
+  enum Environment {
+    struct Key {
+      static let shell = Self(rawValue: "SHELL")
+      static let columns = Self(rawValue: "COLUMNS")
+      static let lines = Self(rawValue: "LINES")
+
+      static let shellName = Self(rawValue: "SAP_SHELL")
+
+      static let shellVersion = Self(rawValue: "SAP_SHELL_VERSION")
+
+      var rawValue: String
+    }
+
+    @_disfavoredOverload
+    static subscript(_ key: Key) -> String? {
+      get {
+        #if !os(Windows) && !os(WASI)
+        guard let cString = getenv(key.rawValue) else { return nil }
+        return String(cString: cString)
+        #else
+        return nil
+        #endif
+      }
+      set {
+        #if !os(Windows) && !os(WASI)
+        if let newValue = newValue {
+          setenv(key.rawValue, newValue, 1)
+        } else {
+          unsetenv(key.rawValue)
+        }
+        #endif
+      }
+    }
+
+    static subscript<Value>(_ key: Key, as _: Value.Type) -> Value?
+    where Value: LosslessStringConvertible
+    {
+      get {
+        guard let stringValue = self[key] else { return nil }
+        return Value(stringValue)
+      }
+      set {
+        if let newValue = newValue {
+          self[key] = newValue.description
+        } else {
+          self[key] = nil
+        }
+      }
+    }
+
+    static subscript<Value>(_ key: Key, as _: Value.Type) -> Value?
+    where Value: RawRepresentable, Value.RawValue == String
+    {
+      get {
+        guard let stringValue = self[key] else { return nil }
+        return Value(rawValue: stringValue)
+      }
+      set {
+        if let newValue = newValue {
+          self[key] = newValue.rawValue
+        } else {
+          self[key] = nil
+        }
+      }
+    }
+  }
+}
+
+
+extension Platform {
+  static var shellName: String? {
+    #if os(Windows)
+    return nil
+    #else
+    guard let shellVar = Environment[.shell] else { return nil }
+    let shellParts = shellVar.split(separator: "/")
+    return shellParts.last.map(String.init)
+    #endif
+  }
+}
+
+
+#if os(Windows)
+import func WinSDK.GetStdHandle
+import func WinSDK.GetConsoleScreenBufferInfo
+import let WinSDK.ERROR_BAD_ARGUMENTS
+import let WinSDK.STD_OUTPUT_HANDLE
+import struct WinSDK.CONSOLE_SCREEN_BUFFER_INFO
+#endif
+
+extension Platform {
+  static var exitCodeSuccess: Int32 {
+    EXIT_SUCCESS
+  }
+
+  static var exitCodeFailure: Int32 {
+    EXIT_FAILURE
+  }
+
+  static var exitCodeValidationFailure: Int32 {
+    #if os(Windows)
+    return Int32(ERROR_BAD_ARGUMENTS)
+    #elseif os(WASI)
+    return EXIT_FAILURE
+    #else
+    return EX_USAGE
+    #endif
+  }
+}
+
+
+extension Platform {
+  static func exit(_ code: Int32) -> Never {
+    #if canImport(Glibc)
+    Glibc.exit(code)
+    #elseif canImport(Musl)
+    Musl.exit(code)
+    #elseif canImport(Darwin)
+    Darwin.exit(code)
+    #elseif canImport(CRT)
+    ucrt._exit(code)
+    #elseif canImport(WASILibc)
+    WASILibc.exit(code)
+    #elseif canImport(Android)
+    Android.exit(code)
+    #endif
+  }
+}
+
+
+extension Platform {
+  struct StandardError: TextOutputStream {
+    mutating func write(_ string: String) {
+      for byte in string.utf8 { putc(numericCast(byte), stderr) }
+    }
+  }
+
+  static var standardError: StandardError {
+    StandardError()
+  }
+}
+
+
+#if canImport(Glibc) || canImport(Android)
+func ioctl(_ a: Int32, _ b: Int32, _ p: UnsafeMutableRawPointer) -> Int32 {
+  ioctl(CInt(a), UInt(b), p)
+}
+#endif
+
+extension Platform {
+  private static var defaultTerminalSize: (width: Int, height: Int) {
+    (width: 80, height: 25)
+  }
+
+  private static func userSpecifiedTerminalSize() -> (width: Int?, height: Int?)
+  {
+    var width: Int? = nil
+    var height: Int? = nil
+
+    #if !os(Windows) && !os(WASI)
+    if let columns = Platform.Environment[.columns, as: Int.self] {
+      width = columns
+    }
+    if let lines = Platform.Environment[.lines, as: Int.self] {
+      height = lines
+    }
+    #endif
+
+    return (width: width, height: height)
+  }
+
+  private static func reportedTerminalSize() -> (width: Int?, height: Int?) {
+    #if os(WASI)
+    return (width: nil, height: nil)
+    #elseif os(Windows)
+    var csbi = CONSOLE_SCREEN_BUFFER_INFO()
+    guard GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)
+    else {
+      return (width: nil, height: nil)
+    }
+    return (
+      width: Int(csbi.srWindow.Right - csbi.srWindow.Left) + 1,
+      height: Int(csbi.srWindow.Bottom - csbi.srWindow.Top) + 1
+    )
+    #else
+    var w = winsize()
+
+    #if os(OpenBSD)
+    let tiocgwinsz = Int32(0x4008_7468)
+    let err = ioctl(STDOUT_FILENO, tiocgwinsz, &w)
+    #elseif canImport(Musl)
+    let err = ioctl(STDOUT_FILENO, UInt(TIOCGWINSZ), &w)
+    #else
+    let err = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w)
+    #endif
+    guard err == 0 else { return (width: nil, height: nil) }
+
+    let width = Int(w.ws_col)
+    let height = Int(w.ws_row)
+
+    return (
+      width: width > 0 ? width : nil,
+      height: height > 0 ? height : nil
+    )
+    #endif
+  }
+
+  static func terminalSize() -> (width: Int, height: Int) {
+    let specifiedSize = self.userSpecifiedTerminalSize()
+
+    if let specifiedWidth = specifiedSize.width,
+      let specifiedHeight = specifiedSize.height
+    {
+      return (width: specifiedWidth, height: specifiedHeight)
+    }
+
+    let reportedSize = self.reportedTerminalSize()
+
+    return (
+      width: specifiedSize.width ?? reportedSize.width
+        ?? defaultTerminalSize.width,
+      height: specifiedSize.height ?? reportedSize.height
+        ?? defaultTerminalSize.height
+    )
+  }
+
+  static var terminalWidth: Int {
+    self.terminalSize().width
+  }
+}

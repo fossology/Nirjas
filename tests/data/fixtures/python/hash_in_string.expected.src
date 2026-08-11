@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+
+URL = "https://example.invalid/#fragment"
+PATTERN = "# not a comment, just a string"
+CONTINUED = "trailing hash # \
+still inside the string"
+
+
+def add(x, y):
+    return x + y  

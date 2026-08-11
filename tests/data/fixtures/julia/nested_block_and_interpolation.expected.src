@@ -1,0 +1,5 @@
+count = 1
+text = "# not a comment $count"
+
+#= outer #= nested block =# still outer =#
+println(text)  

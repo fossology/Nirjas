@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "filename": "operator_versus_comment.hs",
+    "lang": "Haskell",
+    "total_lines": 12,
+    "total_lines_of_comments": 2,
+    "blank_lines": 3,
+    "sloc": 7
+  },
+  "single_line_comment": [
+    {
+      "line_number": 3,
+      "comment": "a genuine line comment"
+    },
+    {
+      "line_number": 5,
+      "comment": "the operator above is user-defined, not comment syntax"
+    },
+    {
+      "line_number": 12,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 10,
+      "end_line": 10,
+      "comment": "outer {- nested block -} still outer"
+    }
+  ]
+}

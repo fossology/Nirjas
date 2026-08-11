@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "filename": "heredoc_and_parameter_expansion.sh",
+    "lang": "Shell",
+    "total_lines": 10,
+    "total_lines_of_comments": 0,
+    "blank_lines": 2,
+    "sloc": 8
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "!/bin/sh"
+    },
+    {
+      "line_number": 3,
+      "comment": "strips a prefix; that hash is expansion syntax"
+    },
+    {
+      "line_number": 10,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

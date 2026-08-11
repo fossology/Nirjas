@@ -1,0 +1,7 @@
+<?php
+$plain = "// not a comment";
+$nowdoc = <<<'TXT'
+# not a comment inside a nowdoc
+TXT;
+
+echo $plain; 

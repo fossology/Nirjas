@@ -1,0 +1,8 @@
+.background {
+    background: url(http://example.invalid/not-a-comment.png);
+}
+.content {
+    content: "/* not a comment */";
+}
+
+.last { color: red; } 

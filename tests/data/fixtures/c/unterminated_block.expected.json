@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "filename": "unterminated_block.c",
+    "lang": "C",
+    "total_lines": 3,
+    "total_lines_of_comments": 0,
+    "blank_lines": 0,
+    "sloc": 3
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

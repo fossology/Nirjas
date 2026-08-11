@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "filename": "Utf8.hs",
+    "lang": "Haskell",
+    "total_lines": 318,
+    "total_lines_of_comments": 15,
+    "blank_lines": 34,
+    "sloc": 269
+  },
+  "single_line_comment": [
+    {
+      "line_number": 23,
+      "comment": "Decomposition"
+    },
+    {
+      "line_number": 27,
+      "comment": "Construction"
+    },
+    {
+      "line_number": 31,
+      "comment": "* Validation"
+    },
+    {
+      "line_number": 36,
+      "comment": "* Naive decoding"
+    },
+    {
+      "line_number": 57,
+      "comment": "harmless to import, except for warnings that it is unused."
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 70,
+      "end_line": 76,
+      "comment": "-- This is a branchless version of -- utf8Length c --   | ord c < 0x80    = 1 --   | ord c < 0x800   = 2 --   | ord c < 0x10000 = 3 --   | otherwise       = 4 -- Implementation suggested by Alex Mason."
+    },
+    {
+      "start_line": 249,
+      "end_line": 251,
+      "comment": "------------------------------------------------------------------------------- -- Naive UTF8 decoder. -- See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for the explanation of the state machine."
+    }
+  ]
+}

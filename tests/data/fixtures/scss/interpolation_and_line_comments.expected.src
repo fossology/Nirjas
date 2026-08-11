@@ -1,0 +1,7 @@
+$label: "not a comment";
+
+.interpolated {
+    content: "// #{$label}";
+}
+
+.last { color: red; } 

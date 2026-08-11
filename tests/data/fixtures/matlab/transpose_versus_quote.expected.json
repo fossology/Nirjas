@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "filename": "transpose_versus_quote.m",
+    "lang": "MATLAB",
+    "total_lines": 8,
+    "total_lines_of_comments": 3,
+    "blank_lines": 1,
+    "sloc": 4
+  },
+  "single_line_comment": [
+    {
+      "line_number": 2,
+      "comment": "an apostrophe here is transpose, not a string"
+    },
+    {
+      "line_number": 8,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 5,
+      "end_line": 7,
+      "comment": "A block comment delimited by %{ and %}"
+    }
+  ]
+}

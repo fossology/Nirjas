@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "filename": "doc_comments_and_raw_string.rs",
+    "lang": "Rust",
+    "total_lines": 7,
+    "total_lines_of_comments": 3,
+    "blank_lines": 2,
+    "sloc": 2
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "Inner doc comment for the module."
+    },
+    {
+      "line_number": 3,
+      "comment": "Outer doc comment for the constant."
+    },
+    {
+      "line_number": 7,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": "Inner doc comment for the module."
+    },
+    {
+      "start_line": 3,
+      "end_line": 4,
+      "comment": "Outer doc comment for the constant."
+    },
+    {
+      "start_line": 6,
+      "end_line": 6,
+      "comment": "outer /* nested block */ still outer"
+    }
+  ]
+}

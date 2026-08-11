@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "index.html",
+    "lang": "HTML",
+    "total_lines": 67,
+    "total_lines_of_comments": 2,
+    "blank_lines": 7,
+    "sloc": 58
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 4,
+      "end_line": 4,
+      "comment": "Required meta tags"
+    },
+    {
+      "start_line": 8,
+      "end_line": 8,
+      "comment": "Bootstrap CSS"
+    }
+  ]
+}

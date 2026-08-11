@@ -1,0 +1,6 @@
+object Demo {
+  val count = 1
+  val interpolated = s"// not a comment $count"
+
+  def main(args: Array[String]): Unit = println(interpolated) 
+}

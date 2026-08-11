@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "filename": "Platform.swift",
+    "lang": "Swift",
+    "total_lines": 333,
+    "total_lines_of_comments": 80,
+    "blank_lines": 38,
+    "sloc": 215
+  },
+  "single_line_comment": [
+    {
+      "line_number": 35,
+      "comment": "MARK: Environment"
+    },
+    {
+      "line_number": 116,
+      "comment": "MARK: Shell"
+    },
+    {
+      "line_number": 125,
+      "comment": "FIXME: This retrieves the user's preferred shell, not necessarily the one currently in use."
+    },
+    {
+      "line_number": 133,
+      "comment": "MARK: Exit codes"
+    },
+    {
+      "line_number": 144,
+      "comment": "/ The code for successful exit."
+    },
+    {
+      "line_number": 149,
+      "comment": "/ The code for exit with a general failure."
+    },
+    {
+      "line_number": 154,
+      "comment": "/ The code for exit with a validation failure."
+    },
+    {
+      "line_number": 166,
+      "comment": "MARK: Exit function"
+    },
+    {
+      "line_number": 169,
+      "comment": "/ Complete execution with the given exit code."
+    },
+    {
+      "line_number": 187,
+      "comment": "MARK: Standard error"
+    },
+    {
+      "line_number": 190,
+      "comment": "/ A type that represents the `stderr` output stream."
+    },
+    {
+      "line_number": 197,
+      "comment": "/ The `stderr` output stream."
+    },
+    {
+      "line_number": 203,
+      "comment": "MARK: Terminal size"
+    },
+    {
+      "line_number": 212,
+      "comment": "/ The default terminal size."
+    },
+    {
+      "line_number": 268,
+      "comment": "WASI doesn't yet support terminal size"
+    },
+    {
+      "line_number": 284,
+      "comment": "TIOCGWINSZ is a complex macro, so we need the flattened value."
+    },
+    {
+      "line_number": 304,
+      "comment": "/ Returns the current terminal size, or the default if the size is unavailable."
+    },
+    {
+      "line_number": 308,
+      "comment": "Avoid needlessly calling ioctl() if a complete override is in effect"
+    },
+    {
+      "line_number": 315,
+      "comment": "Get the size self-reported by the terminal, if available"
+    },
+    {
+      "line_number": 329,
+      "comment": "/ The current terminal size, or the default if the width is unavailable."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 10,
+      "comment": " ===----------------------------------------------------------------------===//  This source file is part of the Swift Argument Parser open source project  Copyright (c) 2020 Apple Inc. and the Swift project authors Licensed under Apache License v2.0 with Runtime Library Exception  See https://swift.org/LICENSE.txt for license information  ===----------------------------------------------------------------------===//"
+    },
+    {
+      "start_line": 13,
+      "end_line": 15,
+      "comment": " / Accesses the command line arguments in a concurrency-safe way. / / Workaround for https://github.com/apple/swift/issues/66213"
+    },
+    {
+      "start_line": 44,
+      "end_line": 48,
+      "comment": " / The name of the environment variable whose value is the name of the shell / for which completions are being requested from a custom completion / handler. / / The environment variable is set in generated completion scripts."
+    },
+    {
+      "start_line": 51,
+      "end_line": 55,
+      "comment": " / The name of the environment variable whose value is the version of the / shell for which completions are being requested from a custom completion / handler. / / The environment variable is set in generated completion scripts."
+    },
+    {
+      "start_line": 119,
+      "end_line": 120,
+      "comment": " / The name of the user's preferred shell, if detectable from the / environment."
+    },
+    {
+      "start_line": 217,
+      "end_line": 244,
+      "comment": " / The terminal size specified by the COLUMNS and LINES overrides / (if present). / / Per the [Linux environ(7) manpage][linenv]: / / ``` / * COLUMNS and LINES tell applications about the window size, /   possibly overriding the actual size. / ``` / / And the [FreeBSD environ(7) version][bsdenv]: / / ``` / COLUMNS    The user's preferred width in column positions for the /            terminal.  Utilities such as ls(1) and who(1) use this /            to format output into columns.   If  unset  or  empty, /            utilities  will use an ioctl(2) call to ask the termi- /            nal driver for the width. / ``` / / > Note: Always returns `(nil, nil)` on Windows and WASI. / / - Returns: A tuple consisting of a width found in the `COLUMNS` environment /   variable (or `nil` if the variable is not present) and a height found in /   the `LINES` environment variable (or `nil` if that variable is not present). / / [linenv]: https://man7.org/linux/man-pages/man7/environ.7.html:~:text=COLUMNS / [bsdenv]: https://man.freebsd.org/cgi/man.cgi?environ(7)#:~:text=COLUMNS"
+    },
+    {
+      "start_line": 262,
+      "end_line": 265,
+      "comment": " / The current terminal size as reported by the windowing system, / if available. / / Returns (nil, nil) if no reported size is available."
+    },
+    {
+      "start_line": 318,
+      "end_line": 320,
+      "comment": " As it isn't required that both width and height always be specified together, either by the user or the terminal itself, they are handled separately."
+    }
+  ],
+  "multi_line_comment": []
+}

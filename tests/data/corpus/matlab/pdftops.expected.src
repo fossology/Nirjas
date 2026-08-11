@@ -1,0 +1,133 @@
+function varargout = pdftops(cmd)
+
+
+
+    if nargin < 1
+        xpdf_path();  
+        return        
+    end
+
+    [varargout{1:nargout}] = system([xpdf_command(xpdf_path()) cmd]);
+end
+
+function path_ = xpdf_path
+    path_ = user_string('pdftops');
+    if check_xpdf_path(path_)
+        return
+    end
+    if ispc
+        bin = 'pdftops.exe';
+    else
+        bin = 'pdftops';
+    end
+    if check_store_xpdf_path(bin)
+        path_ = bin;
+        return
+    end
+    if ispc
+        paths = {'C:\Program Files\xpdf\pdftops.exe', 'C:\Program Files (x86)\xpdf\pdftops.exe'};
+    else
+        paths = {'/usr/bin/pdftops', '/usr/local/bin/pdftops'};
+    end
+    for a = 1:numel(paths)
+        path_ = paths{a};
+        if check_store_xpdf_path(path_)
+            return
+        end
+    end
+
+    errMsg1 = 'Pdftops utility not found. Please locate the program, or install xpdf-tools from ';
+    url1 = 'http://xpdfreader.com/download.html'; 
+    errMsg2 = '"Xpdf command line tools" section';
+    fprintf(2, '%s%s (%s)\n', errMsg1, hyperlink(url1), errMsg2);
+    errMsg1 = [errMsg1 url1];
+
+    if isdeployed
+        errMsg2 = ['(' errMsg2 '. Ensure to install xpdf-tools, not XpdfReader)'];
+        errMsg = {errMsg1,errMsg2};
+    else
+        errMsg2 = 'If pdftops is installed, maybe Matlab is shadowing it, as described in ';
+        url2 = 'https://github.com/altmany/export_fig/issues/137';
+        fprintf(2, '%s%s\n', errMsg2, hyperlink(url2,'issue #137'));
+        errMsg2 = [errMsg2 url2];
+
+        errMsg3 = 'Or perhaps you installed XpdfReader but not xpdf-tools, as described in ';
+        url3 = 'https://github.com/altmany/export_fig/issues/311';
+        fprintf(2, '%s%s\n', errMsg3, hyperlink(url3,'issue #311'));
+        errMsg3 = [errMsg3 url3];
+
+        errMsg = {errMsg1,'',errMsg2,'',errMsg3};
+    end
+
+    state = 1;
+    while ~isdeployed  
+        if state
+            option1 = 'Install pdftops';
+        else
+            option1 = 'Issue #137';
+        end
+        answer = questdlg(errMsg,'Pdftops error',option1,'Locate pdftops','Ignore','Ignore');
+        drawnow;  
+        switch answer
+            case 'Install pdftops'
+                web('-browser',url1);
+                state = 0;
+            case 'Issue #137'
+                web('-browser',url2);
+                state = 1;
+            case 'Locate pdftops'
+                base = uigetdir('/', errMsg1);
+                if isequal(base, 0)
+                    break
+                end
+                base = [base filesep]; 
+                bin_dir = {'', ['bin' filesep], ['lib' filesep]};
+                for a = 1:numel(bin_dir)
+                    path_ = [base bin_dir{a} bin];
+                    if exist(path_, 'file') == 2
+                        break
+                    end
+                end
+                if check_store_xpdf_path(path_)
+                    return
+                end
+
+            otherwise  
+                break
+        end
+    end
+    error('pdftops executable not found.');
+end
+
+function good = check_store_xpdf_path(path_)
+    good = check_xpdf_path(path_);
+    if ~good
+        return
+    end
+    if ~user_string('pdftops', path_)
+        [unused, filename] = user_string('pdftops'); 
+        warning('export_fig:pdftops','Path to pdftops executable could not be saved. Enter it manually in %s.', filename);
+        return
+    end
+end
+
+function good = check_xpdf_path(path_)
+    [good, message] = system([xpdf_command(path_) '-h']); 
+    good = ~isempty(strfind(message, 'PostScript')); 
+
+    if ~good && exist(path_,'file') && ~isempty(regexp(path_,'[/.]')) 
+        fprintf('Error running %s:\n', path_);
+        fprintf(2,'%s\n\n',message);
+    end
+end
+
+function cmd = xpdf_command(path_)
+    shell_cmd = '';
+    if isunix
+        shell_cmd = 'export LD_LIBRARY_PATH=""; ';
+    end
+    if ismac
+        shell_cmd = 'export DYLD_LIBRARY_PATH=""; ';
+    end
+    cmd = sprintf('%s"%s" ', shell_cmd, path_);
+end

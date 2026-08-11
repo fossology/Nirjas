@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "nowdoc_and_hash_comment.php",
+    "lang": "PHP",
+    "total_lines": 8,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 6
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [
+    {
+      "start_line": 7,
+      "end_line": 8,
+      "comment": " a hash-style comment trailing comment after code"
+    }
+  ],
+  "multi_line_comment": []
+}

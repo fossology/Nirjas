@@ -1,0 +1,8 @@
+use strict;
+
+my @list = (1, 2, 3);
+my $last = $#list;        
+my $text = "# not a comment";
+
+
+print $text; 

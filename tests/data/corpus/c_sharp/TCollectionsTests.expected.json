@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "filename": "TCollectionsTests.cs",
+    "lang": "C#",
+    "total_lines": 240,
+    "total_lines_of_comments": 20,
+    "blank_lines": 30,
+    "sloc": 190
+  },
+  "single_line_comment": [
+    {
+      "line_number": 28,
+      "comment": "ReSharper disable once InconsistentNaming"
+    },
+    {
+      "line_number": 32,
+      "comment": "TODO: Add tests for IEnumerable with objects and primitive values inside"
+    },
+    {
+      "line_number": 71,
+      "comment": "SequenceEqual() calls Equals() of the inner list instead of SequenceEqual()"
+    },
+    {
+      "line_number": 120,
+      "comment": "SequenceEqual() calls Equals() of the inner list instead of SequenceEqual()"
+    },
+    {
+      "line_number": 127,
+      "comment": "references to one and the same collection"
+    },
+    {
+      "line_number": 197,
+      "comment": "SequenceEqual() calls Equals() of the inner list instead of SequenceEqual()"
+    },
+    {
+      "line_number": 218,
+      "comment": "all Thrift-generated classes override Equals(), we do just the same"
+    },
+    {
+      "line_number": 227,
+      "comment": "overriding Equals() requires GetHashCode() as well"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 16,
+      "comment": " Licensed to the Apache Software Foundation(ASF) under one or more contributor license agreements.See the NOTICE file distributed with this work for additional information regarding copyright ownership.The ASF licenses this file to you under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+    }
+  ],
+  "multi_line_comment": []
+}

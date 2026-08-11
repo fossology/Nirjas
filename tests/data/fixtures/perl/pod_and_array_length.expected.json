@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "filename": "pod_and_array_length.pl",
+    "lang": "Perl",
+    "total_lines": 11,
+    "total_lines_of_comments": 3,
+    "blank_lines": 3,
+    "sloc": 5
+  },
+  "single_line_comment": [
+    {
+      "line_number": 4,
+      "comment": "the sigil above is array length, not comment syntax"
+    },
+    {
+      "line_number": 11,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 7,
+      "end_line": 9,
+      "comment": "A POD block, which is documentation rather than code."
+    }
+  ]
+}

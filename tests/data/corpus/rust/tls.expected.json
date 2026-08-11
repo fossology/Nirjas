@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "filename": "tls.rs",
+    "lang": "Rust",
+    "total_lines": 301,
+    "total_lines_of_comments": 48,
+    "blank_lines": 38,
+    "sloc": 215
+  },
+  "single_line_comment": [
+    {
+      "line_number": 57,
+      "comment": "Wrap an already-connected TCP stream and complete a TLS handshake."
+    },
+    {
+      "line_number": 81,
+      "comment": "Return the read timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 86,
+      "comment": "Return the write timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 91,
+      "comment": "Set the read timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 96,
+      "comment": "Set the write timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 101,
+      "comment": "Set the read and write timeouts of the underlying TCP stream."
+    },
+    {
+      "line_number": 111,
+      "comment": "Send a TLS close notification and shut down the underlying TCP stream."
+    },
+    {
+      "line_number": 153,
+      "comment": "Wrap an already-connected TCP stream without blocking for a handshake."
+    },
+    {
+      "line_number": 186,
+      "comment": "Return the read timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 191,
+      "comment": "Return the write timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 196,
+      "comment": "Set the read timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 201,
+      "comment": "Set the write timeout of the underlying TCP stream."
+    },
+    {
+      "line_number": 206,
+      "comment": "Set the read and write timeouts of the underlying TCP stream."
+    },
+    {
+      "line_number": 216,
+      "comment": "Send a TLS close notification and shut down the underlying TCP stream."
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 16,
+      "comment": " Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+    },
+    {
+      "start_line": 33,
+      "end_line": 38,
+      "comment": " A blocking rustls client channel.  The caller supplies a fully configured rustls [`ClientConfig`], including its crypto provider, server-certificate verifier, optional client identity, and protocol policy. The TLS handshake completes according to that configuration before [`connect`](Self::connect) returns."
+    },
+    {
+      "start_line": 45,
+      "end_line": 46,
+      "comment": " Connect to `remote_address` and complete a TLS handshake for `server_name`."
+    },
+    {
+      "start_line": 142,
+      "end_line": 146,
+      "comment": " A blocking rustls server channel.  Construction does not perform socket I/O. The TLS handshake is completed lazily by the first read or write, allowing a server accept loop to enqueue the connection without waiting on an untrusted peer."
+    },
+    {
+      "start_line": 167,
+      "end_line": 171,
+      "comment": " Complete the TLS handshake immediately.  If the handshake is already complete this returns without performing socket I/O. If the stream cannot make progress, the connection state is retained so the caller can retry."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 33,
+      "end_line": 34,
+      "comment": "A blocking rustls client channel."
+    },
+    {
+      "start_line": 34,
+      "end_line": 35,
+      "comment": ""
+    },
+    {
+      "start_line": 35,
+      "end_line": 36,
+      "comment": "The caller supplies a fully configured rustls [`ClientConfig`], including"
+    },
+    {
+      "start_line": 36,
+      "end_line": 37,
+      "comment": "its crypto provider, server-certificate verifier, optional client identity,"
+    },
+    {
+      "start_line": 37,
+      "end_line": 38,
+      "comment": "and protocol policy. The TLS handshake completes according to that"
+    },
+    {
+      "start_line": 38,
+      "end_line": 39,
+      "comment": "configuration before [`connect`](Self::connect) returns."
+    },
+    {
+      "start_line": 45,
+      "end_line": 46,
+      "comment": "Connect to `remote_address` and complete a TLS handshake for"
+    },
+    {
+      "start_line": 46,
+      "end_line": 47,
+      "comment": "`server_name`."
+    },
+    {
+      "start_line": 57,
+      "end_line": 58,
+      "comment": "Wrap an already-connected TCP stream and complete a TLS handshake."
+    },
+    {
+      "start_line": 81,
+      "end_line": 82,
+      "comment": "Return the read timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 86,
+      "end_line": 87,
+      "comment": "Return the write timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 91,
+      "end_line": 92,
+      "comment": "Set the read timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 96,
+      "end_line": 97,
+      "comment": "Set the write timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 101,
+      "end_line": 102,
+      "comment": "Set the read and write timeouts of the underlying TCP stream."
+    },
+    {
+      "start_line": 111,
+      "end_line": 112,
+      "comment": "Send a TLS close notification and shut down the underlying TCP stream."
+    },
+    {
+      "start_line": 142,
+      "end_line": 143,
+      "comment": "A blocking rustls server channel."
+    },
+    {
+      "start_line": 143,
+      "end_line": 144,
+      "comment": ""
+    },
+    {
+      "start_line": 144,
+      "end_line": 145,
+      "comment": "Construction does not perform socket I/O. The TLS handshake is completed"
+    },
+    {
+      "start_line": 145,
+      "end_line": 146,
+      "comment": "lazily by the first read or write, allowing a server accept loop to enqueue"
+    },
+    {
+      "start_line": 146,
+      "end_line": 147,
+      "comment": "the connection without waiting on an untrusted peer."
+    },
+    {
+      "start_line": 153,
+      "end_line": 154,
+      "comment": "Wrap an already-connected TCP stream without blocking for a handshake."
+    },
+    {
+      "start_line": 167,
+      "end_line": 168,
+      "comment": "Complete the TLS handshake immediately."
+    },
+    {
+      "start_line": 168,
+      "end_line": 169,
+      "comment": ""
+    },
+    {
+      "start_line": 169,
+      "end_line": 170,
+      "comment": "If the handshake is already complete this returns without performing"
+    },
+    {
+      "start_line": 170,
+      "end_line": 171,
+      "comment": "socket I/O. If the stream cannot make progress, the connection state is"
+    },
+    {
+      "start_line": 171,
+      "end_line": 172,
+      "comment": "retained so the caller can retry."
+    },
+    {
+      "start_line": 186,
+      "end_line": 187,
+      "comment": "Return the read timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 191,
+      "end_line": 192,
+      "comment": "Return the write timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 196,
+      "end_line": 197,
+      "comment": "Set the read timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 201,
+      "end_line": 202,
+      "comment": "Set the write timeout of the underlying TCP stream."
+    },
+    {
+      "start_line": 206,
+      "end_line": 207,
+      "comment": "Set the read and write timeouts of the underlying TCP stream."
+    },
+    {
+      "start_line": 216,
+      "end_line": 217,
+      "comment": "Send a TLS close notification and shut down the underlying TCP stream."
+    }
+  ]
+}

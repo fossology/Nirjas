@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "multiline_string_and_nesting.swift",
+    "lang": "Swift",
+    "total_lines": 6,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 4
+  },
+  "single_line_comment": [
+    {
+      "line_number": 6,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 5,
+      "end_line": 5,
+      "comment": "outer /* nested block */ still outer"
+    }
+  ]
+}

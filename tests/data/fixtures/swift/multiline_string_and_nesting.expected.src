@@ -1,0 +1,5 @@
+let multiline = """
+// not a comment inside a multiline string
+"""
+
+func main() { _ = multiline } 

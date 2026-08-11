@@ -1,0 +1,9 @@
+.background {
+    background: url(http://example.invalid/not-a-comment.png);
+}
+.content {
+    content: "/* not a comment */";
+}
+
+/* a genuine block comment */
+.last { color: red; } /* trailing comment after code */

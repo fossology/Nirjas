@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "filename": "ci.R",
+    "lang": "R",
+    "total_lines": 196,
+    "total_lines_of_comments": 17,
+    "blank_lines": 6,
+    "sloc": 173
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "most of functions from R tools4pkgs branch"
+    },
+    {
+      "line_number": 2,
+      "comment": "https://github.com/wch/r-source/tree/tools4pkgs"
+    },
+    {
+      "line_number": 3,
+      "comment": "https://svn.r-project.org/R/branches/tools4pkgs/src/library/tools/R/packages.R"
+    },
+    {
+      "line_number": 5,
+      "comment": "added ver argument to produce R version independent urls"
+    },
+    {
+      "line_number": 6,
+      "comment": "https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=17420"
+    },
+    {
+      "line_number": 46,
+      "comment": "returns dependencies for a package based on its DESCRIPTION file"
+    },
+    {
+      "line_number": 74,
+      "comment": "do not filter out R like tools:::.extract_dependency_package_names, used for web/$pkg/index.html"
+    },
+    {
+      "line_number": 84,
+      "comment": "to exclude knitr/rmarkdown, 5294"
+    },
+    {
+      "line_number": 92,
+      "comment": "returns additional repositories for dependency packages based on its DESCRIPTION file"
+    },
+    {
+      "line_number": 107,
+      "comment": "Mirror subset of CRAN"
+    },
+    {
+      "line_number": 108,
+      "comment": "download dependencies recursively for provided packages"
+    },
+    {
+      "line_number": 109,
+      "comment": "put all downloaded packages into local repository"
+    },
+    {
+      "line_number": 122,
+      "comment": "edge case friendly"
+    },
+    {
+      "line_number": 153,
+      "comment": "possible interactive CRAN menu"
+    },
+    {
+      "line_number": 158,
+      "comment": "do not re-download existing packages with the right version"
+    },
+    {
+      "line_number": 166,
+      "comment": "source packages are considered mandatory due to _R_CHECK_FORCE_SUGGESTS_=true policy"
+    },
+    {
+      "line_number": 178,
+      "comment": "clean up stale package files for which new versions will be downloaded"
+    },
+    {
+      "line_number": 188,
+      "comment": "repos argument is not used in download.packages, only as default for contriburl argument"
+    },
+    {
+      "line_number": 189,
+      "comment": "we provide contriburl to avoid interactive CRAN menu popup twice in mirror.packages"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

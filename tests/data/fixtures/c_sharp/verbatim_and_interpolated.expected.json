@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "filename": "verbatim_and_interpolated.cs",
+    "lang": "C#",
+    "total_lines": 6,
+    "total_lines_of_comments": 0,
+    "blank_lines": 1,
+    "sloc": 5
+  },
+  "single_line_comment": [
+    {
+      "line_number": 5,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

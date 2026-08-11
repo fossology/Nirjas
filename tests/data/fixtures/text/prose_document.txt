@@ -1,0 +1,7 @@
+Nirjas test fixture: plain prose.
+
+A .txt file has no code, so the text handler reports the whole document as a
+single comment span and zero lines of code. This fixture pins that behaviour.
+
+The line below is indented but still prose.
+    indented prose line

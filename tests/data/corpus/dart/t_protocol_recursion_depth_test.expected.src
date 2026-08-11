@@ -1,0 +1,139 @@
+
+
+library thrift.test.recursion_depth_test;
+
+import 'dart:typed_data' show Uint8List;
+
+import 'package:test/test.dart';
+import 'package:thrift/thrift.dart';
+import 'package:Recursive/Recursive.dart';
+
+const int kRecursionLimit = 64;
+
+CoRec? makeNestedRecs(int depth) =>
+    depth <= 0 ? null : (CoRec()..other = makeNestedCoRec2(depth - 1));
+
+CoRec2? makeNestedCoRec2(int depth) =>
+    depth <= 0 ? null : (CoRec2()..other = makeNestedRecs(depth - 1));
+
+CoError? makeNestedError(int depth) =>
+    depth <= 0 ? null : (CoError()..other = makeNestedError2(depth - 1));
+
+CoError2? makeNestedError2(int depth) =>
+    depth <= 0 ? null : (CoError2()..other = makeNestedError(depth - 1));
+
+Uint8List writeWith(TBase obj, TProtocolFactory factory) =>
+    TSerializer(protocolFactory: factory).write(obj);
+
+void readWith(TBase into, Uint8List bytes, TProtocolFactory factory) =>
+    TDeserializer(protocolFactory: factory).read(into, bytes);
+
+Uint8List craftDeepChain(TProtocolFactory factory, int depth) {
+  final transport = TBufferedTransport();
+  final protocol = factory.getProtocol(transport);
+
+  void emit(int d) {
+    protocol.writeStructBegin(TStruct('CoRec'));
+    if (d > 1) {
+      protocol.writeFieldBegin(TField('other', TType.STRUCT, 1));
+      emit(d - 1);
+      protocol.writeFieldEnd();
+    }
+    protocol.writeFieldStop();
+    protocol.writeStructEnd();
+  }
+
+  emit(depth);
+  return transport.consumeWriteBuffer();
+}
+
+Uint8List craftDeepErrorChain(TProtocolFactory factory, int depth) {
+  final transport = TBufferedTransport();
+  final protocol = factory.getProtocol(transport);
+
+  void emit(int d) {
+    protocol.writeStructBegin(TStruct('CoError'));
+    if (d > 1) {
+      protocol.writeFieldBegin(TField('other', TType.STRUCT, 1));
+      emit(d - 1);
+      protocol.writeFieldEnd();
+    }
+    protocol.writeFieldStop();
+    protocol.writeStructEnd();
+  }
+
+  emit(depth);
+  return transport.consumeWriteBuffer();
+}
+
+final Matcher throwsDepthLimit = throwsA(predicate(
+    (e) => e is TProtocolError && e.type == TProtocolErrorType.DEPTH_LIMIT));
+
+void main() {
+  final factories = <String, TProtocolFactory>{
+    'binary': TBinaryProtocolFactory(),
+    'compact': TCompactProtocolFactory(),
+    'json': TJsonProtocolFactory(),
+  };
+
+  factories.forEach((name, factory) {
+    group('$name protocol', () {
+      test('round-trips a chain one below the limit', () {
+        final data = makeNestedRecs(kRecursionLimit - 1)!;
+        final bytes = writeWith(data, factory);
+        readWith(CoRec(), bytes, factory);
+      });
+
+      test('round-trips a chain exactly at the limit', () {
+        final data = makeNestedRecs(kRecursionLimit)!;
+        final bytes = writeWith(data, factory);
+        readWith(CoRec(), bytes, factory);
+      });
+
+      test('rejects writing a chain above the limit', () {
+        final data = makeNestedRecs(kRecursionLimit + 1)!;
+        expect(() => writeWith(data, factory), throwsDepthLimit);
+      });
+
+      test('rejects reading a payload above the limit', () {
+        final bytes = craftDeepChain(factory, kRecursionLimit + 1);
+        expect(() => readWith(CoRec(), bytes, factory), throwsDepthLimit);
+      });
+
+      test('round-trips a wide (shallow) structure', () {
+        final tree = RecTree()
+          ..item = 0
+          ..children = <RecTree>[];
+        for (var i = 0; i < (kRecursionLimit * 3); i++) {
+          tree.children!.add(RecTree()
+            ..item = i
+            ..children = <RecTree>[]);
+        }
+        final bytes = writeWith(tree, factory);
+        readWith(RecTree(), bytes, factory);
+      });
+
+      test('rejects a cyclic object graph', () {
+        final data = makeNestedRecs(2)!; 
+        data.other!.other = data; 
+        expect(() => writeWith(data, factory), throwsDepthLimit);
+      });
+
+      test('round-trips an exception exactly at the limit', () {
+        final data = makeNestedError(kRecursionLimit)!;
+        final bytes = writeWith(data, factory);
+        readWith(CoError(), bytes, factory);
+      });
+
+      test('rejects writing an exception above the limit', () {
+        final data = makeNestedError(kRecursionLimit + 1)!;
+        expect(() => writeWith(data, factory), throwsDepthLimit);
+      });
+
+      test('rejects reading an exception payload above the limit', () {
+        final bytes = craftDeepErrorChain(factory, kRecursionLimit + 1);
+        expect(() => readWith(CoError(), bytes, factory), throwsDepthLimit);
+      });
+    });
+  });
+}

@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "filename": "update.sh",
+    "lang": "Shell",
+    "total_lines": 142,
+    "total_lines_of_comments": 0,
+    "blank_lines": 29,
+    "sloc": 113
+  },
+  "single_line_comment": [
+    {
+      "line_number": 1,
+      "comment": "!/bin/sh"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

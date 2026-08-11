@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "filename": "nonblocking_server.rb",
+    "lang": "Ruby",
+    "total_lines": 336,
+    "total_lines_of_comments": 35,
+    "blank_lines": 31,
+    "sloc": 270
+  },
+  "single_line_comment": [
+    {
+      "line_number": 25,
+      "comment": "this class expects to always use a FramedTransport for reading messages"
+    },
+    {
+      "line_number": 67,
+      "comment": "we must be shutting down"
+    },
+    {
+      "line_number": 86,
+      "comment": "this will break the accept loop"
+    },
+    {
+      "line_number": 104,
+      "comment": ":nodoc:"
+    },
+    {
+      "line_number": 212,
+      "comment": "now read the signals"
+    },
+    {
+      "line_number": 234,
+      "comment": "don't explicitly close it, a thread may still be writing to it"
+    },
+    {
+      "line_number": 293,
+      "comment": ":nodoc:"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 19,
+      "comment": " frozen_string_literal: true  Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. "
+    },
+    {
+      "start_line": 51,
+      "end_line": 52,
+      "comment": " In Ruby 1.9, calling @server_transport.close in shutdown paths causes the select() to raise an Errno::EBADF. If this happens, ignore it and retry the loop."
+    },
+    {
+      "start_line": 81,
+      "end_line": 82,
+      "comment": " nonblocking is intended for calling from within a Handler but we can't change the order of operations here, so lets thread"
+    },
+    {
+      "start_line": 208,
+      "end_line": 210,
+      "comment": " clear the signal pipe note that since read_nonblock is broken in jruby, we can only read up to a set number of signals at once"
+    },
+    {
+      "start_line": 225,
+      "end_line": 229,
+      "comment": " out of signals note that in a perfect world this would never happen, since we're only reading the number of signals pushed on the pipe, but given the lack of locks, in theory we could clear the pipe/queue while a new signal is being placed on the pipe, at which point our next read_signals would hit this error"
+    }
+  ],
+  "multi_line_comment": []
+}

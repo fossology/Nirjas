@@ -1,0 +1,5 @@
+val count = 1
+val templated = "// not a comment $count"
+val raw = """/* not a comment */"""
+
+fun main() { println(templated) } 

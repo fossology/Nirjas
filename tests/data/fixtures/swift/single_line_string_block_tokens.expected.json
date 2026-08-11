@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "filename": "single_line_string_block_tokens.swift",
+    "lang": "Swift",
+    "total_lines": 4,
+    "total_lines_of_comments": 0,
+    "blank_lines": 1,
+    "sloc": 3
+  },
+  "single_line_comment": [
+    {
+      "line_number": 4,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

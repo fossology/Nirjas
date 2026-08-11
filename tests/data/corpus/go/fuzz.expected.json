@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "filename": "fuzz.go",
+    "lang": "Go",
+    "total_lines": 389,
+    "total_lines_of_comments": 61,
+    "blank_lines": 53,
+    "sloc": 275
+  },
+  "single_line_comment": [
+    {
+      "line_number": 38,
+      "comment": "10MB message size limit to prevent over-allocation during fuzzing"
+    },
+    {
+      "line_number": 76,
+      "comment": "Handle parse error"
+    },
+    {
+      "line_number": 153,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 158,
+      "comment": "Create transport and protocol"
+    },
+    {
+      "line_number": 162,
+      "comment": "Reset the buffer to release memory"
+    },
+    {
+      "line_number": 171,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 175,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 179,
+      "comment": "Successfully parsed"
+    },
+    {
+      "line_number": 184,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 189,
+      "comment": "Create transport and protocol"
+    },
+    {
+      "line_number": 193,
+      "comment": "Reset the buffer to release memory"
+    },
+    {
+      "line_number": 202,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 206,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 210,
+      "comment": "Successfully parsed"
+    },
+    {
+      "line_number": 215,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 220,
+      "comment": "Create transport and protocol"
+    },
+    {
+      "line_number": 224,
+      "comment": "Reset the buffer to release memory"
+    },
+    {
+      "line_number": 230,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 234,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 238,
+      "comment": "Successfully parsed"
+    },
+    {
+      "line_number": 243,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 252,
+      "comment": "First parse"
+    },
+    {
+      "line_number": 257,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 261,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 265,
+      "comment": "Serialize back"
+    },
+    {
+      "line_number": 273,
+      "comment": "Get serialized data and deserialize again"
+    },
+    {
+      "line_number": 285,
+      "comment": "Verify equality"
+    },
+    {
+      "line_number": 294,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 303,
+      "comment": "First parse"
+    },
+    {
+      "line_number": 308,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 312,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 316,
+      "comment": "Serialize back"
+    },
+    {
+      "line_number": 324,
+      "comment": "Get serialized data and deserialize again"
+    },
+    {
+      "line_number": 336,
+      "comment": "Verify equality"
+    },
+    {
+      "line_number": 345,
+      "comment": "Skip if input is too small"
+    },
+    {
+      "line_number": 350,
+      "comment": "First parse"
+    },
+    {
+      "line_number": 355,
+      "comment": "Try to read the FuzzTest structure"
+    },
+    {
+      "line_number": 359,
+      "comment": "Invalid input, but not a crash"
+    },
+    {
+      "line_number": 363,
+      "comment": "Serialize back"
+    },
+    {
+      "line_number": 371,
+      "comment": "Get serialized data and deserialize again"
+    },
+    {
+      "line_number": 383,
+      "comment": "Verify equality"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": " go:build gofuzz +build gofuzz"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 4,
+      "end_line": 21,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    }
+  ]
+}

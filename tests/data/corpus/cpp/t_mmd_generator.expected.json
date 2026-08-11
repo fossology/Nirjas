@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "filename": "t_mmd_generator.cc",
+    "lang": "C++",
+    "total_lines": 289,
+    "total_lines_of_comments": 47,
+    "blank_lines": 36,
+    "sloc": 206
+  },
+  "single_line_comment": [
+    {
+      "line_number": 117,
+      "comment": "get_objects() returns structs, unions and exceptions in declaration order"
+    },
+    {
+      "line_number": 170,
+      "comment": "named type: emit edge, no attribute line"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 92,
+      "end_line": 94,
+      "comment": " Override the base generate_program() to route exceptions through generate_struct (which renders the <<exception>> stereotype); the base class calls generate_xception, which has no override here and would silently drop exceptions from the diagram."
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    },
+    {
+      "start_line": 43,
+      "end_line": 49,
+      "comment": "* * Mermaid diagram code generator. * * Produces a classDiagram in Mermaid syntax from a Thrift IDL file. * When invoked with -r, one .mmd file is produced per .thrift file, each * containing only the types declared in that file."
+    },
+    {
+      "start_line": 101,
+      "end_line": 105,
+      "comment": "* * Emits all diagram-relevant types for one program: enums, typedefs, * structs/unions/exceptions (in declaration order), and services. * Constants are intentionally omitted."
+    },
+    {
+      "start_line": 232,
+      "end_line": 235,
+      "comment": "* * Returns the Mermaid-escaped string representation of a type. * Container generics use tilde syntax: list~T~, set~T~, map~K,V~."
+    },
+    {
+      "start_line": 251,
+      "end_line": 255,
+      "comment": "* * Writes the Mermaid type string to f_out_. When owner_ref is non-empty and * the type is a named (non-primitive, non-container) type, pushes a directed * edge to edges_. edge_label, when non-empty, is appended as \" : label\"."
+    },
+    {
+      "start_line": 269,
+      "end_line": 271,
+      "comment": "* * Returns comma-separated \"type name\" pairs for all function arguments."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "filename": "hash_in_string.py",
+    "lang": "Python",
+    "total_lines": 13,
+    "total_lines_of_comments": 3,
+    "blank_lines": 3,
+    "sloc": 7
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 2,
+      "comment": " !/usr/bin/env python3 a genuine single-line comment"
+    },
+    {
+      "start_line": 12,
+      "end_line": 13,
+      "comment": " a real comment inside a function trailing comment after code"
+    }
+  ],
+  "multi_line_comment": [
+    {
+      "start_line": 3,
+      "end_line": 3,
+      "comment": "Module docstring with a # inside ordinary prose."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+module Demo where
+
+(-->) :: Int -> Int -> Int
+x --> y = x + y           
+
+notAComment :: String
+notAComment = "-- not a comment"
+
+main :: IO ()
+main = putStrLn notAComment 

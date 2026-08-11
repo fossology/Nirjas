@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "filename": "javadoc_and_strings.java",
+    "lang": "Java",
+    "total_lines": 7,
+    "total_lines_of_comments": 1,
+    "blank_lines": 1,
+    "sloc": 5
+  },
+  "single_line_comment": [
+    {
+      "line_number": 6,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 1,
+      "comment": "* Javadoc block attached to the class."
+    }
+  ]
+}

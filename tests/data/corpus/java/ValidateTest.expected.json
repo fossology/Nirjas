@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "filename": "ValidateTest.java",
+    "lang": "Java",
+    "total_lines": 320,
+    "total_lines_of_comments": 49,
+    "blank_lines": 54,
+    "sloc": 217
+  },
+  "single_line_comment": [
+    {
+      "line_number": 37,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 40,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 53,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 56,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 73,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 77,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 86,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 89,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 98,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 101,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 112,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 115,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 124,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 131,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 190,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 193,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 207,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 210,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 216,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 225,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 228,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 237,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 240,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 249,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 252,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 261,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 264,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 273,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 277,
+      "comment": "Verify it throws."
+    },
+    {
+      "line_number": 295,
+      "comment": "Should not throw."
+    },
+    {
+      "line_number": 299,
+      "comment": "Verify it throws."
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 18,
+      "comment": "* Licensed to the Apache Software Foundation (ASF) under one * or more contributor license agreements. See the NOTICE file * distributed with this work for additional information * regarding copyright ownership. The ASF licenses this file * to you under the Apache License, Version 2.0 (the * \"License\"); you may not use this file except in compliance * with the License. You may obtain a copy of the License at * *   http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, * software distributed under the License is distributed on an * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY * KIND, either express or implied. See the License for the * specific language governing permissions and limitations * under the License."
+    }
+  ]
+}

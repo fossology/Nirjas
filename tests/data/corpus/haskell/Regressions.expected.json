@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "filename": "Regressions.hs",
+    "lang": "Haskell",
+    "total_lines": 236,
+    "total_lines_of_comments": 29,
+    "blank_lines": 22,
+    "sloc": 185
+  },
+  "single_line_comment": [
+    {
+      "line_number": 48,
+      "comment": "If disk is full (as it happens on some of our CI runners), it's not our issue, skip it"
+    },
+    {
+      "line_number": 61,
+      "comment": "If disk is full (as it happens on some of our CI runners), it's not our issue, skip it"
+    },
+    {
+      "line_number": 103,
+      "comment": "See GitHub #197"
+    },
+    {
+      "line_number": 162,
+      "comment": "Stream decoders should not loop on incomplete code points"
+    },
+    {
+      "line_number": 172,
+      "comment": "Stream decoders skip one invalid byte at a time"
+    },
+    {
+      "line_number": 185,
+      "comment": "https://github.com/haskell/bytestring/issues/575"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 40,
+      "end_line": 42,
+      "comment": "-- Reported by Michael Snoyman: UTF-8 encoding a large lazy bytestring -- caused either a segfault or attempt to allocate a negative number -- of bytes."
+    },
+    {
+      "start_line": 53,
+      "end_line": 55,
+      "comment": "-- Reported by Pieter Laeremans: attempting to read an incorrectly -- encoded file can result in a crash in the RTS (i.e. not merely an -- exception)."
+    },
+    {
+      "start_line": 72,
+      "end_line": 74,
+      "comment": "-- Reported by Ian Lynagh: attempting to allocate a sufficiently large -- string (via either Array.new or Text.replicate) could result in an -- integer overflow."
+    },
+    {
+      "start_line": 83,
+      "end_line": 85,
+      "comment": "-- Reported by John Millikin: a UTF-8 decode error handler could -- return a bogus substitution character, which we would write without -- checking."
+    },
+    {
+      "start_line": 91,
+      "end_line": 92,
+      "comment": "-- Reported by Eric Seidel: we mishandled mapping Chars that fit in a -- single Word16 to Chars that require two."
+    },
+    {
+      "start_line": 137,
+      "end_line": 141,
+      "comment": "-- See GitHub issue #301 -- This tests whether the \"TEXT take . drop -> unfused\" rule is applied to the -- slice function. When the slice function is fused, a new array will be -- constructed that is shorter than the original array. Without fusion the -- array remains unmodified."
+    },
+    {
+      "start_line": 190,
+      "end_line": 191,
+      "comment": "-- See Github #559 -- filter/filter fusion rules should apply predicates in the right order."
+    },
+    {
+      "start_line": 197,
+      "end_line": 198,
+      "comment": "-- Github #633 -- stimes checked for an `a` to `Int` to `a` roundtrip, but the `a` and `Int` values could represent different integers."
+    }
+  ]
+}

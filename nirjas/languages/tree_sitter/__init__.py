@@ -23,5 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 from nirjas.languages.tree_sitter.comment_span import CommentSpan
+from nirjas.languages.tree_sitter.comment_visitor import UnverifiedQuotedParentWarning
 
-__all__ = ["CommentSpan"]
+__all__ = ["CommentSpan", "UnverifiedQuotedParentWarning"]

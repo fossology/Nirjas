@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "filename": "regex_and_template_literal.js",
+    "lang": "JavaScript",
+    "total_lines": 5,
+    "total_lines_of_comments": 0,
+    "blank_lines": 1,
+    "sloc": 4
+  },
+  "single_line_comment": [
+    {
+      "line_number": 5,
+      "comment": "trailing comment after code"
+    }
+  ],
+  "cont_single_line_comment": [],
+  "multi_line_comment": []
+}

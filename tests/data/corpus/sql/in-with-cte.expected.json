@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "filename": "in-with-cte.sql",
+    "lang": "SQL",
+    "total_lines": 288,
+    "total_lines_of_comments": 19,
+    "blank_lines": 15,
+    "sloc": 254
+  },
+  "single_line_comment": [
+    {
+      "line_number": 69,
+      "comment": "TC 01.02"
+    },
+    {
+      "line_number": 98,
+      "comment": "TC 01.03"
+    },
+    {
+      "line_number": 151,
+      "comment": "TC 01.05"
+    },
+    {
+      "line_number": 177,
+      "comment": "TC 01.06"
+    },
+    {
+      "line_number": 200,
+      "comment": "TC 01.07"
+    },
+    {
+      "line_number": 217,
+      "comment": "TC 01.08"
+    },
+    {
+      "line_number": 258,
+      "comment": "TC 01.10"
+    }
+  ],
+  "cont_single_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 3,
+      "comment": " A test suite for in with cte in parent side, subquery, and both predicate subquery It includes correlated cases. ONLY_IF spark"
+    },
+    {
+      "start_line": 5,
+      "end_line": 6,
+      "comment": " CONFIG_DIM1 spark.sql.optimizeNullAwareAntiJoin=true CONFIG_DIM1 spark.sql.optimizeNullAwareAntiJoin=false"
+    },
+    {
+      "start_line": 51,
+      "end_line": 53,
+      "comment": " correlated IN subquery outside CTE TC 01.01"
+    },
+    {
+      "start_line": 127,
+      "end_line": 128,
+      "comment": " CTE inside and outside TC 01.04"
+    },
+    {
+      "start_line": 241,
+      "end_line": 242,
+      "comment": " CTE with NOT IN TC 01.09"
+    }
+  ],
+  "multi_line_comment": []
+}

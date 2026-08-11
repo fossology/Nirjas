@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "filename": "prose_document.txt",
+    "lang": "text",
+    "total_lines": 7,
+    "total_lines_of_comments": 5,
+    "blank_lines": 2,
+    "sloc": 0
+  },
+  "single_line_comment": [],
+  "cont_single_line_comment": [],
+  "multi_line_comment": [
+    {
+      "start_line": 1,
+      "end_line": 7,
+      "comment": "Nirjas test fixture: plain prose.A .txt file has no code, so the text handler reports the whole document as asingle comment span and zero lines of code. This fixture pins that behaviour.The line below is indented but still prose.indented prose line"
+    }
+  ]
+}
