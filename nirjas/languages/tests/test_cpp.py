@@ -13,7 +13,7 @@ class CPPTest(unittest.TestCase):
         sign = '//'
         comment_single = cpp.readSingleLine(path,regex,sign)
         comment_multiline = cpp.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = cpp.contSingleLines(comment_single)
+        comment_contSingleline = cpp.contSingleLines(path,comment_single,"cpp")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

@@ -27,7 +27,7 @@ def rubyExtractor(file):
     result = CommentSyntax()
     result1 = result.hash(file)
     result2 = result.beginEnd(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"ruby")
     file = file.split("/")
     output = {
         "metadata": [{

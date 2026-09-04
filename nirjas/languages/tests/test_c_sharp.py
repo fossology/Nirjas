@@ -13,7 +13,7 @@ class CSharpTest(unittest.TestCase):
         sign = '//'
         comment_single = c_sharp.readSingleLine(path,regex,sign)
         comment_multiline = c_sharp.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = c_sharp.contSingleLines(comment_single)
+        comment_contSingleline = c_sharp.contSingleLines(path,comment_single,"csharp")
 
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)

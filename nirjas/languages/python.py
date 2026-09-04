@@ -28,7 +28,7 @@ def pythonExtractor(file):
     result1 = result.hash(file)
     result2 = result.singleQuotes(file)
     result3 = result.doubleQuotes(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"python")
     file = file.split("/")
     output = {
         "metadata": [{

@@ -13,7 +13,7 @@ class JSTest(unittest.TestCase):
         sign = '//'
         comment_single = javascript.readSingleLine(path,regex,sign)
         comment_multiline = javascript.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = javascript.contSingleLines(comment_single)
+        comment_contSingleline = javascript.contSingleLines(path,comment_single,"javascript")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

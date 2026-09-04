@@ -13,7 +13,7 @@ class matlabTest(unittest.TestCase):
         sign = '%'
         comment_single = matlab.readSingleLine(path,regex,sign)
         comment_multiline = matlab.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = matlab.contSingleLines(comment_single)
+        comment_contSingleline = matlab.contSingleLines(path,comment_single,"matlab")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

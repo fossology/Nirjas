@@ -14,7 +14,7 @@ class PythonTest(unittest.TestCase):
         comment_multi_single = python.readMultiLineSame(path,self.syntax_single)
         comment_single = python.readSingleLine(path,regex,sign)
         comment_multi_double = python.readMultiLineSame(path,self.syntax_double)
-        comment_contSingleline = python.contSingleLines(comment_single)
+        comment_contSingleline = python.contSingleLines(path,comment_single,"python")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multi_single)
         self.assertTrue(comment_multi_double)

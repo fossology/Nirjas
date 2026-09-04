@@ -13,7 +13,7 @@ class GoTest(unittest.TestCase):
         sign = '//'
         comment_single = go.readSingleLine(path,regex,sign)
         comment_multiline = go.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = go.contSingleLines(comment_single)
+        comment_contSingleline = go.contSingleLines(path,comment_single,"go")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

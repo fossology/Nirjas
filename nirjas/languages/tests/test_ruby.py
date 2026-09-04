@@ -13,7 +13,7 @@ class RubyTest(unittest.TestCase):
         sign = '#'
         comment_single = ruby.readSingleLine(path,regex,sign)
         comment_multiline = ruby.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = ruby.contSingleLines(comment_single)
+        comment_contSingleline = ruby.contSingleLines(path,comment_single,"ruby")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

@@ -26,7 +26,7 @@ def matlabExtractor(file):
     result = CommentSyntax()
     result2 = result.percentageCurlybraces(file)
     result1 = result.percentage(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"matlab")
     file = file.split("/")
     output = {
         "metadata": [{

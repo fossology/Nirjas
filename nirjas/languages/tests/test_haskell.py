@@ -13,7 +13,7 @@ class HaskellTest(unittest.TestCase):
         sign = '--'
         comment_single = haskell.readSingleLine(path,regex,sign)
         comment_multiline = haskell.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = haskell.contSingleLines(comment_single)
+        comment_contSingleline = haskell.contSingleLines(path,comment_single,"haskell")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)
