@@ -13,7 +13,7 @@ class perlTest(unittest.TestCase):
         sign = '#'
         comment_single = perl.readSingleLine(path,regex,sign)
         comment_multiline = perl.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = perl.contSingleLines(comment_single)
+        comment_contSingleline = perl.contSingleLines(path,comment_single,"perl")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

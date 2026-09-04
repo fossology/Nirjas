@@ -13,7 +13,7 @@ class ScalaTest(unittest.TestCase):
         sign = '//'
         comment_single = scala.readSingleLine(path,regex,sign)
         comment_multiline = scala.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = scala.contSingleLines(comment_single)
+        comment_contSingleline = scala.contSingleLines(path,comment_single,scala)
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

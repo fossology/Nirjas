@@ -13,7 +13,7 @@ class CTest(unittest.TestCase):
         self.syntax_end ='*/'
         comment_single = c.readSingleLine(path,regex,sign)
         comment_multiline = c.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSinglelines = c.contSingleLines(comment_single)
+        comment_contSinglelines = c.contSingleLines(path,comment_single,"c")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSinglelines)

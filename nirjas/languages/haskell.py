@@ -27,7 +27,7 @@ def haskellExtractor(file):
     result = CommentSyntax()
     result1 = result.doubleDash(file)
     result2 = result.curlybracesDash(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"haskell")
     file = file.split("/")
     output = {
         "metadata": [{

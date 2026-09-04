@@ -26,7 +26,7 @@ def perlExtractor(file):
     result = CommentSyntax()
     result1 = result.hash(file)
     result2 = result.beginCut(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"perl")
     file = file.split("/")
     output = {
         "metadata": [{

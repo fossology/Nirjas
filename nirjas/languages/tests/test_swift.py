@@ -13,7 +13,7 @@ class SwiftTest(unittest.TestCase):
         self.syntax_end ='*/'
         comment_single = swift.readSingleLine(path,regex,sign)
         comment_multiline = swift.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = swift.contSingleLines(comment_single)
+        comment_contSingleline = swift.contSingleLines(path,comment_single,"swift")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

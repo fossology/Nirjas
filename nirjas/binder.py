@@ -50,25 +50,121 @@ def readSingleLine(file, regex, sign):
                 blank_lines += 1
 
     return content, total_lines, blank_lines, line_of_comments
-                
-def contSingleLines(data):
-    lines, startLine, endLine, output = [], [], [], []
-    content = ""
-    for i in data[0]:
-        lines.append(i[0])
 
-    for a, b in groupby(enumerate(lines), lambda x : x[0] - x[1]):
-        temp = list(map(itemgetter(1), b))
-        content = ""
 
-        if len(temp)>1:
-            startLine.append(temp[0])
-            endLine.append(temp[-1])
-            for i in temp:
-                comment = [x[1] for x in data[0] if x[0] == i]
-                [data[0].remove(x) for x in data[0] if x[0] == i]
-                content = content + ' ' + comment[0]
-            output.append(content)
+COMMENT_PREFIXES = {
+    "csharp": ["//"],
+    "c": ["//"],
+    "cpp": ["//"],
+    "go": ["//"],
+    "haskell": ["--"],
+    "java": ["//"],
+    "javascript": ["//"],
+    "kotlin": ["//"],
+    "matlab": ["%"],
+    "perl": ["#"],
+    "php": ["//", "#"],
+    "python": ["#"],
+    "ruby": ["#"],
+    "rust": ["//"],
+    "scala": ["//"],
+    "shell": ["#"],
+    "swift": ["//"],
+}
+
+
+def is_standalone_comment(line, language):
+    line = line.strip()
+
+    prefixes = COMMENT_PREFIXES.get(language.lower(), [])
+
+    return any(
+        line.startswith(prefix)
+        for prefix in prefixes
+    )
+
+
+def contSingleLines(file, data, language):
+    lines = []
+    comments = []
+
+    for item in data[0]:
+        lines.append(item[0])
+        comments.append(item[1])
+
+    with open(file, "r", encoding="utf-8") as f:
+        source_lines = f.readlines()
+
+    startLine = []
+    endLine = []
+    output = []
+
+    start = None
+    end = None
+    prev_line = None
+    comment_list = []
+
+    # Indexes of standalone comments to remove from data
+    remove_indexes = set()
+
+    for i, line_number in enumerate(lines):
+
+        # actual source line using the line number
+        source_line = source_lines[line_number - 1].strip()
+
+        # Check whether it is a standalone comment
+        if is_standalone_comment(source_line, language):
+
+            # Mark it for removal from single_line_comment
+            remove_indexes.add(i)
+
+            # Continue current group if line numbers are consecutive
+            if prev_line is not None and line_number == prev_line + 1:
+                end = line_number
+                comment_list.append(comments[i])
+
+            else:
+                # Save previous group
+                if comment_list:
+                    startLine.append(start)
+                    endLine.append(end)
+                    output.append(" ".join(comment_list))
+
+                # Start a new group
+                start = line_number
+                end = line_number
+                comment_list = [comments[i]]
+
+        else:
+            
+            # Save current standalone comment group
+            if comment_list:
+                startLine.append(start)
+                endLine.append(end)
+                output.append(" ".join(comment_list))
+
+                start = None
+                end = None
+                comment_list = []
+
+        prev_line = line_number
+
+    # Save final group
+    if comment_list:
+        startLine.append(start)
+        endLine.append(end)
+        output.append(" ".join(comment_list))
+
+    # Remove standalone comments from data
+    new_data = [
+        item
+        for i, item in enumerate(data[0])
+        if i not in remove_indexes
+    ]
+
+    # Preserve the rest of the data structure
+    data = (new_data,) + tuple(data[1:])
+
     return data, startLine, endLine, output
 
 def readMultiLineSame(file, syntax: str):

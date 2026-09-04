@@ -26,7 +26,7 @@ def kotlinExtractor(file):
     result = CommentSyntax()
     result1 = result.doubleSlash(file)
     result2 = result.slashStar(file)
-    result4 = contSingleLines(result1)
+    result4 = contSingleLines(file,result1,"kotlin")
     file = file.split("/")
     output = {
         "metadata": [{

@@ -13,7 +13,7 @@ class KotlinTest(unittest.TestCase):
         sign = '//'
         comment_single = kotlin.readSingleLine(path,regex,sign)
         comment_multiline = kotlin.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = kotlin.contSingleLines(comment_single)
+        comment_contSingleline = kotlin.contSingleLines(path,comment_single,"kotlin")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)

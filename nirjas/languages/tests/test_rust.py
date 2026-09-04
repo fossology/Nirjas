@@ -13,7 +13,7 @@ class RustTest(unittest.TestCase):
         sign = '//'
         comment_single = rust.readSingleLine(path,regex,sign)
         comment_multiline = rust.readMultiLineDiff(path,self.syntax_start,self.syntax_end)
-        comment_contSingleline = rust.contSingleLines(comment_single)
+        comment_contSingleline = rust.contSingleLines(path,comment_single,"rust")
         self.assertTrue(comment_single)
         self.assertTrue(comment_multiline)
         self.assertTrue(comment_contSingleline)
